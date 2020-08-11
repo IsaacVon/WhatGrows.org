@@ -1,24 +1,27 @@
 import apiKeys from "../apiKeys";
 
 const trefleApiKey = apiKeys.trefleAPI;
-const zipCode = 92618;
 
-console.log(zipCode);
+// Takes in validated zip code number
+// gets temp min, sends it to "Request plant List"
+// Returns an object with 20 plants
 
 async function zipCodeToPlants(zipCode) {
   try {
+    // console.log("1 zipCodeToPlants running...");
+
     const zipCodeData = await requestZipCodeData(zipCode);
     const zone = zipCodeData.zone;
+    const currentPage = 1;
 
     // Upper end of min temp range
     const tempMin = zipCodeData.rangemax;
-    const currentPage = 1;
     const dataForPlantRequest = {
       tempMin,
       currentPage,
     };
-    const plantList = await requestPlantList(dataForPlantRequest);
 
+    const plantList = await requestPlantList(dataForPlantRequest);
     const plantsOnPage = plantList.data;
     const totalPlants = plantList.meta.total;
     const totalPages = Math.ceil(totalPlants / 20);
@@ -30,15 +33,14 @@ async function zipCodeToPlants(zipCode) {
       totalPages,
       currentPage,
     };
-    console.log("finalData", finalData);
-    console.log("plantList", plantList);
-
+    console.log("final data", finalData)
     return finalData;
   } catch (err) {}
 }
 
 async function requestZipCodeData(zipCode) {
   try {
+    // console.log("2 requestZipCodeData running...");
     const zipCodeUrl =
       "https://c0bra.api.stdlib.com/zipcode-to-hardiness-zone/?zipcode=" +
       zipCode;
@@ -50,17 +52,22 @@ async function requestZipCodeData(zipCode) {
   }
 }
 
+// Takes in page number and temp min, from either state or zip code
+// Returns an object with 20 plants
+
 async function requestPlantList(dataForPlantRequest) {
   try {
-    console.log("dataForPlantRequest", dataForPlantRequest);
-    const currentPage = dataForPlantRequest.currentPage;
+    // console.log("3 requestPlantList running...");
+
+    let { tempMin, currentPage } = dataForPlantRequest;
+
     const plantListUrl =
       "https://cors-anywhere.herokuapp.com/https://trefle.io/api/v1/plants?page=" +
       currentPage +
       "&token=" +
       trefleApiKey +
       "&range[minimum_temperature_deg_f]=," +
-      dataForPlantRequest.tempMin;
+      tempMin;
 
     const response = await fetch(plantListUrl);
     const data = response.json();
@@ -70,7 +77,4 @@ async function requestPlantList(dataForPlantRequest) {
   }
 }
 
-// Remove this after testing
-zipCodeToPlants(zipCode);
-
-export { zipCodeToPlants };
+export { zipCodeToPlants, requestPlantList };
