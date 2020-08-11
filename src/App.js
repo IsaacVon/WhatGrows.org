@@ -1,6 +1,6 @@
 import React from "react";
 import Nav from "./components/navBar";
-import Home from "./pages/home";
+import Search from "./pages/search";
 import NotFound from "./pages/notFound";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -10,7 +10,7 @@ function App() {
       <div className="App">
         <Nav />
         <Switch>
-          <Route path="/" exact component={Home} />
+          <Route path="/search" exact component={Search} />
 
           <Route path="/*" component={NotFound} />
         </Switch>
