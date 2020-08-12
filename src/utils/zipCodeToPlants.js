@@ -36,7 +36,7 @@ const zipCodeToPlants = async (zipCode) => {
     };
     return finalData;
   } catch (err) {}
-}
+};
 
 const requestZipCodeData = async (zipCode) => {
   try {
@@ -50,31 +50,28 @@ const requestZipCodeData = async (zipCode) => {
   } catch (error) {
     console.log("requestZipCodeData error: ", error);
   }
-}
+};
 
 // Takes in page number and temp min, from either state or zip code
 // Returns an object with 20 plants
 
 async function requestPlantList(dataForPlantRequest) {
-  console.log("requestPlantList", dataForPlantRequest)
+  console.log("requestPlantList", dataForPlantRequest);
   try {
     // console.log("3 requestPlantList running...");
     // console.log("inside requestPlantList", dataForPlantRequest);
-    
 
     let { tempMin, currentPage } = dataForPlantRequest;
     // console.log("tempMin", tempMin)
     // console.log("currentPage", currentPage)
 
-
-    
     const plantListUrl =
       "https://cors-anywhere.herokuapp.com/https://trefle.io/api/v1/plants?page=" +
       currentPage +
-      "&token=" +
-      trefleApiKey +
       "&range[minimum_temperature_deg_f]=," +
-      tempMin;
+      tempMin +
+      "&token=" +
+      trefleApiKey;
 
     const response = await fetch(plantListUrl);
     const data = response.json();
