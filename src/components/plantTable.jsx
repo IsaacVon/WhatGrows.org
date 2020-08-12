@@ -23,7 +23,7 @@ const useRowStyles = makeStyles({
   },
 });
 
-function Row(props) {
+const Row = (props) => {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();

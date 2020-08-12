@@ -6,7 +6,7 @@ const trefleApiKey = apiKeys.trefleAPI;
 // gets temp min, sends it to "Request plant List"
 // Returns an object with 20 plants
 
-async function zipCodeToPlants(zipCode) {
+const zipCodeToPlants = async (zipCode) => {
   try {
     // console.log("1 zipCodeToPlants running...");
 
@@ -38,7 +38,7 @@ async function zipCodeToPlants(zipCode) {
   } catch (err) {}
 }
 
-async function requestZipCodeData(zipCode) {
+const requestZipCodeData = async (zipCode) => {
   try {
     // console.log("2 requestZipCodeData running...");
     const zipCodeUrl =
@@ -56,6 +56,7 @@ async function requestZipCodeData(zipCode) {
 // Returns an object with 20 plants
 
 async function requestPlantList(dataForPlantRequest) {
+  console.log("requestPlantList", dataForPlantRequest)
   try {
     // console.log("3 requestPlantList running...");
     // console.log("inside requestPlantList", dataForPlantRequest);

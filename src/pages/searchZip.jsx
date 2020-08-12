@@ -37,12 +37,11 @@ class SearchZip extends Component {
     });
   };
 
-  handlePageChange = async (incrementSize) => {
+  handlePageChange = async (requestedPage) => {
     // send plant list request from page number and temp min
-    const currentPage = this.state.currentPage + incrementSize;
 
     const dataForPlantRequest = {
-      currentPage,
+      currentPage: requestedPage,
       tempMin: this.state.tempMin,
     };
 
@@ -50,7 +49,7 @@ class SearchZip extends Component {
     console.log("page change data: ", data);
 
     this.setState({
-      currentPage: currentPage,
+      currentPage: requestedPage,
       plantsOnPage: data.data,
     });
   };
@@ -65,7 +64,9 @@ class SearchZip extends Component {
           handleZipInput={this.handleZipInput}
         />
         <h1>Zip Code: {this.state.zipCode}</h1>
-        
+        <h1>USDA Hardiness Zone: {this.state.usdaHardinessZone}</h1>
+        <h1>Plant Results: {this.state.totalPlants}</h1>
+        <h1>Current Page: {this.state.currentPage}</h1>
         <Button
           type="submit"
           variant="contained"
@@ -81,7 +82,7 @@ class SearchZip extends Component {
           color="primary"
           fullWidth
           onClick={() => {
-            this.handlePageChange(1);
+            this.handlePageChange(this.state.currentPage + 1);
           }}
           disabled={
             this.state.currentPage === this.state.totalPages ? true : false
@@ -95,7 +96,7 @@ class SearchZip extends Component {
           color="primary"
           fullWidth
           onClick={() => {
-            this.handlePageChange(this.state.totalPages - 1);
+            this.handlePageChange(this.state.totalPages);
           }}
           disabled={
             this.state.currentPage === this.state.totalPages ? true : false
@@ -109,7 +110,7 @@ class SearchZip extends Component {
           color="primary"
           fullWidth
           onClick={() => {
-            this.handlePageChange(-1);
+            this.handlePageChange(this.state.currentPage - 1);
           }}
           disabled={this.state.currentPage === 1 ? true : false}
         >
@@ -121,7 +122,7 @@ class SearchZip extends Component {
           color="primary"
           fullWidth
           onClick={() => {
-            this.handlePageChange(1 - this.state.currentPage);
+            this.handlePageChange(1);
           }}
           disabled={this.state.currentPage === 1 ? true : false}
         >
