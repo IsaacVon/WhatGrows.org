@@ -65,14 +65,18 @@ async function requestPlantList(dataForPlantRequest) {
     // console.log("tempMin", tempMin)
     // console.log("currentPage", currentPage)
 
+    const filters =  `&filter%5Bvegetable%5D=true`
+
     const plantListUrl =
-      "https://cors-anywhere.herokuapp.com/https://trefle.io/api/v1/plants?page=" +
-      currentPage +
+      "https://cors-anywhere.herokuapp.com/https://trefle.io/api/v1/plants?" +
+      filters +
+      "&page=" + currentPage + 
       "&range[minimum_temperature_deg_f]=," +
       tempMin +
       "&token=" +
       trefleApiKey;
 
+    console.log("plantListUrl",plantListUrl)
     const response = await fetch(plantListUrl);
     const data = response.json();
     return data;
