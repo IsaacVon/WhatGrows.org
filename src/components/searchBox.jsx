@@ -20,8 +20,10 @@ const validationSchema = Yup.object({
   zipCode: Yup.string("Enter Zip").required("Please enter your zip"),
 });
 
-export const ZipInput = (props) => {
+export default function SearchBox (props) {
   const classes = useStyles();
+
+  const { handleZipInput, displayText } = props;
 
   return (
     <div className={classes.root}>
@@ -34,9 +36,9 @@ export const ZipInput = (props) => {
               
               // helperText={touched.zipCode ? errors.zipCode : ""}
               // error={touched.zipCode && Boolean(errors.zipCode)}
-              label="Enter Zip Code"
+              label={displayText}
               // value={zipCode}
-              onChange={props.handleZipInput}
+              onChange={handleZipInput}
               autoFocus
               fullWidth
             />

@@ -53,11 +53,10 @@ const useStyles = makeStyles({
 
 const currentTab = () => {
   let path = window.location.pathname;
-  if (path === "/Search") return 1;
+  if (path === "/") return 0;
+  else if (path === "/Search") return 1;
   else if (path === "/Favorites") return 2;
   else if (path === "/Contact") return 3;
-  else if (path === "/Submitted") return 3;
-  else if (path === "/") return 0;
 };
 
 export default function NavBar(props) {
@@ -95,10 +94,10 @@ export default function NavBar(props) {
               {...a11yProps(0)}
             />
             <Tab
-              label="Check Address"
+              label="Search Zip"
               component={Link}
               icon={<ImageSearchIcon />}
-              to="/Search"
+              to="/SearchZip"
               {...a11yProps(1)}
             />
             <Tab
@@ -109,10 +108,10 @@ export default function NavBar(props) {
               {...a11yProps(2)}
             />
             <Tab
-              label="Contact"
+              label="Search Plant"
               component={Link}
               icon={<ContactPhoneOutlinedIcon />}
-              to="/Contact"
+              to="/SearchPlant"
               {...a11yProps(3)}
             />
           </Tabs>

@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { zipCodeToPlants, requestPlantList } from "../utils/zipCodeToPlants";
 import Button from "@material-ui/core/Button";
-import { ZipInput } from "../components/searchBox";
+import SearchBox from "../components/searchBox";
 import PlantTable from "../components/plantTable";
 
-class Search extends Component {
+class SearchZip extends Component {
   state = {
     zipCodeValid: true,
     zipCode: 0,
@@ -60,10 +60,12 @@ class Search extends Component {
   render() {
     return (
       <>
-        <ZipInput handleZipInput={this.handleZipInput} />
-        <h1>USDA Hardiness Zone: {this.state.usdaHardinessZone}</h1>
-        <h1>Plant Results: {this.state.totalPlants}</h1>
-        <h1>Current Page: {this.state.currentPage}</h1>
+        <SearchBox
+          displayText="Enter Zip Code"
+          handleZipInput={this.handleZipInput}
+        />
+        <h1>Zip Code: {this.state.zipCode}</h1>
+        
         <Button
           type="submit"
           variant="contained"
@@ -112,7 +114,7 @@ class Search extends Component {
           disabled={this.state.currentPage === 1 ? true : false}
         >
           Previous Page
-        </Button>   
+        </Button>
         <Button
           type="submit"
           variant="contained"
@@ -131,4 +133,4 @@ class Search extends Component {
   }
 }
 
-export default Search;
+export default SearchZip;
