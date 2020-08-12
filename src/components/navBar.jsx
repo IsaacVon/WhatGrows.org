@@ -10,7 +10,7 @@ import Box from "@material-ui/core/Box";
 import { useMediaQuery } from "@material-ui/core";
 import ImageSearchIcon from "@material-ui/icons/ImageSearch";
 import ContactPhoneOutlinedIcon from "@material-ui/icons/ContactPhoneOutlined";
-import LocalLibraryOutlinedIcon from "@material-ui/icons/LocalLibraryOutlined";
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FilterHdrOutlinedIcon from "@material-ui/icons/FilterHdrOutlined";
 import Grid from "@material-ui/core/Grid";
 
@@ -54,7 +54,7 @@ const useStyles = makeStyles({
 const currentTab = () => {
   let path = window.location.pathname;
   if (path === "/Search") return 1;
-  else if (path === "/ZoneInformation") return 2;
+  else if (path === "/Favorites") return 2;
   else if (path === "/Contact") return 3;
   else if (path === "/Submitted") return 3;
   else if (path === "/") return 0;
@@ -102,10 +102,10 @@ export default function NavBar(props) {
               {...a11yProps(1)}
             />
             <Tab
-              label="Information"
+              label="Favorites"
               component={Link}
-              icon={<LocalLibraryOutlinedIcon />}
-              to="/ZoneInformation"
+              icon={<FavoriteBorderIcon />}
+              to="/Favorites"
               {...a11yProps(2)}
             />
             <Tab

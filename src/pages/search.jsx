@@ -1,35 +1,131 @@
 import React, { Component } from "react";
 import { zipCodeToPlants, requestPlantList } from "../utils/zipCodeToPlants";
+import Button from "@material-ui/core/Button";
+import { ZipInput } from "../components/searchBox";
+import PlantTable from "../components/plantTable";
 
 class Search extends Component {
   state = {
     zipCodeValid: true,
-    zipCode: 92618, // This will be an input or something
+    zipCode: 0,
+    usdaHardinessZone: "",
     tempMin: 0,
-    currentPage: 1,
+    totalPlants: 0,
     totalPages: 0,
-    plantsOnPage: {},
+    currentPage: 1,
+    plantsOnPage: [],
   };
 
-  onPlacesChanged = async () => {
+  handleZipInput = (event) => {
+    this.setState({
+      zipCode: event.target.value,
+    });
+  };
+
+  handleSearch = async () => {
     const data = await zipCodeToPlants(this.state.zipCode);
     console.log("Results", data);
 
     this.setState({
       zipCodeValid: true,
+      usdaHardinessZone: data.usdaHardinessZone,
       tempMin: data.tempMin,
-      currentPage: data.currentPage,
+      totalPlants: data.totalPlants,
       totalPages: data.totalPages,
+      currentPage: data.currentPage,
       plantsOnPage: data.plantsOnPage,
     });
   };
 
-  render() {
-    this.onPlacesChanged();
+  handlePageChange = async (incrementSize) => {
+    // send plant list request from page number and temp min
+    const currentPage = this.state.currentPage + incrementSize;
 
+    const dataForPlantRequest = {
+      currentPage,
+      tempMin: this.state.tempMin,
+    };
+
+    const data = await requestPlantList(dataForPlantRequest);
+    console.log("page change data: ", data);
+
+    this.setState({
+      currentPage: currentPage,
+      plantsOnPage: data.data,
+    });
+  };
+
+  // renderPlantsOnPage = ()
+
+  render() {
     return (
       <>
-        <h1>Linked</h1>
+        <ZipInput handleZipInput={this.handleZipInput} />
+        <h1>USDA Hardiness Zone: {this.state.usdaHardinessZone}</h1>
+        <h1>Plant Results: {this.state.totalPlants}</h1>
+        <h1>Current Page: {this.state.currentPage}</h1>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={this.handleSearch}
+        >
+          Search
+        </Button>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={() => {
+            this.handlePageChange(1);
+          }}
+          disabled={
+            this.state.currentPage === this.state.totalPages ? true : false
+          }
+        >
+          Next Page
+        </Button>{" "}
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={() => {
+            this.handlePageChange(this.state.totalPages - 1);
+          }}
+          disabled={
+            this.state.currentPage === this.state.totalPages ? true : false
+          }
+        >
+          Last
+        </Button>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={() => {
+            this.handlePageChange(-1);
+          }}
+          disabled={this.state.currentPage === 1 ? true : false}
+        >
+          Previous Page
+        </Button>   
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={() => {
+            this.handlePageChange(1 - this.state.currentPage);
+          }}
+          disabled={this.state.currentPage === 1 ? true : false}
+        >
+          First Page
+        </Button>
+        <PlantTable plantsOnPage={this.state.plantsOnPage} />
       </>
     );
   }

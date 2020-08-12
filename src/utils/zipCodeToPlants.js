@@ -11,7 +11,7 @@ async function zipCodeToPlants(zipCode) {
     // console.log("1 zipCodeToPlants running...");
 
     const zipCodeData = await requestZipCodeData(zipCode);
-    const zone = zipCodeData.zone;
+    const usdaHardinessZone = zipCodeData.zone;
     const currentPage = 1;
 
     // Upper end of min temp range
@@ -27,13 +27,13 @@ async function zipCodeToPlants(zipCode) {
     const totalPages = Math.ceil(totalPlants / 20);
 
     const finalData = {
+      usdaHardinessZone,
       tempMin,
       totalPlants,
-      plantsOnPage,
       totalPages,
       currentPage,
+      plantsOnPage,
     };
-    console.log("final data", finalData)
     return finalData;
   } catch (err) {}
 }
@@ -58,9 +58,15 @@ async function requestZipCodeData(zipCode) {
 async function requestPlantList(dataForPlantRequest) {
   try {
     // console.log("3 requestPlantList running...");
+    // console.log("inside requestPlantList", dataForPlantRequest);
+    
 
     let { tempMin, currentPage } = dataForPlantRequest;
+    // console.log("tempMin", tempMin)
+    // console.log("currentPage", currentPage)
 
+
+    
     const plantListUrl =
       "https://cors-anywhere.herokuapp.com/https://trefle.io/api/v1/plants?page=" +
       currentPage +
