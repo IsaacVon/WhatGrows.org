@@ -27,6 +27,7 @@ export default function PageButtons(props) {
               color="primary"
               fullWidth
               onClick={props.handleSearch}
+              disabled={!props.zipCode}
             >
               Search
             </Button>

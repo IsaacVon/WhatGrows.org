@@ -20,8 +20,13 @@ class SearchZip extends Component {
     fruitOnly: false,
     vegetableOnly: false,
     plantSearch: "",
+    minHeight: 0,
+    maxHeight: 0,
+    leafColor: "",
+    flowerColor: "yellow"
   };
 
+  // Inputs to set state
   handleZipInput = (event) => {
     this.setState({
       zipCode: event.target.value,
@@ -34,24 +39,19 @@ class SearchZip extends Component {
     });
   };
 
-  handleSearch = async () => {
-    await this.buildFilterString();
-
-    const data = await zipCodeToPlants(
-      this.state.zipCode,
-      this.state.filterString
-    );
-
+  handleMinHeightInput = (event) => {
     this.setState({
-      zipCodeValid: true,
-      usdaHardinessZone: data.usdaHardinessZone,
-      tempMin: data.tempMin,
-      totalPlants: data.totalPlants,
-      totalPages: data.totalPages,
-      currentPage: data.currentPage,
-      plantsOnPage: data.plantsOnPage,
+      minHeight: event.target.value,
     });
   };
+
+  handleMaxHeightInput = (event) => {
+    this.setState({
+      maxHeight: event.target.value,
+    });
+  };
+
+  // Buttons to set state
 
   handlePageChange = async (requestedPage) => {
     // send plant list request from page number and temp min
@@ -83,12 +83,34 @@ class SearchZip extends Component {
       filterString = filterString.concat(vegetableApiString);
     }
     if (this.state.plantSearch) {
-      console.log("IN THE plantSearch IF STATMENT")
       const baseSearchApiString = "&filter%5Bcommon_name%5D=";
-      const searchTerm = this.state.plantSearch
-      const plantSearchApiString = baseSearchApiString.concat(searchTerm)
+      const searchTerm = this.state.plantSearch;
+      const plantSearchApiString = baseSearchApiString.concat(searchTerm);
       filterString = filterString.concat(plantSearchApiString);
     }
+    if (this.state.minHeight || this.state.maxHeight) {
+      const { minHeight, maxHeight } = this.state;
+      const baseHeightApiString = "&range%5Baverage_height_cm%5D=";
+      const minHeightAddon = minHeight ? minHeight : "";
+      const maxHeightAddon = maxHeight ? "," + maxHeight : "";
+
+      let heightApiString = baseHeightApiString.concat(
+        minHeightAddon + maxHeightAddon
+      );
+
+      filterString = filterString.concat(heightApiString);
+    }
+    if (this.state.leafColor) {
+      const baseSearchApiString = "&filter%5Bfoliage_color%5D=";
+      const leafColorApiString = baseSearchApiString.concat(this.state.leafColor);
+      filterString = filterString.concat(leafColorApiString);
+    }
+    if (this.state.flowerColor) {
+      const baseSearchApiString = "&filter%5Bflower_color%5D=";
+      const flowerColorApiString = baseSearchApiString.concat(this.state.flowerColor);
+      filterString = filterString.concat(flowerColorApiString);
+    }
+
 
     this.setState({
       filterString,
@@ -105,6 +127,26 @@ class SearchZip extends Component {
       });
     }
     // compile filter string and send it to RequestPlantList
+  };
+
+  // Final Search button
+  handleSearch = async () => {
+    await this.buildFilterString();
+
+    const data = await zipCodeToPlants(
+      this.state.zipCode,
+      this.state.filterString
+    );
+
+    this.setState({
+      zipCodeValid: true,
+      usdaHardinessZone: data.usdaHardinessZone,
+      tempMin: data.tempMin,
+      totalPlants: data.totalPlants,
+      totalPages: data.totalPages,
+      currentPage: data.currentPage,
+      plantsOnPage: data.plantsOnPage,
+    });
   };
 
   render() {
@@ -132,15 +174,14 @@ class SearchZip extends Component {
           displayText="Search for a plant"
           handleZipInput={this.handlePlantSearchInput}
         />
-         <SearchBox
-          displayText="Min Height"
-          handleZipInput={this.handlePlantSearchInput}
+        <SearchBox
+          displayText="Min Height (centimeters)"
+          handleZipInput={this.handleMinHeightInput}
         />
-         <SearchBox
-          displayText="Max Height"
-          handleZipInput={this.handlePlantSearchInput}
+        <SearchBox
+          displayText="Max Height (centimeters)"
+          handleZipInput={this.handleMaxHeightInput}
         />
-
 
         <p>Zip Code: {this.state.zipCode}</p>
         <p>USDA Hardiness Zone: {this.state.usdaHardinessZone}</p>
@@ -157,6 +198,7 @@ class SearchZip extends Component {
           handlePageChange={this.handlePageChange}
           currentPage={this.state.currentPage}
           totalPages={this.state.totalPages}
+          zipCode={this.state.zipCode}
         />
         <PlantTable plantsOnPage={this.state.plantsOnPage} />
       </>

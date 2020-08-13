@@ -19,7 +19,6 @@ const zipCodeToPlants = async (zipCode, filterString) => {
       currentPage,
       filterString
     };
-    console.log("dataForPlantRequest", dataForPlantRequest)
     const plantList = await requestPlantList(dataForPlantRequest);
     const plantsOnPage = plantList.data;
     const totalPlants = plantList.meta.total;
@@ -55,7 +54,6 @@ const requestZipCodeData = async (zipCode) => {
 // Takes in page number, temp min, filters
 // Returns an object with 20 plants
 async function requestPlantList(dataForPlantRequest) {
-  console.log("requestPlantList", dataForPlantRequest);
   try {
     let { tempMin, currentPage, filterString } = dataForPlantRequest;
 
@@ -70,7 +68,7 @@ async function requestPlantList(dataForPlantRequest) {
       "&token=" +
       trefleApiKey;
 
-    console.log("plantListUrl", plantListUrl);
+    // console.log("plantListUrl", plantListUrl);
     const response = await fetch(plantListUrl);
     const data = response.json();
     return data;
