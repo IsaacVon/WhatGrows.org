@@ -4,6 +4,8 @@ import SearchBox from "../components/searchBox";
 import PlantTable from "../components/plantTable";
 import PageButtons from "../components/pageButtons";
 import Button from "@material-ui/core/Button";
+import FlowerColor from "../components/filters/flowerColor"
+import LeafColor from "../components/filters/leafColor"
 
 class SearchZip extends Component {
   state = {
@@ -23,7 +25,7 @@ class SearchZip extends Component {
     minHeight: 0,
     maxHeight: 0,
     leafColor: "",
-    flowerColor: "yellow"
+    flowerColor: ""
   };
 
   // Inputs to set state
@@ -50,6 +52,25 @@ class SearchZip extends Component {
       maxHeight: event.target.value,
     });
   };
+
+  handleFlowerColorInput = (color) => {
+    console.log("color", color)
+    const colorString = color.toString()
+    const lowerCaseColorString = colorString.toLowerCase()
+    this.setState({
+      flowerColor: lowerCaseColorString,
+    });
+  };  
+
+  handleLeafColorInput = (color) => {
+    console.log("color", color)
+    const colorString = color.toString()
+    const lowerCaseColorString = colorString.toLowerCase()
+    this.setState({
+      leafColor: lowerCaseColorString,
+    });
+  };  
+
 
   // Buttons to set state
 
@@ -181,6 +202,13 @@ class SearchZip extends Component {
         <SearchBox
           displayText="Max Height (centimeters)"
           handleZipInput={this.handleMaxHeightInput}
+        />
+        <FlowerColor 
+        handleFlowerColorInput={this.handleFlowerColorInput}
+        />
+        <LeafColor 
+                handleLeafColorInput={this.handleLeafColorInput}
+
         />
 
         <p>Zip Code: {this.state.zipCode}</p>
