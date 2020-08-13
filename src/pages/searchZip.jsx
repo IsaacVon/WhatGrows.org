@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { zipCodeToPlants, requestPlantList } from "../utils/zipCodeToPlants";
-import Button from "@material-ui/core/Button";
 import SearchBox from "../components/searchBox";
 import PlantTable from "../components/plantTable";
+import PageButtons from "../components/pageButtons"
 
 class SearchZip extends Component {
   state = {
@@ -67,67 +67,13 @@ class SearchZip extends Component {
         <h1>USDA Hardiness Zone: {this.state.usdaHardinessZone}</h1>
         <h1>Plant Results: {this.state.totalPlants}</h1>
         <h1>Current Page: {this.state.currentPage}</h1>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          fullWidth
-          onClick={this.handleSearch}
-        >
-          Search
-        </Button>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          fullWidth
-          onClick={() => {
-            this.handlePageChange(this.state.currentPage + 1);
-          }}
-          disabled={
-            this.state.currentPage === this.state.totalPages ? true : false
-          }
-        >
-          Next Page
-        </Button>{" "}
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          fullWidth
-          onClick={() => {
-            this.handlePageChange(this.state.totalPages);
-          }}
-          disabled={
-            this.state.currentPage === this.state.totalPages ? true : false
-          }
-        >
-          Last
-        </Button>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          fullWidth
-          onClick={() => {
-            this.handlePageChange(this.state.currentPage - 1);
-          }}
-          disabled={this.state.currentPage === 1 ? true : false}
-        >
-          Previous Page
-        </Button>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          fullWidth
-          onClick={() => {
-            this.handlePageChange(1);
-          }}
-          disabled={this.state.currentPage === 1 ? true : false}
-        >
-          First Page
-        </Button>
+        <PageButtons 
+          handleSearch={this.handleSearch}
+          handlePageChange={this.handlePageChange}
+          currentPage={this.state.currentPage}
+          totalPages={this.state.totalPages}
+        />
+        
         <PlantTable plantsOnPage={this.state.plantsOnPage} />
       </>
     );
