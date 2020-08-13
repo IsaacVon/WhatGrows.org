@@ -5,9 +5,6 @@ import PlantTable from "../components/plantTable";
 import PageButtons from "../components/pageButtons";
 import Button from "@material-ui/core/Button";
 
-
-
-
 class SearchZip extends Component {
   state = {
     zipCodeValid: true,
@@ -21,6 +18,7 @@ class SearchZip extends Component {
     // Filters
     filterString: "",
     fruitOnly: false,
+    vegetableOnly: false,
   };
 
   handleZipInput = (event) => {
@@ -30,7 +28,10 @@ class SearchZip extends Component {
   };
 
   handleSearch = async () => {
-    const data = await zipCodeToPlants(this.state.zipCode, this.state.filterString);
+    const data = await zipCodeToPlants(
+      this.state.zipCode,
+      this.state.filterString
+    );
     console.log("Results", data);
 
     this.setState({
@@ -55,7 +56,7 @@ class SearchZip extends Component {
 
     const data = await requestPlantList(dataForPlantRequest);
     console.log("page change data: ", data);
-    
+
     this.setState({
       currentPage: requestedPage,
       plantsOnPage: data.data,
@@ -64,35 +65,36 @@ class SearchZip extends Component {
     });
   };
 
-
   buildFilterString = () => {
-    let filterString = ""
-    console.log("fruitOnly state", this.state.fruitOnly)
-    if(this.state.fruitOnly) {
-      console.log("were in the if statement")
-      const fruitApiString = "&filter%5Bfruit_conspicuous%5D=true"
-      filterString = filterString.concat(fruitApiString)
-      console.log("filterString",filterString)
+    let filterString = "";
+    if (this.state.fruitOnly) {
+      const fruitApiString = "&filter%5Bfruit_conspicuous%5D=true";
+      filterString = filterString.concat(fruitApiString);
+      console.log("filterString", filterString);
     }
-  }
+    if (this.state.vegetableOnly) {
+      console.log("vegetableOnly", this.state.vegetableOnly);
+      const fruitApiString = "&filter%5Bvegetable%5D=true";
+      filterString = filterString.concat(fruitApiString);
+      console.log("filterString", filterString);
+    }
 
-
-  handleFilterChange = async () => {
-    console.log("asking for fruit");
-    this.setState({
-      fruitOnly: true,
-    },this.buildFilterString());
-
-
-
-    
-    // compile filter string and send it to RequestPlantList
+    this.setState(
+      {
+        filterString,
+      },
+      this.handleSearch
+    );
   };
 
-
-
-
-
+  handleFilterChange = (event) => {
+    const toggle = this.state.event;
+    console.log("toggle", toggle);
+    this.setState({
+      [event]: true,
+    });
+    // compile filter string and send it to RequestPlantList
+  };
 
   render() {
     return (
@@ -102,9 +104,27 @@ class SearchZip extends Component {
           variant="contained"
           color="primary"
           fullWidth
-          onClick={this.handleFilterChange}
+          onClick={() => this.handleFilterChange("fruitOnly")}
         >
           Click for fruit
+        </Button>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={() => this.handleFilterChange("vegetableOnly")}
+        >
+          Click for vegetable
+        </Button>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={this.buildFilterString}
+        >
+          buildFilterString / Apply Filters
         </Button>
 
         <p>Zip Code: {this.state.zipCode}</p>
