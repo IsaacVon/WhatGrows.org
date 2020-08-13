@@ -6,10 +6,8 @@ const trefleApiKey = apiKeys.trefleAPI;
 // gets temp min, sends it to "Request plant List"
 // Returns an object with 20 plants
 
-const zipCodeToPlants = async (zipCode) => {
+const zipCodeToPlants = async (zipCode, filters) => {
   try {
-    // console.log("1 zipCodeToPlants running...");
-
     const zipCodeData = await requestZipCodeData(zipCode);
     const usdaHardinessZone = zipCodeData.zone;
     const currentPage = 1;
@@ -19,6 +17,7 @@ const zipCodeToPlants = async (zipCode) => {
     const dataForPlantRequest = {
       tempMin,
       currentPage,
+      filters
     };
 
     const plantList = await requestPlantList(dataForPlantRequest);
@@ -52,32 +51,25 @@ const requestZipCodeData = async (zipCode) => {
   }
 };
 
-// Takes in page number and temp min, from either state or zip code
+// Takes in page number, temp min, filters
 // Returns an object with 20 plants
-
 async function requestPlantList(dataForPlantRequest) {
   console.log("requestPlantList", dataForPlantRequest);
   try {
-    // console.log("3 requestPlantList running...");
-    // console.log("inside requestPlantList", dataForPlantRequest);
-
-    let { tempMin, currentPage } = dataForPlantRequest;
-    // console.log("tempMin", tempMin)
-    // console.log("currentPage", currentPage)
-
-    const filters =  `&filter%5Bfruit_conspicuous%5D=true`
+    let { tempMin, currentPage, filters } = dataForPlantRequest;
 
     const plantListUrl =
       "https://cors-anywhere.herokuapp.com/https://trefle.io/api/v1/plants?" +
       filters +
-      "&page=" + currentPage + 
+      "&page=" +
+      currentPage +
       "&order%5Bcommon_name%5D=asc" +
       "&range[minimum_temperature_deg_f]=," +
       tempMin +
       "&token=" +
       trefleApiKey;
 
-    console.log("plantListUrl",plantListUrl)
+    console.log("plantListUrl", plantListUrl);
     const response = await fetch(plantListUrl);
     const data = response.json();
     return data;
