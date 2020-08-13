@@ -54,7 +54,7 @@ const useStyles = makeStyles({
 const currentTab = () => {
   let path = window.location.pathname;
   if (path === "/") return 0;
-  else if (path === "/Search") return 1;
+  else if (path === "/SearchZip") return 1;
   else if (path === "/Favorites") return 2;
   else if (path === "/Contact") return 3;
 };

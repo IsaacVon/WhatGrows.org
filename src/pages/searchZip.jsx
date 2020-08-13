@@ -28,12 +28,15 @@ class SearchZip extends Component {
   };
 
   handleSearch = async () => {
+
+    await this.buildFilterString()
+
+    
     const data = await zipCodeToPlants(
       this.state.zipCode,
       this.state.filterString
     );
-    console.log("Results", data);
-
+    
     this.setState({
       zipCodeValid: true,
       usdaHardinessZone: data.usdaHardinessZone,
@@ -55,7 +58,6 @@ class SearchZip extends Component {
     };
 
     const data = await requestPlantList(dataForPlantRequest);
-    console.log("page change data: ", data);
 
     this.setState({
       currentPage: requestedPage,
@@ -65,31 +67,25 @@ class SearchZip extends Component {
     });
   };
 
-  buildFilterString = () => {
+  buildFilterString = async () => {
     let filterString = "";
     if (this.state.fruitOnly) {
       const fruitApiString = "&filter%5Bfruit_conspicuous%5D=true";
       filterString = filterString.concat(fruitApiString);
-      console.log("filterString", filterString);
     }
     if (this.state.vegetableOnly) {
-      console.log("vegetableOnly", this.state.vegetableOnly);
       const fruitApiString = "&filter%5Bvegetable%5D=true";
       filterString = filterString.concat(fruitApiString);
-      console.log("filterString", filterString);
     }
 
     this.setState(
       {
         filterString,
-      },
-      this.handleSearch
-    );
+      }    );
   };
 
   handleFilterChange = (event) => {
     const toggle = this.state.event;
-    console.log("toggle", toggle);
     this.setState({
       [event]: true,
     });
@@ -131,6 +127,9 @@ class SearchZip extends Component {
         <p>USDA Hardiness Zone: {this.state.usdaHardinessZone}</p>
         <p>Plant Results: {this.state.totalPlants}</p>
         <p>Current Page: {this.state.currentPage}</p>
+        <p>Filters </p>
+
+
 
         <SearchBox
           displayText="Enter Zip Code"
