@@ -19,6 +19,7 @@ class SearchZip extends Component {
     filterString: "",
     fruitOnly: false,
     vegetableOnly: false,
+    plantSearch: "",
   };
 
   handleZipInput = (event) => {
@@ -27,16 +28,20 @@ class SearchZip extends Component {
     });
   };
 
+  handlePlantSearchInput = (event) => {
+    this.setState({
+      plantSearch: event.target.value,
+    });
+  };
+
   handleSearch = async () => {
+    await this.buildFilterString();
 
-    await this.buildFilterString()
-
-    
     const data = await zipCodeToPlants(
       this.state.zipCode,
       this.state.filterString
     );
-    
+
     this.setState({
       zipCodeValid: true,
       usdaHardinessZone: data.usdaHardinessZone,
@@ -74,21 +79,31 @@ class SearchZip extends Component {
       filterString = filterString.concat(fruitApiString);
     }
     if (this.state.vegetableOnly) {
-      const fruitApiString = "&filter%5Bvegetable%5D=true";
-      filterString = filterString.concat(fruitApiString);
+      const vegetableApiString = "&filter%5Bvegetable%5D=true";
+      filterString = filterString.concat(vegetableApiString);
+    }
+    if (this.state.plantSearch) {
+      console.log("IN THE plantSearch IF STATMENT")
+      const baseSearchApiString = "&filter%5Bcommon_name%5D=";
+      const searchTerm = this.state.plantSearch
+      const plantSearchApiString = baseSearchApiString.concat(searchTerm)
+      filterString = filterString.concat(plantSearchApiString);
     }
 
-    this.setState(
-      {
-        filterString,
-      }    );
+    this.setState({
+      filterString,
+    });
+
   };
 
   handleFilterChange = (event) => {
-    const toggle = this.state.event;
-    this.setState({
-      [event]: true,
-    });
+    // Need to make it able to toggle off
+    if (event === "vegetableOnly" || event === "fruitOnly") {
+      console.log("event", event);
+      this.setState({
+        [event]: true,
+      });
+    }
     // compile filter string and send it to RequestPlantList
   };
 
@@ -113,23 +128,25 @@ class SearchZip extends Component {
         >
           Click for vegetable
         </Button>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          fullWidth
-          onClick={this.buildFilterString}
-        >
-          buildFilterString / Apply Filters
-        </Button>
+        <SearchBox
+          displayText="Search for a plant"
+          handleZipInput={this.handlePlantSearchInput}
+        />
+         <SearchBox
+          displayText="Min Height"
+          handleZipInput={this.handlePlantSearchInput}
+        />
+         <SearchBox
+          displayText="Max Height"
+          handleZipInput={this.handlePlantSearchInput}
+        />
+
 
         <p>Zip Code: {this.state.zipCode}</p>
         <p>USDA Hardiness Zone: {this.state.usdaHardinessZone}</p>
         <p>Plant Results: {this.state.totalPlants}</p>
         <p>Current Page: {this.state.currentPage}</p>
         <p>Filters </p>
-
-
 
         <SearchBox
           displayText="Enter Zip Code"
