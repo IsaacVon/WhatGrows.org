@@ -4,8 +4,8 @@ import SearchBox from "../components/searchBox";
 import PlantTable from "../components/plantTable";
 import PageButtons from "../components/pageButtons";
 import Button from "@material-ui/core/Button";
-import FlowerColor from "../components/filters/flowerColor"
-import LeafColor from "../components/filters/leafColor"
+import FlowerColor from "../components/filters/flowerColor";
+import LeafColor from "../components/filters/leafColor";
 
 class SearchZip extends Component {
   state = {
@@ -25,7 +25,7 @@ class SearchZip extends Component {
     minHeight: 0,
     maxHeight: 0,
     leafColor: "",
-    flowerColor: ""
+    flowerColor: "",
   };
 
   // Inputs to set state
@@ -42,35 +42,38 @@ class SearchZip extends Component {
   };
 
   handleMinHeightInput = (event) => {
+    const minHeightInches = event.target.value;
+    const minHeightCentimeters = Math.ceil(minHeightInches * 2.54);
     this.setState({
-      minHeight: event.target.value,
+      minHeight: minHeightCentimeters,
     });
   };
 
   handleMaxHeightInput = (event) => {
+    const maxHeightInches = event.target.value;
+    const maxHeightCentimeters = Math.ceil(maxHeightInches * 2.54);
     this.setState({
-      maxHeight: event.target.value,
+      maxHeight: maxHeightCentimeters,
     });
   };
 
   handleFlowerColorInput = (color) => {
-    console.log("color", color)
-    const colorString = color.toString()
-    const lowerCaseColorString = colorString.toLowerCase()
+    console.log("color", color);
+    const colorString = color.toString();
+    const lowerCaseColorString = colorString.toLowerCase();
     this.setState({
       flowerColor: lowerCaseColorString,
     });
-  };  
+  };
 
   handleLeafColorInput = (color) => {
-    console.log("color", color)
-    const colorString = color.toString()
-    const lowerCaseColorString = colorString.toLowerCase()
+    console.log("color", color);
+    const colorString = color.toString();
+    const lowerCaseColorString = colorString.toLowerCase();
     this.setState({
       leafColor: lowerCaseColorString,
     });
-  };  
-
+  };
 
   // Buttons to set state
 
@@ -123,20 +126,22 @@ class SearchZip extends Component {
     }
     if (this.state.leafColor) {
       const baseSearchApiString = "&filter%5Bfoliage_color%5D=";
-      const leafColorApiString = baseSearchApiString.concat(this.state.leafColor);
+      const leafColorApiString = baseSearchApiString.concat(
+        this.state.leafColor
+      );
       filterString = filterString.concat(leafColorApiString);
     }
     if (this.state.flowerColor) {
       const baseSearchApiString = "&filter%5Bflower_color%5D=";
-      const flowerColorApiString = baseSearchApiString.concat(this.state.flowerColor);
+      const flowerColorApiString = baseSearchApiString.concat(
+        this.state.flowerColor
+      );
       filterString = filterString.concat(flowerColorApiString);
     }
-
 
     this.setState({
       filterString,
     });
-
   };
 
   handleFilterChange = (event) => {
@@ -196,20 +201,15 @@ class SearchZip extends Component {
           handleZipInput={this.handlePlantSearchInput}
         />
         <SearchBox
-          displayText="Min Height (centimeters)"
+          displayText="Min Height (Inches)"
           handleZipInput={this.handleMinHeightInput}
         />
         <SearchBox
-          displayText="Max Height (centimeters)"
+          displayText="Max Height (Inches)"
           handleZipInput={this.handleMaxHeightInput}
         />
-        <FlowerColor 
-        handleFlowerColorInput={this.handleFlowerColorInput}
-        />
-        <LeafColor 
-                handleLeafColorInput={this.handleLeafColorInput}
-
-        />
+        <FlowerColor handleFlowerColorInput={this.handleFlowerColorInput} />
+        <LeafColor handleLeafColorInput={this.handleLeafColorInput} />
 
         <p>Zip Code: {this.state.zipCode}</p>
         <p>USDA Hardiness Zone: {this.state.usdaHardinessZone}</p>
