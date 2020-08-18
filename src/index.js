@@ -7,6 +7,7 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import theme from "./theme";
 // import { GlobalContextProvider } from "./globalContext";
 
+
 ReactDOM.render(
   <React.StrictMode>
     {/* <GlobalContextProvider> */}
