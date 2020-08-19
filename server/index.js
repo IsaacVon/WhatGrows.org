@@ -24,12 +24,22 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 
-async function createUser() {
+// GET
+
+const getUser = async (id) => {
+  const user = await User.find({_id:id})
+  console.log("getUser: ", user);
+  return(user)
+}
+
+// CRUD
+
+const createUser = async () => {
   const user = new User({
-    email: "isaac_householder",
+    email: "1 CREATED USING GET REQUEST",
     password: "102823",
   });
-
+  
   const result = await user.save();
   console.log(user);
 }
@@ -42,9 +52,9 @@ async function addFavorite(id, plantObject) {
       $push: {
         favorites:
         { 
-          plantID: "1356321",
-          common_name: "2 TEST PLANT NAME",
-          notes: "Plant in back yard",
+          plantID: "7777777",
+          common_name: "3 TEST PLANT NAME",
+          notes: "Plant in front yard",
           image: "http//fdasffadsfads",
           plantUrl: "http//fdasffadsfads",
         },
@@ -78,24 +88,21 @@ async function deleteFavorite(id, plantID) {
   console.log(user);
 }
 
-
-async function getFavorites(user) {
-  const favorites = await User.find({user}).limit(20)
-  // .sort({ name: -1 });
-  console.log(favorites);
-}
-
-async function removeFavorite(id) {
-const result = await Favorite.deleteOne({ _id: id })
-console.log(result)
-}
-
 async function removeAllFavorites(user) {
 const result = await Favorite.deleteMany({ user })
 console.log(result)
 }
 
 
+
+
+
+
+
+
+
 // createUser()
-// addFavorite("5f3c79c395044c6ddbc8f96c")
-getFavorites("5f3c79c395044c6ddbc8f96c")
+// addFavorite("5f3d87329bd0717c5f42bb8f")
+// getFavorites("5f3c79c395044c6ddbc8f96c")
+getUser("5f3d87329bd0717c5f42bb8f")
+//
