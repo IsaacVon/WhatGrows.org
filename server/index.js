@@ -10,50 +10,79 @@ mongoose
   .then(() => console.log("connected to MongoDB..."))
   .catch((err) => console.error("Could not connect to MongoDB...", err));
 
-const favoriteSchema = new mongoose.Schema({
-  user: String,
-  plandID: Number,
-  common_name: String,
-  notes: String,
-  image: String,
-  plantUrl: String,
+const userSchema = new mongoose.Schema({
+  email: String,
+  password: String,
+  favorites: [{ 
+    plantID: Number,
+    common_name: String,
+    notes: String,
+    image: String,
+    plantUrl: String,
+  }]
 });
 
-const Favorite = mongoose.model("Favorite", favoriteSchema);
+const User = mongoose.model("User", userSchema);
 
-async function createFavorite() {
-  const favorite = new Favorite({
-    user: "isaac_householder",
-    plandID: 102823,
-    notes: "Might grow indoors, research more.",
-    common_name: "American century plant",
-    image:
-      "https://bs.floristic.org/image/o/8579702f29c9ee06b7284106c9b74d2db0bd2b75",
-    plantUrl: "/api/v1/plants/agave-americana",
+async function createUser() {
+  const user = new User({
+    email: "isaac_householder",
+    password: "102823",
   });
 
-  const result = await favorite.save();
-  console.log(result);
+  const result = await user.save();
+  console.log(user);
 }
 
-async function getFavorites(user) {
-  const favorites = await Favorite.find({user}).limit(20).sort({ name: -1 });
-  console.log(favorites);
-}
-
-// Updates and returns updated document
-async function updateFavorite(id) {
-  const favorite = await Favorite.findByIdAndUpdate(
+async function addFavorite(id, plantObject) {
+  // take in plantObject and map it down there
+  const user = await User.findByIdAndUpdate(
     id,
     {
-      $set: {
-        notes:
-          "dingus live again all mongodb errors gone, Might grow indoors, research more.",
+      $push: {
+        favorites:
+        { 
+          plantID: "1356321",
+          common_name: "2 TEST PLANT NAME",
+          notes: "Plant in back yard",
+          image: "http//fdasffadsfads",
+          plantUrl: "http//fdasffadsfads",
+        },
       },
     },
     { new: true }
   );
-  console.log(favorite);
+  console.log(user);
+}
+
+// Not working
+async function deleteFavorite(id, plantID) {
+
+  
+  const user = await User.findByIdAndUpdate(
+    id,
+    {
+      $set: {
+        favorites:
+        { 
+          plantID: "1356321",
+          common_name: "2 TEST PLANT NAME",
+          notes: "Plant in back yard",
+          image: "http//fdasffadsfads",
+          plantUrl: "http//fdasffadsfads",
+        },
+      },
+    },
+    { new: true }
+  );
+  console.log(user);
+}
+
+
+async function getFavorites(user) {
+  const favorites = await User.find({user}).limit(20)
+  // .sort({ name: -1 });
+  console.log(favorites);
 }
 
 async function removeFavorite(id) {
@@ -66,3 +95,7 @@ const result = await Favorite.deleteMany({ user })
 console.log(result)
 }
 
+
+// createUser()
+// addFavorite("5f3c79c395044c6ddbc8f96c")
+getFavorites("5f3c79c395044c6ddbc8f96c")
