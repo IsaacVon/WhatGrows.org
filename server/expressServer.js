@@ -28,20 +28,25 @@ const user = [
   },
 ];
 
-
-// Get User Data 
-app.get("/api//:user", (req, res) => {
-  const user = res.send(req.params.user);
+// Get User Data
+app.get("/api/:user", (req, res) => {
+  // Send some thing
 });
 
 // createUser
 
 // addFavorite
+// patch
 
 // deleteFavorite
+// delete
 
 // removeAllFavorites
+// patch
 
+// Delete Favorite
+
+// Edit Favorite
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
