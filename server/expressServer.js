@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-// import { createUser, addFavorite } from "./index"
+require { getUser } from "./mongoDbServer.js"
 
 const user = [
   {
@@ -31,6 +31,7 @@ const user = [
 // Get User Data
 app.get("/api/:user", (req, res) => {
   // Send some thing
+  getUser()
 });
 
 // createUser

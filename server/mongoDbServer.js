@@ -10,6 +10,7 @@ mongoose
   .catch((err) => console.error("Could not connect to MongoDB...", err));
 
 const userSchema = new mongoose.Schema({
+  name: String,
   email: String,
   password: String,
   favorites: [
@@ -33,8 +34,9 @@ const getUser = async (id) => {
 };
 
 // CRUD
-const createUser = async (email, password) => {
+const createUser = async (name, email, password) => {
   const user = new User({
+    name,
     email,
     password,
   });
@@ -42,6 +44,8 @@ const createUser = async (email, password) => {
   console.log("newUser:", newUser);
   return newUser;
 };
+
+createUser("isaac Householder", "isaachouseholder@gmail.com", "password12")
 const addFavorite = async (id, plantObject) => {
   // take in plantObject and map it down there
   const user = await User.findByIdAndUpdate(
@@ -76,6 +80,14 @@ const deleteAllFavorites = async (id) => {
 
   return user;
 };
+
+// export {
+//   getUser,
+//   createUser,
+//   addFavorite,
+//   deleteAFavorite,
+//   deleteAllFavorites,
+// };
 
 // Add favorite to a user
 // const userID = "5f3edddf57054fa48f0dd4fd";
