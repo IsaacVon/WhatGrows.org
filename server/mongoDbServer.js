@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
   password: String,
   favorites: [
     {
-      plantID: Number,
+      plantId: Number,
       common_name: String,
       notes: String,
       image: String,
@@ -58,42 +58,19 @@ async function addFavorite(id, plantObject) {
   );
 }
 
-// Not working
-async function deleteAFavorite(id, plantId) {
+  // DONE
+async function deleteAFavorite(id, plantMongoId) {
   // take in plantObject and map it down there
-  return await User.findByIdAndUpdate(
-    id,
-    {
-      $pull: {
-        plantId,
-      },
-    },
+  const user =  await User.findOneAndUpdate(
+    { _id: id },
+    { $pull: { favorites: { _id: plantMongoId } } },
     { new: true }
-  );
+  )
 }
 
-deleteAFavorite("5f3d87329bd0717c5f42bb8f", "5f3d876eb353b27ca550531b")
 
-async function deleteFavorite(id, plantID) {
-  const user = await User.findByIdAndUpdate(
-    id,
-    {
-      $set: {
-        favorites: {
-          plantID: "1356321",
-          common_name: "2 TEST PLANT NAME",
-          notes: "Plant in back yard",
-          image: "http//fdasffadsfads",
-          plantUrl: "http//fdasffadsfads",
-        },
-      },
-    },
-    { new: true }
-  );
-  console.log(user);
-}
 
-async function removeAllFavorites(user) {
+async function deleteAllFavorites(user) {
   const result = await Favorite.deleteMany({ user });
   console.log(result);
 }
@@ -102,9 +79,9 @@ async function removeAllFavorites(user) {
 // addFavorite("5f3d87329bd0717c5f42bb8f")
 // getFavorites("5f3c79c395044c6ddbc8f96c")
 
-// const userID = "5f3dc03a0b1b388bfcf9c17a";
+// const userID = "5f3dbfd0737f428b535b68f9";
 // const plantObject = {
-//   plantID: "7777777",
+//   plantId: "1111111",
 //   common_name: "FAVORITES WORKING",
 //   notes: "Plant in front yard",
 //   image: "http//fdasffadsfads",
@@ -118,16 +95,21 @@ async function removeAllFavorites(user) {
 
 // run();
 
+
+
 // Create 4 new users
-// const email1 = "email1";
-// const password1 = "password1";
-// use this to see what the function returns
-// const email2 = "email2"
-// const password2 = "password2"
-// createUser(email2,password2)
-// const email3 = "email3"
-// const password3 = "password3"
-// createUser(email3,password3)
-// const email4 = "email2"
-// const password4 = "password2"
-// createUser(email4,password4)
+  // const email1 = "email1";
+  // const password1 = "password1";
+  // createUser(email1,password1)
+
+  // const email2 = "email2"
+  // const password2 = "password2"
+  // createUser(email2,password2)
+
+  // const email3 = "email3"
+  // const password3 = "password3"
+  // createUser(email3,password3)
+
+  // const email4 = "email4"
+  // const password4 = "password4"
+  // createUser(email4,password4)
