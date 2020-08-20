@@ -10,9 +10,9 @@ mongoose
   .catch((err) => console.error("Could not connect to MongoDB...", err));
 
 const userSchema = new mongoose.Schema({
-  name: String,
-  email: String,
-  password: String,
+  name: { type: String, required: true, maxlength: 255 },
+  email: { type: String, required: true, maxlength: 255 },
+  password: { type: String, required: true, maxlength: 255 },
   favorites: [
     {
       plantId: Number,
@@ -40,12 +40,16 @@ const createUser = async (name, email, password) => {
     email,
     password,
   });
-  const newUser = await user.save();
-  console.log("newUser:", newUser);
-  return newUser;
+  try {
+    const newUser = await user.save();
+    console.log("newUser:", newUser);
+    return newUser;
+  } catch (ex) {
+    for (field in ex.errors) console.log(ex.errors[field].message);
+  }
 };
 
-createUser("isaac Householder", "isaachouseholder@gmail.com", "password12")
+  // Use state to save on changes to favorite.. then save pushes entire new array of favorites
 const addFavorite = async (id, plantObject) => {
   // take in plantObject and map it down there
   const user = await User.findByIdAndUpdate(

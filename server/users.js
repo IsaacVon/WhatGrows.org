@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-require { getUser } from "./mongoDbServer.js"
 
 const user = [
   {
@@ -28,25 +27,32 @@ const user = [
   },
 ];
 
-// Get User Data
-app.get("/api/:user", (req, res) => {
-  // Send some thing
-  getUser()
+// getUser
+app.get("/api/:id", (req, res) => {
+  // Input: id
+  id = req.params.id
+
+  // put id into function
+
+  // res.send output of function
+  res.send( id )
+
+  // const user = 
+  
 });
 
 // createUser
+  // Input: name, email, password
 
 // addFavorite
-// patch
+  // Input: id, plantObject
 
 // deleteFavorite
-// delete
+  // Input: id, plantMongoId
 
-// removeAllFavorites
-// patch
-
-// Delete Favorite
-
+// deleteAllFavorites
+  // Input: id
+  
 // Edit Favorite
 
 const PORT = process.env.PORT || 3000;
