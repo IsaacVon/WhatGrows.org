@@ -64,10 +64,10 @@ router.post("/", async (req, res) => {
   }
 });
 
-// addFavorite
-// Input: id, plantObject
-router.put("/", (req, res) => {
-  // Validate DAta
+// addFavorite WORKING!!!!
+// Input via req.body: id, plantObject
+router.put("/", async (req, res) => {
+  // Validate Data
   const schema = Joi.object({
     id: Joi.string().max(255).required(),
     plantObject: {
@@ -82,10 +82,22 @@ router.put("/", (req, res) => {
   if (result.error) {
     res.status(400).send(result.error.details[0].message);
   }
-  // put req.body into function
-  // res.send output of function
-  res.send(result);
+
+  if (!result.error) {
+    const user = await User.findByIdAndUpdate(
+      req.body.id,
+      {
+        $push: {
+          favorites: req.body.plantObject,
+        },
+      },
+      { new: true }
+    );
+
+    res.send(user);
+  }
 });
+
 
 // deleteFavorite
 // Input: id, plantMongoId
