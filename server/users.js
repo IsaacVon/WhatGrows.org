@@ -1,25 +1,36 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Joi = require("joi");
 const express = require("express");
-const app = express();
+const router = express.Router();
 
+const User = mongoose.model(
+  "User",
+  new mongoose.Schema({
+    name: { type: String, required: true, maxlength: 255 },
+    email: { type: String, required: true, maxlength: 255 },
+    password: { type: String, required: true, maxlength: 255 },
+    favorites: [
+      {
+        plantId: Number,
+        common_name: String,
+        notes: String,
+        image: String,
+        plantUrl: String,
+      },
+    ],
+  })
+);
 
-mongoose.connect('mongodb://localhost/')
-app.use(express.json()); // Needed for req.body json body parser
-
-// getUser
-app.get("/api/users/:id", (req, res) => {
-  // Input: id
+// getUser WORKING!!!!
+router.get("/:id", async (req, res) => {
   id = req.params.id;
-
-  // put id into function
-  // res.send output of function
-  res.send(id);
+  const user = await User.find({ _id: id });
+  res.send(user[0]);
 });
 
-// createUser
-// Input: name, email, password
-app.post("/api/users", (req, res) => {
+// createUser WORKING!!!!
+// Input via req.body: name, email, password
+router.post("/", async (req, res) => {
   const schema = Joi.object({
     name: Joi.string().max(255).required(),
     email: Joi.string().max(255).required(),
@@ -32,14 +43,30 @@ app.post("/api/users", (req, res) => {
     res.status(400).send(result.error.details[0].message);
   }
 
-  // put req.body into function
-  // res.send output of function
-  res.send(result);
+  if (!result.error) {
+    const user = new User({
+      name: result.value.name,
+      email: result.value.email,
+      password: result.value.password,
+    });
+
+    const duplicateUser = await User.find({ email: result.value.email });
+
+    if (duplicateUser[0]) {
+      res.status(409).send("Account already created using this email");
+    }
+
+    if (!duplicateUser[0]) {
+      const newUser = await user.save();
+      console.log("user successfully saved...");
+      res.send(newUser);
+    }
+  }
 });
 
 // addFavorite
 // Input: id, plantObject
-app.put("/api/user/", (req, res) => {
+router.put("/", (req, res) => {
   // Validate DAta
   const schema = Joi.object({
     id: Joi.string().max(255).required(),
@@ -62,7 +89,7 @@ app.put("/api/user/", (req, res) => {
 
 // deleteFavorite
 // Input: id, plantMongoId
-app.delete("/api/user/", (req, res) => {
+router.delete("/", (req, res) => {
   // Validate DAta
   const schema = Joi.object({
     id: Joi.string().max(255).required(),
@@ -79,7 +106,7 @@ app.delete("/api/user/", (req, res) => {
 
 // deleteAllFavorites
 // Input: id
-app.delete("/api/user/favorites", (req, res) => {
+router.delete("/favorites", (req, res) => {
   // Validate DAta
   const schema = Joi.object({
     id: Joi.string().max(255).required(),
@@ -95,5 +122,4 @@ app.delete("/api/user/favorites", (req, res) => {
 
 // Edit Favorite
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
+module.exports = router;
