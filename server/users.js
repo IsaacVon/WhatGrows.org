@@ -1,3 +1,5 @@
+const bcrypt = require("bcrypt");
+const _ = require("lodash");
 const mongoose = require("mongoose");
 const Joi = require("joi");
 const express = require("express");
@@ -6,9 +8,9 @@ const router = express.Router();
 const User = mongoose.model(
   "User",
   new mongoose.Schema({
-    name: { type: String, required: true, maxlength: 255 },
-    email: { type: String, required: true, maxlength: 255 },
-    password: { type: String, required: true, maxlength: 255 },
+    name: { type: String, required: true, maxlength: 50 },
+    email: { type: String, required: true, unique: true, maxlength: 255 },
+    password: { type: String, required: true, maxlength: 1024 },
     favorites: [
       {
         plantId: Number,
@@ -28,39 +30,31 @@ router.get("/:id", async (req, res) => {
   res.send(user[0]);
 });
 
-// createUser - Input via req.body: name, email, password
-router.post("/", async (req, res) => {
+// Register User - Input via req.body: name, email, password
+router.post("/register", async (req, res) => {
   const schema = Joi.object({
-    name: Joi.string().max(255).required(),
-    email: Joi.string().max(255).required(),
-    password: Joi.string().max(255).required(),
+    name: Joi.string().min(5).max(255).required(),
+    email: Joi.string().max(255).required().email(),
+    password: Joi.string().min(5).max(255).required(),
   });
 
   const result = schema.validate(req.body);
 
-  if (result.error) {
-    res.status(400).send(result.error.details[0].message);
-  }
+  if (result.error)
+    return res.status(400).send(result.error.details[0].message);
 
-  if (!result.error) {
-    const user = new User({
-      name: result.value.name,
-      email: result.value.email,
-      password: result.value.password,
-    });
+  const duplicateUser = await User.find({ email: req.body.email });
 
-    const duplicateUser = await User.find({ email: result.value.email });
+  if (duplicateUser[0])
+    return res.status(409).send("Account already created using this email");
 
-    if (duplicateUser[0]) {
-      res.status(409).send("Account already created using this email");
-    }
+  const user = new User(_.pick(req.body, ["name", "email", "password"]));
 
-    if (!duplicateUser[0]) {
-      const newUser = await user.save();
-      console.log("user successfully saved...");
-      res.send(newUser);
-    }
-  }
+  const salt = await bcrypt.genSalt(10);
+  user.password = await bcrypt.hash(user.password, salt);
+
+  const newUser = await user.save();
+  res.send(_.pick(newUser, ["name", "email"]));
 });
 
 // addFavorite - Input via req.body: id, plantObject
@@ -96,7 +90,6 @@ router.put("/", async (req, res) => {
   }
 });
 
-
 // deleteFavorite - Input via req.body: id, plantMongoId
 router.delete("/", async (req, res) => {
   // Validate DAta
@@ -108,7 +101,7 @@ router.delete("/", async (req, res) => {
   if (result.error) {
     res.status(400).send(result.error.details[0].message);
   }
-  
+
   if (!result.error) {
     const user = await User.findOneAndUpdate(
       { _id: req.body.id },
@@ -119,7 +112,6 @@ router.delete("/", async (req, res) => {
   }
 });
 
-
 // deleteAllFavorites Input via req.body: id
 router.delete("/favorites", async (req, res) => {
   // Validate DAta
@@ -129,16 +121,16 @@ router.delete("/favorites", async (req, res) => {
   const result = schema.validate(req.body);
   if (result.error) {
     res.status(400).send(result.error.details[0].message);
-  }  
-  
+  }
+
   if (!result.error) {
     const user = await User.findOneAndUpdate(
       { _id: req.body.id },
       { $set: { favorites: [] } },
       { new: true }
-    );  
+    );
     res.send(user);
   }
-
 });
+
 module.exports = router;
