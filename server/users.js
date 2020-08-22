@@ -21,15 +21,14 @@ const User = mongoose.model(
   })
 );
 
-// getUser WORKING!!!!
+// getUser - Input via req.params: id
 router.get("/:id", async (req, res) => {
   id = req.params.id;
   const user = await User.find({ _id: id });
   res.send(user[0]);
 });
 
-// createUser WORKING!!!!
-// Input via req.body: name, email, password
+// createUser - Input via req.body: name, email, password
 router.post("/", async (req, res) => {
   const schema = Joi.object({
     name: Joi.string().max(255).required(),
@@ -64,8 +63,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// addFavorite WORKING!!!!
-// Input via req.body: id, plantObject
+// addFavorite - Input via req.body: id, plantObject
 router.put("/", async (req, res) => {
   // Validate Data
   const schema = Joi.object({
@@ -99,9 +97,8 @@ router.put("/", async (req, res) => {
 });
 
 
-// deleteFavorite
-// Input: id, plantMongoId
-router.delete("/", (req, res) => {
+// deleteFavorite - Input via req.body: id, plantMongoId
+router.delete("/", async (req, res) => {
   // Validate DAta
   const schema = Joi.object({
     id: Joi.string().max(255).required(),
@@ -111,14 +108,20 @@ router.delete("/", (req, res) => {
   if (result.error) {
     res.status(400).send(result.error.details[0].message);
   }
-  // put req.body into function
-  // res.send output of function
-  res.send(result);
+  
+  if (!result.error) {
+    const user = await User.findOneAndUpdate(
+      { _id: req.body.id },
+      { $pull: { favorites: { _id: req.body.plantMongoId } } },
+      { new: true }
+    );
+    res.send(user);
+  }
 });
 
-// deleteAllFavorites
-// Input: id
-router.delete("/favorites", (req, res) => {
+
+// deleteAllFavorites Input via req.body: id
+router.delete("/favorites", async (req, res) => {
   // Validate DAta
   const schema = Joi.object({
     id: Joi.string().max(255).required(),
@@ -126,12 +129,16 @@ router.delete("/favorites", (req, res) => {
   const result = schema.validate(req.body);
   if (result.error) {
     res.status(400).send(result.error.details[0].message);
+  }  
+  
+  if (!result.error) {
+    const user = await User.findOneAndUpdate(
+      { _id: req.body.id },
+      { $set: { favorites: [] } },
+      { new: true }
+    );  
+    res.send(user);
   }
-  // put req.body into function
-  // res.send output of function
-  res.send(result);
+
 });
-
-// Edit Favorite
-
 module.exports = router;
