@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const users = require("./users");
-const auth = require("./auth")
+const users = require("./routes/users");
+const auth = require("./routes/auth")
 const express = require("express");
 const app = express();
 

@@ -1,27 +1,10 @@
+const { User } = require('../models/user')  
 const bcrypt = require("bcrypt");
 const _ = require("lodash");
-const mongoose = require("mongoose");
 const Joi = require("joi");
 const express = require("express");
 const router = express.Router();
 
-const User = mongoose.model(
-  "User",
-  new mongoose.Schema({
-    name: { type: String, required: true, maxlength: 50 },
-    email: { type: String, required: true, unique: true, maxlength: 255 },
-    password: { type: String, required: true, maxlength: 1024 },
-    favorites: [
-      {
-        plantId: Number,
-        common_name: String,
-        notes: String,
-        image: String,
-        plantUrl: String,
-      },
-    ],
-  })
-);
 
 // getUser - Input via req.params: id
 router.get("/:id", async (req, res) => {
