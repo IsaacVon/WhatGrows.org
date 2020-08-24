@@ -6,6 +6,7 @@ const app = express();
 
 mongoose
   .set("useUnifiedTopology", true)
+  .set('useCreateIndex', true)
   .connect("mongodb://localhost/UrbanHomesteading", {
     useNewUrlParser: true,
     useFindAndModify: false,

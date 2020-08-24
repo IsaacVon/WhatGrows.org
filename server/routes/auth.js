@@ -18,18 +18,11 @@ router.post("/", async (req, res) => {
   const result = schema.validate(req.body);
 
   if (result.error) return res.status(400).send(result.error.details[0].message);
-
-    
-    const user = await User.find({ email: req.body.email });
-    
-    if (user[0]) return res.status(400).send("Invalid email or password.");
-    
-
-     
-
-    const validPassword = await bcrypt.compare(req.body.password, user.password)
+    let user = await User.find({ email: req.body.email });
+    user = user[0]    
+    if (!user) return res.status(400).send("Invalid email or password.");
+    const validPassword = await bcrypt.compare(req.body.password, user.password)    
     if (!validPassword) return res.status(400).send("Invalid email or password.");
-
 
     res.send(true)    
   
