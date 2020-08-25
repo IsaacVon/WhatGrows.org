@@ -1,3 +1,6 @@
+const jwt = require('jsonwebtoken')
+const config = require('config')
+const auth = require('../middleware/auth')
 const { User } = require('../models/user')  
 const bcrypt = require("bcrypt");
 const _ = require("lodash");
@@ -5,13 +8,6 @@ const Joi = require("joi");
 const express = require("express");
 const router = express.Router();
 
-
-// getUser - Input via req.params: id
-router.get("/:id", async (req, res) => {
-  id = req.params.id;
-  const user = await User.find({ _id: id });
-  res.send(user[0]);
-});
 
 // Register User - Input via req.body: name, email, password
 router.post("/register", async (req, res) => {
@@ -37,11 +33,23 @@ router.post("/register", async (req, res) => {
   user.password = await bcrypt.hash(user.password, salt);
 
   const newUser = await user.save();
-  res.send(_.pick(newUser, ["name", "email"]));
+
+  const token = user.generateAuthToken()
+  res.header('x-auth-token', token).send(_.pick(newUser, ["id", "name", "email"]));
+});
+
+
+// All routes below require authentication
+// getUser - Input via req.params: id
+router.get("/:id", auth, async (req, res) => {
+
+  id = req.params.id;
+  const user = await User.find({ _id: id });
+  res.send(user[0]);
 });
 
 // addFavorite - Input via req.body: id, plantObject
-router.put("/", async (req, res) => {
+router.put("/", auth, async (req, res) => {
   // Validate Data
   const schema = Joi.object({
     id: Joi.string().max(255).required(),
@@ -74,7 +82,7 @@ router.put("/", async (req, res) => {
 });
 
 // deleteFavorite - Input via req.body: id, plantMongoId
-router.delete("/", async (req, res) => {
+router.delete("/", auth, async (req, res) => {
   // Validate DAta
   const schema = Joi.object({
     id: Joi.string().max(255).required(),
@@ -96,7 +104,7 @@ router.delete("/", async (req, res) => {
 });
 
 // deleteAllFavorites Input via req.body: id
-router.delete("/favorites", async (req, res) => {
+router.delete("/favorites", auth, async (req, res) => {
   // Validate DAta
   const schema = Joi.object({
     id: Joi.string().max(255).required(),
