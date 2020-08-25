@@ -2,6 +2,8 @@ import apiKeys from "../apiKeys";
 
 const trefleApiKey = apiKeys.trefleAPI;
 
+if(!trefleApiKey) (console.log("trefleApiKey Not importing to zipCodeToPlants"))
+
 // Takes in validated zip code number
 // gets temp min, sends it to "Request plant List"
 // Returns an object with 20 plants

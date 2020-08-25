@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
 export default function PageButtons(props) {
   const classes = useStyles();
 
-  const { handleZipInput, displayText } = props;
 
   return (
     <div className={classes.root}>

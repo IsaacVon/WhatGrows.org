@@ -38,7 +38,7 @@ router.post("/register", async (req, res) => {
   res.header('x-auth-token', token).send(_.pick(newUser, ["id", "name", "email"]));
 });
 
-// getUser - Input via req.params: id
+// getUser - Input jwt
 router.get("/me", auth, async (req, res) => {
 
   let user = await await User.findById(req.user._id).select('-password')

@@ -1,9 +1,6 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import { Formik } from "formik";
-import * as Yup from "yup";
-
+// import * as Yup from "yup";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
@@ -16,9 +13,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // finish validation part
-const validationSchema = Yup.object({
-  zipCode: Yup.string("Enter Zip").required("Please enter your zip"),
-});
+// const validationSchema = Yup.object({
+//   zipCode: Yup.string("Enter Zip").required("Please enter your zip"),
+// });
 
 export default function SearchBox (props) {
   const classes = useStyles();

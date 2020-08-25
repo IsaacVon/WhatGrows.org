@@ -96,7 +96,7 @@ class SearchZip extends Component {
     });
   };
 
-  buildFilterString = async () => {
+  buildFilterString = () => {
     let filterString = "";
     if (this.state.fruitOnly) {
       const fruitApiString = "&filter%5Bfruit_conspicuous%5D=true";
@@ -157,12 +157,14 @@ class SearchZip extends Component {
 
   // Final Search button
   handleSearch = async () => {
-    await this.buildFilterString();
-
+    const filterString = this.buildFilterString();
+    console.log("filterstring", filterString)
     const data = await zipCodeToPlants(
       this.state.zipCode,
       this.state.filterString
     );
+
+    console.log("data", data)
 
     this.setState({
       zipCodeValid: true,
