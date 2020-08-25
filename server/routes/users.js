@@ -38,14 +38,11 @@ router.post("/register", async (req, res) => {
   res.header('x-auth-token', token).send(_.pick(newUser, ["id", "name", "email"]));
 });
 
-
-// All routes below require authentication
 // getUser - Input via req.params: id
-router.get("/:id", auth, async (req, res) => {
+router.get("/me", auth, async (req, res) => {
 
-  id = req.params.id;
-  const user = await User.find({ _id: id });
-  res.send(user[0]);
+  let user = await await User.findById(req.user._id).select('-password')
+  res.send(user);
 });
 
 // addFavorite - Input via req.body: id, plantObject

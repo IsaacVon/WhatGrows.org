@@ -8,7 +8,7 @@ const { User } = require('../models/user')
 
 
 
-
+// Log in
 router.post("/", async (req, res) => {
   const schema = Joi.object({
     email: Joi.string().max(255).required().email(),
@@ -28,5 +28,8 @@ router.post("/", async (req, res) => {
     res.send(token)    
   
 });
+
+
+
 
 module.exports = router;
