@@ -8,7 +8,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import Like from "../components/like"
+import Like from "../components/like";
 
 const useRowStyles = makeStyles({
   root: {
@@ -18,16 +18,18 @@ const useRowStyles = makeStyles({
   },
 });
 
-const isFavorite = (id) => {
-  console.log("isFavorite.. row.id", id)
-  return true
-}
-
-
 const Row = (props) => {
-  const { row } = props;
+  const { row, favorites } = props;
   // const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
+
+  const isFavorite = (id) => {
+    favorites.findIndex(function (favorite, index) {
+      if (favorite.plantId === id) return true;
+
+      return false;
+    });
+  };
 
   return (
     <React.Fragment>
@@ -37,7 +39,7 @@ const Row = (props) => {
             {open ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </IconButton> */}
           <IconButton size="small">
-            <Like liked={isFavorite(row.id)}/>
+            <Like liked={isFavorite(row.id)} />
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
@@ -48,9 +50,9 @@ const Row = (props) => {
       </TableRow>
     </React.Fragment>
   );
-}
+};
 
-export default function CollapsibleTable(props) {
+export default function PlantTable(props) {
   const importedRow = props.plantsOnPage;
 
   return (
@@ -66,7 +68,7 @@ export default function CollapsibleTable(props) {
         </TableHead>
         <TableBody>
           {importedRow.map((row) => (
-            <Row key={row.id} row={row} />
+            <Row key={row.id} row={row} favorites={props.favorites} />
           ))}
         </TableBody>
       </Table>

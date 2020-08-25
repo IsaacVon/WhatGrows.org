@@ -6,6 +6,7 @@ import PageButtons from "../components/pageButtons";
 import Button from "@material-ui/core/Button";
 import FlowerColor from "../components/filters/flowerColor";
 import LeafColor from "../components/filters/leafColor";
+import { GlobalContextConsumer } from "../globalContext";
 
 class SearchZip extends Component {
   state = {
@@ -158,13 +159,13 @@ class SearchZip extends Component {
   // Final Search button
   handleSearch = async () => {
     const filterString = this.buildFilterString();
-    console.log("filterstring", filterString)
+    console.log("filterstring", filterString);
     const data = await zipCodeToPlants(
       this.state.zipCode,
       this.state.filterString
     );
 
-    console.log("data", data)
+    console.log("data", data);
 
     this.setState({
       zipCodeValid: true,
@@ -230,7 +231,14 @@ class SearchZip extends Component {
           totalPages={this.state.totalPages}
           zipCode={this.state.zipCode}
         />
-        <PlantTable plantsOnPage={this.state.plantsOnPage} />
+        <GlobalContextConsumer>
+          {(context) => (
+            <PlantTable 
+              plantsOnPage={this.state.plantsOnPage} 
+              favorites={context.favorites} 
+            />
+          )}
+        </GlobalContextConsumer>
       </>
     );
   }
