@@ -6,7 +6,6 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 // Output: onClick
 class Like extends Component {
   render() { 
-    
     if(this.props.liked) return <FavoriteIcon />
     if(!this.props.liked) return <FavoriteBorderIcon />
 

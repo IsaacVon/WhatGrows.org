@@ -20,16 +20,31 @@ const useRowStyles = makeStyles({
 
 const Row = (props) => {
   const { row, favorites } = props;
-  // const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
 
   const isFavorite = (id) => {
-    favorites.findIndex(function (favorite, index) {
-      if (favorite.plantId === id) return true;
-
-      return false;
+    const index = favorites.findIndex(function (favorite, index) {
+      return favorite.plantId === id;
     });
+
+    if (index !== -1) {
+      const displayData = {
+        favorite: true,
+        notes: favorites[index].notes,
+      };
+      return displayData;
+    }
+
+    if (index === -1) {
+      const displayData = {
+        favorite: false,
+        notes: "",
+      };
+      return displayData;
+    }
   };
+
+  const favorite = isFavorite(row.id);
 
   return (
     <React.Fragment>
@@ -39,7 +54,7 @@ const Row = (props) => {
             {open ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </IconButton> */}
           <IconButton size="small">
-            <Like liked={isFavorite(row.id)} />
+            <Like liked={favorite.favorite} />
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
@@ -47,6 +62,7 @@ const Row = (props) => {
         </TableCell>
         <TableCell align="right">{row.common_name}</TableCell>
         <TableCell align="right">{row.links.plant}</TableCell>
+        <TableCell align="right">{favorite.notes}</TableCell>
       </TableRow>
     </React.Fragment>
   );
@@ -64,6 +80,7 @@ export default function PlantTable(props) {
             <TableCell>Image</TableCell>
             <TableCell align="right">Plant Name</TableCell>
             <TableCell align="right">Learn More</TableCell>
+            <TableCell align="right">Notes</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
