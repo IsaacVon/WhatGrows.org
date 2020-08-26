@@ -41,7 +41,7 @@ const Row = (props) => {
     if (index === -1) {
       const displayData = {
         favorite: false,
-        notes: "Save as favorite to add notes",
+        notes: "",
       };
       return displayData;
     }
@@ -53,9 +53,6 @@ const Row = (props) => {
     <React.Fragment>
       <TableRow className={classes.root}>
         <TableCell>
-          {/* <IconButton size="small" onClick={() => setOpen(!open)}>
-            {open ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-          </IconButton> */}
           <GlobalContextConsumer>
             {(context) => (
               <IconButton onClick={() => context.handleFavoriteClick(row, favorite.favorite)} size="small">
@@ -70,7 +67,7 @@ const Row = (props) => {
         <TableCell align="right">{row.common_name}</TableCell>
         <TableCell align="right">{row.links.plant}</TableCell>
         <TableCell align="right">
-          <NotesBox disabled={favorite.favorite} notes={favorite.notes} />
+          <NotesBox id={row.id} disabled={favorite.favorite} notes={favorite.notes} />
         </TableCell>
         <TableCell align="right">
           <Save disabled={favorite.favorite} />
