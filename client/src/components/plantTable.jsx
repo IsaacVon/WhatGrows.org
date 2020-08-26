@@ -8,7 +8,10 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import Like from "../components/like";
+import Like from "./likeButton";
+import Save from "./saveButton";
+import NotesBox from "./notesBox";
+import { GlobalContextConsumer } from "../globalContext";
 
 const useRowStyles = makeStyles({
   root: {
@@ -19,7 +22,7 @@ const useRowStyles = makeStyles({
 });
 
 const Row = (props) => {
-  const { row, favorites } = props;
+  const { row, favorites, addFavorite } = props;
   const classes = useRowStyles();
 
   const isFavorite = (id) => {
@@ -38,7 +41,7 @@ const Row = (props) => {
     if (index === -1) {
       const displayData = {
         favorite: false,
-        notes: "",
+        notes: "Save as favorite to add notes",
       };
       return displayData;
     }
@@ -53,16 +56,25 @@ const Row = (props) => {
           {/* <IconButton size="small" onClick={() => setOpen(!open)}>
             {open ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </IconButton> */}
-          <IconButton size="small">
-            <Like liked={favorite.favorite} />
-          </IconButton>
+          <GlobalContextConsumer>
+            {(context) => (
+              <IconButton onClick={() => context.handleFavoriteClick(row, favorite.favorite)} size="small">
+                <Like liked={favorite.favorite} />
+              </IconButton>
+            )}
+          </GlobalContextConsumer>
         </TableCell>
         <TableCell component="th" scope="row">
           {row.image_url}
         </TableCell>
         <TableCell align="right">{row.common_name}</TableCell>
         <TableCell align="right">{row.links.plant}</TableCell>
-        <TableCell align="right">{favorite.notes}</TableCell>
+        <TableCell align="right">
+          <NotesBox disabled={favorite.favorite} notes={favorite.notes} />
+        </TableCell>
+        <TableCell align="right">
+          <Save disabled={favorite.favorite} />
+        </TableCell>
       </TableRow>
     </React.Fragment>
   );
@@ -81,6 +93,7 @@ export default function PlantTable(props) {
             <TableCell align="right">Plant Name</TableCell>
             <TableCell align="right">Learn More</TableCell>
             <TableCell align="right">Notes</TableCell>
+            <TableCell align="right"></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

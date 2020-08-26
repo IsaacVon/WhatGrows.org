@@ -25,7 +25,41 @@ class GlobalContextProvider extends Component {
     ],
   };
 
-  // handle addFavorite
+  removeFavorite = (favorite) => {
+    console.log("Favorite Removed", favorite.id)
+  }
+
+  addFavorite = (favorite) => {
+    this.setState({
+      favorites: [
+        ...this.state.favorites,
+        {
+          _id: "",
+          plantId: favorite.id,
+          common_name: favorite.common_name,
+          notes: "",
+          image: favorite.image_url,
+          plantUrl: favorite.links.plant,
+        },
+      ],
+    });
+
+    // push to database
+    console.log("favorite added", this.state);
+  };
+  
+  handleFavoriteClick = (favorite, liked) => {
+
+    if (liked) {
+      this.removeFavorite(favorite)
+    }
+
+    if (!liked) {
+      this.addFavorite(favorite);
+    }
+  };
+
+
   // handle log in
 
   render() {
@@ -34,7 +68,8 @@ class GlobalContextProvider extends Component {
         value={{
           loggedIn: this.state.loggedIn,
           name: this.state.name,
-          favorites: this.state.favorites
+          favorites: this.state.favorites,
+          handleFavoriteClick: this.handleFavoriteClick,
         }}
       >
         {this.props.children}

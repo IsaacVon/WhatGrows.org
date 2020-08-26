@@ -236,6 +236,7 @@ class SearchZip extends Component {
             <PlantTable 
               plantsOnPage={this.state.plantsOnPage} 
               favorites={context.favorites} 
+              addFavorite={context.addFavorite}
             />
           )}
         </GlobalContextConsumer>
