@@ -4,6 +4,7 @@ const _ = require("lodash");
 const { Provider, Consumer } = React.createContext();
 
 // This changes whos logged in
+// set to local storage when logged in, and state logged in as true
 const jwt =
   // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjQ0NWY3MWNkZWU5NzJiOTY3Y2IxYzkiLCJpYXQiOjE1OTg3NDIxMTd9.wJDRfLeVnTXzMki1XlHB0sz8ZaG1y-B4mgIu9kRClN8";
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjQ0NmU3ODBiNGQ3MjMwZDc3ZjYwM2QiLCJpYXQiOjE1OTg4MjI5NTl9.b7HpiAP9n1RvzMewkH9uPybZLZCI-KqnoeG3tDQMNBQ";

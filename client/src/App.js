@@ -2,6 +2,8 @@ import React from "react";
 import Nav from "./components/navBar";
 import SearchZip from "./pages/searchZip";
 import SearchPlant from "./pages/searchPlant";
+import SignUp from "./pages/signUp";
+import SignIn from "./pages/signIn";
 
 import Favorites from "./pages/favorites";
 import NotFound from "./pages/notFound";
@@ -16,6 +18,8 @@ function App() {
           <Route path="/searchZip" exact component={SearchZip} />
           <Route path="/searchPlant" exact component={SearchPlant} />
           <Route path="/Favorites" exact component={Favorites} />
+          <Route path="/SignUp" exact component={SignUp} />
+          <Route path="/SignIn" exact component={SignIn} />
 
           <Route path="/*" component={NotFound} />
         </Switch>
