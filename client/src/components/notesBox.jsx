@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NotesBox(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState("Controlled");
 
 
   // If not favorited return enter notes

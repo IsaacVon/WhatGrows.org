@@ -40,35 +40,33 @@ router.post("/register", async (req, res) => {
 
 // getUser - Input jwt
 router.get("/me", auth, async (req, res) => {
-
-  let user = await await User.findById(req.user._id).select('-password')
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  let user = await User.findById(req.user._id).select('-password')
   res.send(user);
 });
 
-// addFavorite - Input via req.body: id, plantObject
+// addFavorite - Input JWT & req.body: plantObject
 router.put("/", auth, async (req, res) => {
+
   // Validate Data
   const schema = Joi.object({
-    id: Joi.string().max(255).required(),
-    plantObject: {
       plantId: Joi.number().required(),
       common_name: Joi.string().max(255).required(),
-      notes: Joi.string().max(5000),
       image: Joi.string().max(5000),
       plantUrl: Joi.string().max(5000),
-    },
-  });
+    }
+  );
+
   const result = schema.validate(req.body);
   if (result.error) {
     res.status(400).send(result.error.details[0].message);
   }
-
   if (!result.error) {
     const user = await User.findByIdAndUpdate(
-      req.body.id,
+      req.user._id,
       {
         $push: {
-          favorites: req.body.plantObject,
+          favorites: req.body,
         },
       },
       { new: true }
@@ -78,11 +76,10 @@ router.put("/", auth, async (req, res) => {
   }
 });
 
-// deleteFavorite - Input via req.body: id, plantMongoId
+// deleteFavorite - Input JWT & req.body: plantMongoId
 router.delete("/", auth, async (req, res) => {
-  // Validate DAta
+  // Validate Data
   const schema = Joi.object({
-    id: Joi.string().max(255).required(),
     plantMongoId: Joi.string().max(255).required(),
   });
   const result = schema.validate(req.body);
@@ -92,7 +89,7 @@ router.delete("/", auth, async (req, res) => {
 
   if (!result.error) {
     const user = await User.findOneAndUpdate(
-      { _id: req.body.id },
+      { _id: req.user._id },
       { $pull: { favorites: { _id: req.body.plantMongoId } } },
       { new: true }
     );

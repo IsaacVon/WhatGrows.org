@@ -1,83 +1,111 @@
 import React, { Component } from "react";
+import axios from "axios";
 const _ = require("lodash");
 const { Provider, Consumer } = React.createContext();
 
+const jwt =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjQ0NWY3MWNkZWU5NzJiOTY3Y2IxYzkiLCJpYXQiOjE1OTg3NDIxMTd9.wJDRfLeVnTXzMki1XlHB0sz8ZaG1y-B4mgIu9kRClN8";
+
 class GlobalContextProvider extends Component {
   state = {
-    loggedIn: false,
+    loggedIn: true,
     name: "Isaac Householder",
-    favorites: [
-      // {
-      //   _id: "5f445fc9cdee972b967cb1cc",
-      //   plantId: 163618,
-      //   common_name: "Mango",
-      //   notes: "Plant in backyard, edit is working nowwwww",
-      //   image: "http://dingus/Image",
-      //   plantUrl: "http://dingus/Image",
-      // },
-      // {
-      //   _id: "5f445fc9cdee972b967cb1dc",
-      //   plantId: 102823,
-      //   common_name: "Mango",
-      //   notes: "dingus in dingus, editing notes wow haha",
-      //   image: "http://dingus/Image",
-      //   plantUrl: "http://dingus/Image",
-      // },
-    ],
+    favorites: [],
   };
 
-  removeFavorite = (favorite) => {
+  componentDidMount() {
+    if (this.state.loggedIn) this.getFavorites(jwt);
+  }
+
+  getFavorites = async (jwt) => {
+    const userData = await axios({
+      method: "get",
+      url: "http://localhost:3000/api/users/me",
+      headers: { "x-auth-token": jwt },
+    });
+    const favorites = userData.data.favorites;
+    this.setState({ favorites });
+  };
+
+  addFavorite = async (plantObject, jwt) => {
+    this.setState({
+      favorites: [
+        ...this.state.favorites,
+        {
+          _id: "",
+          plantId: plantObject.id,
+          common_name: plantObject.common_name,
+          notes: "",
+          image: plantObject.image_url,
+          plantUrl: plantObject.links.plant,
+        },
+      ],
+    });
+
+    // add favorite to to database
+    const favoriteToAdd = {
+      plantId: plantObject.id,
+      common_name: plantObject.common_name,
+      image: plantObject.image_url,
+      plantUrl: plantObject.links.plant,
+    };
+
+    await axios({
+      method: "put", //you can set what request you want to be
+      url: "http://localhost:3000/api/users/",
+      data: favoriteToAdd,
+      headers: {
+        "x-auth-token": jwt,
+      },
+    });
+
+    console.log("added ", favoriteToAdd.common_name, " to database");
+  };
+
+  removeFavorite = async (favorite, jwt) => {
     const indexToRemove = this.state.favorites.findIndex(function (
       current,
       index
     ) {
       return current.plantId === favorite.id;
     });
-
     let currentFavorites = [...this.state.favorites];
+
+    const targetPlantMongoId = this.state.favorites[indexToRemove]._id;
+    const targetPlantCommonName = this.state.favorites[indexToRemove].common_name;
 
     _.pullAt(currentFavorites, [indexToRemove]);
 
     this.setState({
       favorites: [...currentFavorites],
     });
-    // push to database
-  };
 
-  addFavorite = (favorite) => {
-    this.setState({
-      favorites: [
-        ...this.state.favorites,
-        {
-          _id: "",
-          plantId: favorite.id,
-          common_name: favorite.common_name,
-          notes: "",
-          image: favorite.image_url,
-          plantUrl: favorite.links.plant,
-        },
-      ],
-    });
     // push to database
+    await axios({
+      method: "delete", //you can set what request you want to be
+      url: "http://localhost:3000/api/users/",
+      data: {
+        plantMongoId: targetPlantMongoId,
+      },
+      headers: {
+        "x-auth-token": jwt,
+      },
+    });
+
+    console.log("removed ", targetPlantCommonName, " from database")
+
   };
 
   handleFavoriteClick = (favorite, liked) => {
-    if (liked) {
-      console.log("Removing Favorite", favorite.id);
-      this.removeFavorite(favorite);
-    }
-
-    if (!liked) {
-      console.log("Adding Favorite", favorite.id);
-      this.addFavorite(favorite);
-    }
+    if (liked) this.removeFavorite(favorite, jwt);
+    
+    if (!liked) this.addFavorite(favorite, jwt);
+    
   };
 
   // Input: favorite and note
   // output: set state
   handleNoteInput = (id, note) => {
-    console.log("note input handled", id, note);
-
     const indexOfNote = this.state.favorites.findIndex(function (
       current,
       index
