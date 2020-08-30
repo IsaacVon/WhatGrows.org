@@ -3,8 +3,10 @@ import axios from "axios";
 const _ = require("lodash");
 const { Provider, Consumer } = React.createContext();
 
+// This changes whos logged in
 const jwt =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjQ0NWY3MWNkZWU5NzJiOTY3Y2IxYzkiLCJpYXQiOjE1OTg3NDIxMTd9.wJDRfLeVnTXzMki1XlHB0sz8ZaG1y-B4mgIu9kRClN8";
+  // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjQ0NWY3MWNkZWU5NzJiOTY3Y2IxYzkiLCJpYXQiOjE1OTg3NDIxMTd9.wJDRfLeVnTXzMki1XlHB0sz8ZaG1y-B4mgIu9kRClN8";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjQ0NmU3ODBiNGQ3MjMwZDc3ZjYwM2QiLCJpYXQiOjE1OTg4MjI5NTl9.b7HpiAP9n1RvzMewkH9uPybZLZCI-KqnoeG3tDQMNBQ";
 
 class GlobalContextProvider extends Component {
   state = {
@@ -28,6 +30,8 @@ class GlobalContextProvider extends Component {
   };
 
   addFavorite = async (plantObject, jwt) => {
+
+    // Sets state so that heart icon is instantly responsive 
     this.setState({
       favorites: [
         ...this.state.favorites,
@@ -50,14 +54,18 @@ class GlobalContextProvider extends Component {
       plantUrl: plantObject.links.plant,
     };
 
-    await axios({
-      method: "put", //you can set what request you want to be
+    let newFavorites = await axios({
+      method: "put", 
       url: "http://localhost:3000/api/users/",
       data: favoriteToAdd,
       headers: {
         "x-auth-token": jwt,
       },
     });
+
+    // Sync state with favorites from database to get mongoDB id for new added favorite
+    newFavorites = newFavorites.data.favorites
+    this.setState({favorites: newFavorites})
 
     console.log("added ", favoriteToAdd.common_name, " to database");
   };
@@ -104,7 +112,7 @@ class GlobalContextProvider extends Component {
   };
 
   // Input: favorite and note
-  // output: set state
+  // Goal: set state
   handleNoteInput = (id, note) => {
     const indexOfNote = this.state.favorites.findIndex(function (
       current,
@@ -112,15 +120,25 @@ class GlobalContextProvider extends Component {
     ) {
       return current.plantId === id;
     });
-
     let currentFavorites = [...this.state.favorites];
-
     currentFavorites[indexOfNote].notes = note;
-
     this.setState({
       favorites: [...currentFavorites],
     });
   };
+
+  // Input: state
+  // Goal: push state to database
+  handleNoteSubmit = async () => {
+    await axios({
+      method: "put", 
+      url: "http://localhost:3000/api/users/notes",
+      data: this.state.favorites,
+      headers: {
+        "x-auth-token": jwt,
+      },
+    });
+  }
 
   render() {
     return (
@@ -131,6 +149,7 @@ class GlobalContextProvider extends Component {
           favorites: this.state.favorites,
           handleFavoriteClick: this.handleFavoriteClick,
           handleNoteInput: this.handleNoteInput,
+          handleNoteSubmit: this.handleNoteSubmit
         }}
       >
         {this.props.children}

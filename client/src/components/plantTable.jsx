@@ -69,9 +69,6 @@ const Row = (props) => {
         <TableCell align="right">
           <NotesBox id={row.id} disabled={favorite.favorite} notes={favorite.notes} />
         </TableCell>
-        <TableCell align="right">
-          <Save disabled={favorite.favorite} />
-        </TableCell>
       </TableRow>
     </React.Fragment>
   );
@@ -89,7 +86,6 @@ export default function PlantTable(props) {
             <TableCell>Image</TableCell>
             <TableCell align="right">Plant Name</TableCell>
             <TableCell align="right">Learn More</TableCell>
-            <TableCell align="right">Notes</TableCell>
             <TableCell align="right"></TableCell>
           </TableRow>
         </TableHead>

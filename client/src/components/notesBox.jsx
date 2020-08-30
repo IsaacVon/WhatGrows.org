@@ -37,6 +37,7 @@ export default function NotesBox(props) {
             variant="outlined"
             disabled={!props.disabled}
             onChange={(event) => context.handleNoteInput(props.id, event.target.value)} // need some type of force update
+            onBlur={() => context.handleNoteSubmit()}
           ></TextField>
         )}
       </GlobalContextConsumer>

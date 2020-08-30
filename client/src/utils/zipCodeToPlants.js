@@ -34,7 +34,6 @@ const zipCodeToPlants = async (zipCode, filterString) => {
       currentPage,
       plantsOnPage,
     };
-    console.log("finaldata", finalData)
     return finalData;
   } catch (err) {}
 };

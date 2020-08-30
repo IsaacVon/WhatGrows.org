@@ -24,7 +24,6 @@ class SearchPlant extends Component {
 
   handleSearch = async () => {
     const data = await zipCodeToPlants(this.state.zipCode);
-    console.log("Results", data);
 
     this.setState({
       zipCodeValid: true,
@@ -47,7 +46,6 @@ class SearchPlant extends Component {
     };
 
     const data = await requestPlantList(dataForPlantRequest);
-    console.log("page change data: ", data);
 
     this.setState({
       currentPage: currentPage,

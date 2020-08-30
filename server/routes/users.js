@@ -8,7 +8,6 @@ const Joi = require("joi");
 const express = require("express");
 const router = express.Router();
 
-
 // Register User - Input via req.body: name, email, password
 router.post("/register", async (req, res) => {
   const schema = Joi.object({
@@ -68,6 +67,39 @@ router.put("/", auth, async (req, res) => {
         $push: {
           favorites: req.body,
         },
+      },
+      { new: true }
+    );
+
+    res.send(user);
+  }
+});
+
+// addNote - Input JWT & req.body: favoritesObject from state
+router.put("/notes", auth, async (req, res) => {
+
+  // Validate Data
+  const schema = Joi.array().items(
+    Joi.object({
+      _id: Joi.required(),
+      plantId: Joi.number().required(),
+      common_name: Joi.string().max(255).required(),
+      notes: Joi.string().max(255).empty(''),
+      image: Joi.string().max(5000),
+      plantUrl: Joi.string().max(5000),
+    },)
+  )
+  
+  console.log("req.body", req.body)
+  const result = schema.validate(req.body);
+  if (result.error) {
+    res.status(400).send(result.error.details[0].message);
+  }
+  if (!result.error) {
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        favorites: req.body
       },
       { new: true }
     );
