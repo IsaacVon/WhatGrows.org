@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -46,6 +48,78 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
   const classes = useStyles();
 
+  
+  const [form, updateForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  
+  const submitAllowed = form.name && form.email && form.password ? true : false
+
+
+  const [errors, updateErrors] = useState({
+    errors: "",
+  });
+
+  const updateField = (event) => {
+    updateForm({
+      ...form,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const signIn = async (event) => {
+    try {
+      const loginData = {
+        email: form.email,
+        password: form.password,
+      };
+      const jwt = await axios({
+        method: "post",
+        url: "http://localhost:3000/api/auth",
+        data: loginData,
+      });
+      return jwt.data
+    } catch {
+      console.log("user alredy created using this email");
+      updateErrors("User alredy created using this email");
+    }
+  };
+
+  const registerUser = async (event) => {
+    event.preventDefault();
+
+    try {
+      let newUser = await axios({
+        method: "post",
+        url: "http://localhost:3000/api/users/register",
+        data: form,
+      });
+      
+      const jwt = newUser.headers['x-auth-token']
+      
+      localStorage.setItem('token', jwt)
+      console.log("New user created... and youre logged in ");
+      //store in local storage 
+
+
+    } catch (ex) {
+      if (ex.response && ex.response.status === 409) {
+        // Since user already exists, try to sign in
+        const jwt = await signIn()
+        localStorage.setItem('token', jwt)
+
+        // this.props.history.push('/')
+        console.log("Email already exists and your password was right... so we logged you in");
+      }
+      if(ex.response && ex.response.status !== 409) {
+        console.log(ex.response);
+
+      }
+    }
+  };
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -58,10 +132,11 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate onSubmit={registerUser}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
+                  onChange={updateField}
                   autoComplete="name"
                   name="name"
                   variant="outlined"
@@ -74,6 +149,7 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  onChange={updateField}
                   variant="outlined"
                   required
                   fullWidth
@@ -85,6 +161,7 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  onChange={updateField}
                   variant="outlined"
                   required
                   fullWidth
@@ -102,6 +179,7 @@ export default function SignUp() {
               variant="contained"
               color="primary"
               className={classes.submit}
+              disabled={!submitAllowed}
             >
               Sign Up
             </Button>

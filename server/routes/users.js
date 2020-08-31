@@ -34,7 +34,10 @@ router.post("/register", async (req, res) => {
   const newUser = await user.save();
 
   const token = user.generateAuthToken()
-  res.header('x-auth-token', token).send(_.pick(newUser, ["id", "name", "email"]));
+  res
+    .header('x-auth-token', token)
+    .header('access-control-expose-headers', 'x-auth-token')
+    .send(_.pick(newUser, ["id", "name", "email"]));
 });
 
 // getUser - Input jwt
