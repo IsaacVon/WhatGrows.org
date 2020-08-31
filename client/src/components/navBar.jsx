@@ -57,6 +57,7 @@ const currentTab = () => {
   else if (path === "/SearchZip") return 1;
   else if (path === "/Favorites") return 2;
   else if (path === "/Contact") return 3;
+  else if (path === "/SignUp") return 4;
 };
 
 export default function NavBar(props) {
@@ -112,6 +113,13 @@ export default function NavBar(props) {
               component={Link}
               icon={<ContactPhoneOutlinedIcon />}
               to="/SearchPlant"
+              {...a11yProps(3)}
+            />  
+            <Tab
+              label="Sign up"
+              component={Link}
+              icon={<ContactPhoneOutlinedIcon />}
+              to="/SignUp"
               {...a11yProps(3)}
             />
           </Tabs>

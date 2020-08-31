@@ -4,14 +4,15 @@ import SearchZip from "./pages/searchZip";
 import SearchPlant from "./pages/searchPlant";
 import SignUp from "./pages/signUp";
 import SignIn from "./pages/signIn";
+import history from './components/history';
 
 import Favorites from "./pages/favorites";
 import NotFound from "./pages/notFound";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Router, Switch, Route } from "react-router-dom";
 
 function App() {
   return (
-    <Router>
+    <Router history={history}>
       <div className="App">
         <Nav />
         <Switch>

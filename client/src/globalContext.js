@@ -1,36 +1,58 @@
 import React, { Component } from "react";
 import axios from "axios";
+import jwtDecode from 'jwt-decode'
 const _ = require("lodash");
 const { Provider, Consumer } = React.createContext();
 
-// This changes whos logged in
-// set to local storage when logged in, and state logged in as true
-const jwt =
-  // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjQ0NWY3MWNkZWU5NzJiOTY3Y2IxYzkiLCJpYXQiOjE1OTg3NDIxMTd9.wJDRfLeVnTXzMki1XlHB0sz8ZaG1y-B4mgIu9kRClN8";
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjQ0NmU3ODBiNGQ3MjMwZDc3ZjYwM2QiLCJpYXQiOjE1OTg4MjI5NTl9.b7HpiAP9n1RvzMewkH9uPybZLZCI-KqnoeG3tDQMNBQ";
+
 
 class GlobalContextProvider extends Component {
+
   state = {
     loggedIn: true,
-    name: "Isaac Householder",
+    jwt: "",
+    name: "",
     favorites: [],
   };
 
-  componentDidMount() {
-    if (this.state.loggedIn) this.getFavorites(jwt);
+
+
+
+  componentDidMount = async () => {
+    const jwt = localStorage.getItem('token');
+
+    if (jwt) {
+      const name = jwtDecode(jwt)
+      console.log("decoded name", name)
+
+      this.setState( 
+        { 
+        loggedIn: jwt ? true : false,
+        jwt: jwt,
+        name: jwt,
+        }, 
+      () => this.getFavorites()
+      );
+
+    }
+    
+
+     
   }
 
-  getFavorites = async (jwt) => {
+  getFavorites = async () => { 
+    console.log("this.state.jwt inside getFavorties:",this.state.jwt) // JWT is not updated here
+
     const userData = await axios({
       method: "get",
       url: "http://localhost:3000/api/users/me",
-      headers: { "x-auth-token": jwt },
+      headers: { "x-auth-token": this.state.jwt },
     });
     const favorites = userData.data.favorites;
     this.setState({ favorites });
   };
 
-  addFavorite = async (plantObject, jwt) => {
+  addFavorite = async (plantObject) => {
 
     // Sets state so that heart icon is instantly responsive 
     this.setState({
@@ -60,7 +82,7 @@ class GlobalContextProvider extends Component {
       url: "http://localhost:3000/api/users/",
       data: favoriteToAdd,
       headers: {
-        "x-auth-token": jwt,
+        "x-auth-token": this.state.jwt,
       },
     });
 
@@ -71,7 +93,7 @@ class GlobalContextProvider extends Component {
     console.log("added ", favoriteToAdd.common_name, " to database");
   };
 
-  removeFavorite = async (favorite, jwt) => {
+  removeFavorite = async (favorite) => {
     const indexToRemove = this.state.favorites.findIndex(function (
       current,
       index
@@ -97,7 +119,7 @@ class GlobalContextProvider extends Component {
         plantMongoId: targetPlantMongoId,
       },
       headers: {
-        "x-auth-token": jwt,
+        "x-auth-token": this.state.jwt,
       },
     });
 
@@ -106,9 +128,9 @@ class GlobalContextProvider extends Component {
   };
 
   handleFavoriteClick = (favorite, liked) => {
-    if (liked) this.removeFavorite(favorite, jwt);
+    if (liked) this.removeFavorite(favorite, this.state.jwt);
     
-    if (!liked) this.addFavorite(favorite, jwt);
+    if (!liked) this.addFavorite(favorite, this.state.jwt);
     
   };
 
@@ -136,7 +158,7 @@ class GlobalContextProvider extends Component {
       url: "http://localhost:3000/api/users/notes",
       data: this.state.favorites,
       headers: {
-        "x-auth-token": jwt,
+        "x-auth-token": this.state.jwt,
       },
     });
   }
@@ -150,7 +172,8 @@ class GlobalContextProvider extends Component {
           favorites: this.state.favorites,
           handleFavoriteClick: this.handleFavoriteClick,
           handleNoteInput: this.handleNoteInput,
-          handleNoteSubmit: this.handleNoteSubmit
+          handleNoteSubmit: this.handleNoteSubmit,
+          getFavorites: this.getFavorites
         }}
       >
         {this.props.children}

@@ -16,6 +16,7 @@
     "formik": "^2.1.5",
     "formik-material-ui": "^3.0.0-alpha.0",
     "google-spreadsheet": "^3.0.11",
+    "jwt-decode": "^2.2.0",
     "materialize-css": "^1.0.0-rc.2",
     "mongoose": "^5.10.0",
     "react": "^16.13.1",

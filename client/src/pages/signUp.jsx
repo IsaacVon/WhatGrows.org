@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
+import history from "../components/history";
 import axios from "axios";
 
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -48,15 +49,13 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
   const classes = useStyles();
 
-  
   const [form, updateForm] = useState({
     name: "",
     email: "",
     password: "",
   });
-  
-  const submitAllowed = form.name && form.email && form.password ? true : false
 
+  const submitAllowed = form.name && form.email && form.password ? true : false;
 
   const [errors, updateErrors] = useState({
     errors: "",
@@ -80,43 +79,40 @@ export default function SignUp() {
         url: "http://localhost:3000/api/auth",
         data: loginData,
       });
-      return jwt.data
+      localStorage.setItem("token", jwt.data);
+      console.log(
+        "Email already exists and your password was right... so we logged you in");
+
+      return history.push("/searchzip");
+
+       ;
     } catch {
       console.log("user alredy created using this email");
       updateErrors("User alredy created using this email");
     }
   };
 
-  const registerUser = async (event) => {
+  const registerUser = async (event) => { 
+    let newUser = await axios({
+      method: "post",
+      url: "http://localhost:3000/api/users/register",
+      data: form,
+    });
+
+    const jwt = newUser.headers["x-auth-token"];
+    localStorage.setItem("token", jwt);
+    history.push("/searchzip");
+    console.log("New user created... and youre logged in ");
+  }
+
+  const submitForm = async (event) => {
     event.preventDefault();
 
-    try {
-      let newUser = await axios({
-        method: "post",
-        url: "http://localhost:3000/api/users/register",
-        data: form,
-      });
-      
-      const jwt = newUser.headers['x-auth-token']
-      
-      localStorage.setItem('token', jwt)
-      console.log("New user created... and youre logged in ");
-      //store in local storage 
-
-
-    } catch (ex) {
-      if (ex.response && ex.response.status === 409) {
-        // Since user already exists, try to sign in
-        const jwt = await signIn()
-        localStorage.setItem('token', jwt)
-
-        // this.props.history.push('/')
-        console.log("Email already exists and your password was right... so we logged you in");
-      }
-      if(ex.response && ex.response.status !== 409) {
-        console.log(ex.response);
-
-      }
+    try { await registerUser() } 
+    
+    catch (ex) {
+      if (ex.response && ex.response.status === 409) { await signIn() } // Since user already exists, try to sign in
+      if (ex.response && ex.response.status !== 409) { console.log(ex.response) }
     }
   };
 
@@ -130,9 +126,9 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Sign Up
           </Typography>
-          <form className={classes.form} noValidate onSubmit={registerUser}>
+          <form className={classes.form} noValidate onSubmit={submitForm}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -185,9 +181,12 @@ export default function SignUp() {
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Button 
+                  component={Link}
+                  to="/signin"
+                >
                   Already have an account? Sign in
-                </Link>
+                </Button>
               </Grid>
             </Grid>
           </form>
