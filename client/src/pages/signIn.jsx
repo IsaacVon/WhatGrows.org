@@ -4,6 +4,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
+import config from "../config.json"
 
 // import Link from "@material-ui/core/Link";
 import { Link } from "react-router-dom";
