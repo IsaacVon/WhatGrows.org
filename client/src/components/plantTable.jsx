@@ -55,7 +55,7 @@ const Row = (props) => {
         <TableCell>
           <GlobalContextConsumer>
             {(context) => (
-              <IconButton onClick={() => context.handleFavoriteClick(row, favorite.favorite)} size="small">
+              <IconButton disabled={!context.loggedIn} onClick={() => context.handleFavoriteClick(row, favorite.favorite)} size="small">
                 <Like liked={favorite.favorite} />
               </IconButton>
             )}

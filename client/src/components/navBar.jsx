@@ -56,13 +56,14 @@ const useStyles = makeStyles({
 const currentTab = () => {
   let path = window.location.pathname;
   if (path === "/") return 0;
-  else if (path === "/SearchZip") return 1;
-  else if (path === "/Favorites") return 2;
-  else if (path === "/Contact") return 3;
+  else if (path === "/searchzip") return 1;
+  else if (path === "/favorites") return 2;
+  else if (path === "/contact") return 3;
+  else if (path === "/signin") return 2;
+  else if (path === "/contact") return 3;
 };
 
 export default function NavBar({ name, loggedIn }) {
-  console.log("navbar", loggedIn);
   const classes = useStyles();
 
   const [value, setValue] = React.useState(currentTab); // This choses which one is highlighted

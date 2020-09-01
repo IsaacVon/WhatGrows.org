@@ -21,11 +21,11 @@ function App() {
           {(context) => <Nav loggedIn={context.loggedIn} name={context.name} />}
         </GlobalContextConsumer>
         <Switch>
-          <Route path="/searchZip" component={SearchZip} />
-          <Route path="/Favorites" component={Favorites} />
-          <Route path="/SignUp" component={SignUp} />
-          <Route path="/SignIn" component={SignIn} />
-          <Route path="/Logout" component={Logout} />
+          <Route path="/searchzip" component={SearchZip} />
+          <Route path="/favorites" component={Favorites} />
+          <Route path="/signup" component={SignUp} />
+          <Route path="/signin" component={SignIn} />
+          <Route path="/logout" component={Logout} />
           <Route path="/*" component={NotFound} />
         </Switch>
       </div>
