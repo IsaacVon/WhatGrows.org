@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import history from "../components/history";
 import axios from "axios";
-
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,6 +10,7 @@ import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import config from "../config.json"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -78,11 +77,13 @@ export default function SignUp() {
       };
       const jwt = await axios({
         method: "post",
-        url: "http://localhost:3000/api/auth",
+        url: config.apiEndpoint + "/auth",
         data: loginData,
       });
       localStorage.setItem("token", jwt.data);
-      console.log("Email already exists and your password was right... so we logged you in");
+      console.log(
+        "Email already exists and your password was right... so we logged you in"
+      );
 
       return (window.location = "/");
     } catch (ex) {
@@ -94,7 +95,7 @@ export default function SignUp() {
   const registerUser = async (event) => {
     let newUser = await axios({
       method: "post",
-      url: "http://localhost:3000/api/users/register",
+      url: config.apiEndpoint + "/users/register",
       data: form,
     });
 

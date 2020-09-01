@@ -69,12 +69,10 @@ async function requestPlantList(dataForPlantRequest) {
       "&token=" +
       trefleApiKey;
 
-    // console.log("plantListUrl", plantListUrl);
     const response = await fetch(plantListUrl);
     const data = response.json();
     return data;
   } catch (error) {
-    console.log("requestPlantList error: ", error);
   }
 }
 

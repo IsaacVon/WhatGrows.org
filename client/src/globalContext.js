@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
 import jwtDecode from 'jwt-decode'
+import config from "./config.json"
+
 const _ = require("lodash");
 const { Provider, Consumer } = React.createContext();
-
 
 
 class GlobalContextProvider extends Component {
@@ -43,7 +44,7 @@ class GlobalContextProvider extends Component {
 
     const userData = await axios({
       method: "get",
-      url: "http://localhost:3000/api/users/me",
+      url: config.apiEndpoint + "/users/me",
       headers: { "x-auth-token": this.state.jwt },
     });
     const favorites = userData.data.favorites;
@@ -77,7 +78,7 @@ class GlobalContextProvider extends Component {
 
     let newFavorites = await axios({
       method: "put", 
-      url: "http://localhost:3000/api/users/",
+      url: config.apiEndpoint + "/users/",
       data: favoriteToAdd,
       headers: {
         "x-auth-token": this.state.jwt,
@@ -112,7 +113,7 @@ class GlobalContextProvider extends Component {
     // push to database
     await axios({
       method: "delete", //you can set what request you want to be
-      url: "http://localhost:3000/api/users/",
+      url: config.apiEndpoint + "/users/",
       data: {
         plantMongoId: targetPlantMongoId,
       },
@@ -153,7 +154,7 @@ class GlobalContextProvider extends Component {
   handleNoteSubmit = async () => {
     await axios({
       method: "put", 
-      url: "http://localhost:3000/api/users/notes",
+      url: config.apiEndpoint + "/users/notes",
       data: this.state.favorites,
       headers: {
         "x-auth-token": this.state.jwt,

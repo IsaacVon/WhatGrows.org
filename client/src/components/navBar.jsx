@@ -100,7 +100,7 @@ export default function NavBar({ name, loggedIn }) {
               label="Search Zip"
               component={Link}
               icon={<ImageSearchIcon />}
-              to="/SearchZip"
+              to="/searchzip"
               {...a11yProps(1)}
             />
             {loggedIn && (
@@ -108,7 +108,7 @@ export default function NavBar({ name, loggedIn }) {
                 label="Favorites"
                 component={Link}
                 icon={<FavoriteBorderIcon />}
-                to="/Favorites"
+                to="/favorites"
                 {...a11yProps(2)}
               />
             )}
@@ -117,7 +117,7 @@ export default function NavBar({ name, loggedIn }) {
                 label="Sign Out"
                 component={Link}
                 icon={<NaturePeopleOutlinedIcon />}
-                to="/Favorites"
+                to="/logout"
                 {...a11yProps(2)}
               />
             )}
@@ -126,7 +126,7 @@ export default function NavBar({ name, loggedIn }) {
                 label="Sign In"
                 component={Link}
                 icon={<DirectionsRunOutlinedIcon />}
-                to="/SignIn"
+                to="/signin"
                 {...a11yProps(3)}
               />
             )} 
@@ -135,7 +135,7 @@ export default function NavBar({ name, loggedIn }) {
                 label="Sign Up"
                 component={Link}
                 icon={<DirectionsRunOutlinedIcon />}
-                to="/SignUp"
+                to="/signup"
                 {...a11yProps(3)}
               />
             )}

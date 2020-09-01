@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import history from "../components/history";
 import axios from "axios";
-
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -80,7 +78,7 @@ export default function SignIn() {
       };
       const jwt = await axios({
         method: "post",
-        url: "http://localhost:3000/api/auth",
+        url: config.apiEndpoint + "/auth",
         data: loginData,
       });
       localStorage.setItem("token", jwt.data);

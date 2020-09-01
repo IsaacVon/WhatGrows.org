@@ -93,7 +93,6 @@ router.put("/notes", auth, async (req, res) => {
     },)
   )
   
-  console.log("req.body", req.body)
   const result = schema.validate(req.body);
   if (result.error) {
     res.status(400).send(result.error.details[0].message);
