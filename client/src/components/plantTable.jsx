@@ -55,7 +55,13 @@ const Row = (props) => {
         <TableCell>
           <GlobalContextConsumer>
             {(context) => (
-              <IconButton disabled={!context.loggedIn} onClick={() => context.handleFavoriteClick(row, favorite.favorite)} size="small">
+              <IconButton
+                disabled={!context.loggedIn}
+                onClick={() =>
+                  context.handleFavoriteClick(row, favorite.favorite)
+                }
+                size="small"
+              >
                 <Like liked={favorite.favorite} />
               </IconButton>
             )}
@@ -67,7 +73,16 @@ const Row = (props) => {
         <TableCell align="right">{row.common_name}</TableCell>
         <TableCell align="right">{row.links.plant}</TableCell>
         <TableCell align="right">
-          <NotesBox id={row.id} disabled={favorite.favorite} notes={favorite.notes} />
+          <GlobalContextConsumer>
+            {(context) => (
+              <NotesBox
+                loggedIn={context.loggedIn}
+                id={row.id}
+                favorite={favorite.favorite}
+                notes={favorite.notes}
+              />
+            )}
+          </GlobalContextConsumer>
         </TableCell>
       </TableRow>
     </React.Fragment>

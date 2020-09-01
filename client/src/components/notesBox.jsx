@@ -16,11 +16,22 @@ export default function NotesBox(props) {
   const classes = useStyles();
 
 
-  // If not favorited return enter notes
-  const label = props.disabled ? "Enter notes" : "";
-  const placeholder = props.disabled ? "" : "Save as favorite to add notes";
-  const notes = props.notes ? props.notes : "";
 
+  // If not favorited return enter notes
+  const label = props.favorite ? "Enter notes" : "";
+  const notes = props.notes ? props.notes : "";
+  
+  const renderPlaceholder = () => {
+    if(props.loggedIn && props.favorite) {
+      return ""
+    } 
+    if(props.loggedIn && !props.favorite) {
+      return "Save as favorite to add notes"
+    }
+    if(!props.loggedIn) {
+      return "Log in to enter notes"
+    }
+  }
   
 
   return (
@@ -32,10 +43,10 @@ export default function NotesBox(props) {
             multiline
             rows={4}
             label={label}
-            placeholder={placeholder}
+            placeholder={renderPlaceholder()}
             value={notes}
             variant="outlined"
-            disabled={!props.disabled}
+            disabled={!props.favorite} 
             onChange={(event) => context.handleNoteInput(props.id, event.target.value)} // need some type of force update
             onBlur={() => context.handleNoteSubmit()}
           ></TextField>

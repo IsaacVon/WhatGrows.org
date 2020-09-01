@@ -23,7 +23,6 @@ class GlobalContextProvider extends Component {
     const jwt = localStorage.getItem('token');
     if (jwt) {
       const { name } = jwtDecode(jwt)
-      console.log("decoded name", name)
       this.setState( 
         { 
         loggedIn: jwt ? true : false,
