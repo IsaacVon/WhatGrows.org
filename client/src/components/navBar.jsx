@@ -10,9 +10,11 @@ import Box from "@material-ui/core/Box";
 import { useMediaQuery } from "@material-ui/core";
 import ImageSearchIcon from "@material-ui/icons/ImageSearch";
 import ContactPhoneOutlinedIcon from "@material-ui/icons/ContactPhoneOutlined";
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FilterHdrOutlinedIcon from "@material-ui/icons/FilterHdrOutlined";
-import Grid from "@material-ui/core/Grid";
+import NaturePeopleOutlinedIcon from '@material-ui/icons/NaturePeopleOutlined';import Grid from "@material-ui/core/Grid";
+import ExploreOutlinedIcon from '@material-ui/icons/ExploreOutlined';
+import DirectionsRunOutlinedIcon from '@material-ui/icons/DirectionsRunOutlined';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -57,10 +59,10 @@ const currentTab = () => {
   else if (path === "/SearchZip") return 1;
   else if (path === "/Favorites") return 2;
   else if (path === "/Contact") return 3;
-  else if (path === "/SignUp") return 4;
 };
 
-export default function NavBar(props) {
+export default function NavBar({ name, loggedIn }) {
+  console.log("navbar", loggedIn);
   const classes = useStyles();
 
   const [value, setValue] = React.useState(currentTab); // This choses which one is highlighted
@@ -101,27 +103,42 @@ export default function NavBar(props) {
               to="/SearchZip"
               {...a11yProps(1)}
             />
-            <Tab
-              label="Favorites"
-              component={Link}
-              icon={<FavoriteBorderIcon />}
-              to="/Favorites"
-              {...a11yProps(2)}
-            />
-            <Tab
-              label="Search Plant"
-              component={Link}
-              icon={<ContactPhoneOutlinedIcon />}
-              to="/SearchPlant"
-              {...a11yProps(3)}
-            />  
-            <Tab
-              label="Sign up"
-              component={Link}
-              icon={<ContactPhoneOutlinedIcon />}
-              to="/SignUp"
-              {...a11yProps(3)}
-            />
+            {loggedIn && (
+              <Tab
+                label="Favorites"
+                component={Link}
+                icon={<FavoriteBorderIcon />}
+                to="/Favorites"
+                {...a11yProps(2)}
+              />
+            )}
+            {loggedIn && (
+              <Tab
+                label="Sign Out"
+                component={Link}
+                icon={<NaturePeopleOutlinedIcon />}
+                to="/Favorites"
+                {...a11yProps(2)}
+              />
+            )}
+            {!loggedIn && (
+              <Tab
+                label="Sign In"
+                component={Link}
+                icon={<DirectionsRunOutlinedIcon />}
+                to="/SignIn"
+                {...a11yProps(3)}
+              />
+            )} 
+            {!loggedIn && (
+              <Tab
+                label="Sign Up"
+                component={Link}
+                icon={<DirectionsRunOutlinedIcon />}
+                to="/SignUp"
+                {...a11yProps(3)}
+              />
+            )}
           </Tabs>
         </Paper>
       </Grid>

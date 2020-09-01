@@ -8,7 +8,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 
 // import Link from "@material-ui/core/Link";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -70,8 +70,6 @@ export default function SignIn() {
     });
   };
 
-
-
   const signIn = async (event) => {
     event.preventDefault();
 
@@ -86,36 +84,14 @@ export default function SignIn() {
         data: loginData,
       });
       localStorage.setItem("token", jwt.data);
-      console.log(
-        "Correct login... so we logged you in");
+      console.log("Correct login... so we logged you in");
 
-      return history.push("/searchzip");
-
-       ;
+      return (window.location = "/");
     } catch (ex) {
-      
       console.log("errors", errors);
-      updateErrors(ex.response.data)
-      
-      ;
-      // console.log("errors", errors);
-
+      updateErrors(ex.response.data);
     }
   };
-
-
-
-  
-  // const submitForm = async (event) => {
-  //   event.preventDefault();
-
-  //   try { await registerUser() } 
-    
-  //   catch (ex) {
-  //     if (ex.response && ex.response.status === 409) { await signIn() } // Since user already exists, try to sign in
-  //     if (ex.response && ex.response.status !== 409) { console.log(ex.response) }
-  //   }
-  // };
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -131,7 +107,6 @@ export default function SignIn() {
           </Typography>
           <form className={classes.form} noValidate onSubmit={signIn}>
             <Grid container spacing={2}>
-              
               <Grid item xs={12}>
                 <TextField
                   onChange={updateField}
@@ -169,23 +144,17 @@ export default function SignIn() {
               Sign In
             </Button>
             <Grid container>
-            <Grid item xs>
-              <Button 
-                component={Link} 
-                to={'/'} 
-              >
-                Forgot password?
-              </Button>
+              <Grid item xs>
+                <Button component={Link} to={"/"}>
+                  Forgot password?
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button component={Link} to="/signup">
+                  Don't have an account? Sign Up
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Button   
-                component={Link}
-                to="/signup"
-                >
-                Don't have an account? Sign Up
-              </Button>
-            </Grid>
-          </Grid>
           </form>
         </div>
       </Grid>

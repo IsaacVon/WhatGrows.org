@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import history from "../components/history";
 import axios from "axios";
 
@@ -69,6 +69,8 @@ export default function SignUp() {
   };
 
   const signIn = async (event) => {
+    event.preventDefault();
+
     try {
       const loginData = {
         email: form.email,
@@ -80,19 +82,16 @@ export default function SignUp() {
         data: loginData,
       });
       localStorage.setItem("token", jwt.data);
-      console.log(
-        "Email already exists and your password was right... so we logged you in");
+      console.log("Email already exists and your password was right... so we logged you in");
 
-      return history.push("/searchzip");
-
-       ;
-    } catch {
-      console.log("user alredy created using this email");
-      updateErrors("User alredy created using this email");
+      return (window.location = "/");
+    } catch (ex) {
+      console.log("errors", errors);
+      updateErrors(ex.response.data);
     }
   };
 
-  const registerUser = async (event) => { 
+  const registerUser = async (event) => {
     let newUser = await axios({
       method: "post",
       url: "http://localhost:3000/api/users/register",
@@ -101,18 +100,22 @@ export default function SignUp() {
 
     const jwt = newUser.headers["x-auth-token"];
     localStorage.setItem("token", jwt);
-    history.push("/searchzip");
     console.log("New user created... and youre logged in ");
-  }
+    return (window.location = "/");
+  };
 
   const submitForm = async (event) => {
     event.preventDefault();
 
-    try { await registerUser() } 
-    
-    catch (ex) {
-      if (ex.response && ex.response.status === 409) { await signIn() } // Since user already exists, try to sign in
-      if (ex.response && ex.response.status !== 409) { console.log(ex.response) }
+    try {
+      await registerUser();
+    } catch (ex) {
+      if (ex.response && ex.response.status === 409) {
+        await signIn();
+      } // Since user already exists, try to sign in
+      if (ex.response && ex.response.status !== 409) {
+        console.log(ex.response);
+      }
     }
   };
 
@@ -181,10 +184,7 @@ export default function SignUp() {
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
-                <Button 
-                  component={Link}
-                  to="/signin"
-                >
+                <Button component={Link} to="/signin">
                   Already have an account? Sign in
                 </Button>
               </Grid>

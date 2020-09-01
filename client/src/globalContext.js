@@ -9,7 +9,7 @@ const { Provider, Consumer } = React.createContext();
 class GlobalContextProvider extends Component {
 
   state = {
-    loggedIn: true,
+    loggedIn: false,
     jwt: "",
     name: "",
     favorites: [],
@@ -20,16 +20,14 @@ class GlobalContextProvider extends Component {
 
   componentDidMount = async () => {
     const jwt = localStorage.getItem('token');
-
     if (jwt) {
-      const name = jwtDecode(jwt)
+      const { name } = jwtDecode(jwt)
       console.log("decoded name", name)
-
       this.setState( 
         { 
         loggedIn: jwt ? true : false,
         jwt: jwt,
-        name: jwt,
+        name: name,
         }, 
       () => this.getFavorites()
       );
