@@ -47,7 +47,7 @@ const Row = (props) => {
     }
   };
 
-  const favorite = isFavorite(row.id);
+  const favorite = isFavorite(row.plantId);
 
   return (
     <React.Fragment>
@@ -57,10 +57,13 @@ const Row = (props) => {
             {(context) => (
               <IconButton
                 disabled={!context.loggedIn}
-                onClick={() =>
-                  // console.log("row",row, "favorite.favorite",favorite.favorite)
-                  context.handleFavoriteClick(row, favorite.favorite)
-                }
+                onClick={() => {
+                  let newRow = row;
+                  newRow.id = row.plantId;
+                  // console.log("row",newRow,"favorite.favorite",favorite.favorite)
+
+                  context.handleFavoriteClick(newRow, favorite.favorite);
+                }}
                 size="small"
               >
                 <Like liked={favorite.favorite} />
@@ -71,12 +74,12 @@ const Row = (props) => {
         <TableCell align="center" component="th" scope="row">
           <img
             style={{ height: "200px", borderRadius: "20px" }}
-            src={row.image_url}
+            src={row.image}
             alt="plant"
           />
         </TableCell>
         <TableCell align="right">{row.common_name}</TableCell>
-        <TableCell align="right">{row.links.plant}</TableCell>
+        <TableCell align="right">{row.plantUrl}</TableCell>
         <TableCell align="right">
           <GlobalContextConsumer>
             {(context) => (
@@ -94,7 +97,9 @@ const Row = (props) => {
   );
 };
 
-export default function PlantTable(props) {
+export default function favoritesTable(props) {
+  // put context here
+  console.log("props", props);
   const importedRow = props.plantsOnPage;
   console.log("importedRow", importedRow);
 
@@ -111,9 +116,14 @@ export default function PlantTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {importedRow.map((row) => (
-            <Row key={row.id} row={row} favorites={props.favorites} />
-          ))}
+          {importedRow.map(
+            (row) => (
+              console.log("row", row),
+              console.log("row.id", row.plantId),
+              console.log("props.favorites", importedRow),
+              (<Row key={row.plantId} row={row} favorites={importedRow} />)
+            )
+          )}
         </TableBody>
       </Table>
     </TableContainer>

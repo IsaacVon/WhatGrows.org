@@ -1,12 +1,18 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import FavoritesTable from "../components/favoritesTable";
+import { GlobalContextConsumer } from "../globalContext";
 
 class Favorites extends Component {
-  state = {  }
-  render() { 
-    return ( 
-      <h1>Display them here!!!!!</h1>
-     );
+  state = {};
+  render() {
+    return (
+      <>
+        <GlobalContextConsumer>
+          {(context) => <FavoritesTable plantsOnPage={context.favorites} />}
+        </GlobalContextConsumer>
+      </>
+    );
   }
 }
- 
+
 export default Favorites;
