@@ -11,8 +11,6 @@ import history from "./components/history";
 import Favorites from "./pages/favorites";
 import NotFound from "./pages/notFound";
 
-
-
 function App() {
   return (
     <Router history={history}>

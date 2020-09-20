@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
-import jwtDecode from 'jwt-decode'
-import config from "./config.json"
+import jwtDecode from "jwt-decode";
+import config from "./config.json";
 
 const _ = require("lodash");
 const { Provider, Consumer } = React.createContext();
 
-
 class GlobalContextProvider extends Component {
-
   state = {
     loggedIn: false,
     jwt: "",
@@ -16,30 +14,23 @@ class GlobalContextProvider extends Component {
     favorites: [],
   };
 
-
-
-
   componentDidMount = async () => {
-    const jwt = localStorage.getItem('token');
+    const jwt = localStorage.getItem("token");
     if (jwt) {
-      const { name } = jwtDecode(jwt)
-      this.setState( 
-        { 
-        loggedIn: jwt ? true : false,
-        jwt: jwt,
-        name: name,
-        }, 
-      () => this.getFavorites()
+      const { name } = jwtDecode(jwt);
+      this.setState(
+        {
+          loggedIn: jwt ? true : false,
+          jwt: jwt,
+          name: name,
+        },
+        () => this.getFavorites()
       );
-
     }
-    
+  };
 
-     
-  }
-
-  getFavorites = async () => { 
-    console.log("this.state.jwt inside getFavorties:",this.state.jwt) // JWT is not updated here
+  getFavorites = async () => {
+    console.log("this.state.jwt inside getFavorties:", this.state.jwt); // JWT is not updated here
 
     const userData = await axios({
       method: "get",
@@ -51,8 +42,7 @@ class GlobalContextProvider extends Component {
   };
 
   addFavorite = async (plantObject) => {
-
-    // Sets state so that heart icon is instantly responsive 
+    // Sets state so that heart icon is instantly responsive
     this.setState({
       favorites: [
         ...this.state.favorites,
@@ -76,7 +66,7 @@ class GlobalContextProvider extends Component {
     };
 
     let newFavorites = await axios({
-      method: "put", 
+      method: "put",
       url: config.apiEndpoint + "/users/",
       data: favoriteToAdd,
       headers: {
@@ -85,8 +75,8 @@ class GlobalContextProvider extends Component {
     });
 
     // Sync state with favorites from database to get mongoDB id for new added favorite
-    newFavorites = newFavorites.data.favorites
-    this.setState({favorites: newFavorites})
+    newFavorites = newFavorites.data.favorites;
+    this.setState({ favorites: newFavorites });
 
     console.log("added ", favoriteToAdd.common_name, " to database");
   };
@@ -101,7 +91,8 @@ class GlobalContextProvider extends Component {
     let currentFavorites = [...this.state.favorites];
 
     const targetPlantMongoId = this.state.favorites[indexToRemove]._id;
-    const targetPlantCommonName = this.state.favorites[indexToRemove].common_name;
+    const targetPlantCommonName = this.state.favorites[indexToRemove]
+      .common_name;
 
     _.pullAt(currentFavorites, [indexToRemove]);
 
@@ -121,15 +112,13 @@ class GlobalContextProvider extends Component {
       },
     });
 
-    console.log("removed ", targetPlantCommonName, " from database")
-
+    console.log("removed ", targetPlantCommonName, " from database");
   };
 
   handleFavoriteClick = (favorite, liked) => {
     if (liked) this.removeFavorite(favorite, this.state.jwt);
-    
+
     if (!liked) this.addFavorite(favorite, this.state.jwt);
-    
   };
 
   // Input: favorite and note
@@ -152,14 +141,14 @@ class GlobalContextProvider extends Component {
   // Goal: push state to database
   handleNoteSubmit = async () => {
     await axios({
-      method: "put", 
+      method: "put",
       url: config.apiEndpoint + "/users/notes",
       data: this.state.favorites,
       headers: {
         "x-auth-token": this.state.jwt,
       },
     });
-  }
+  };
 
   render() {
     return (
@@ -171,7 +160,7 @@ class GlobalContextProvider extends Component {
           handleFavoriteClick: this.handleFavoriteClick,
           handleNoteInput: this.handleNoteInput,
           handleNoteSubmit: this.handleNoteSubmit,
-          getFavorites: this.getFavorites
+          getFavorites: this.getFavorites,
         }}
       >
         {this.props.children}

@@ -67,8 +67,8 @@ const Row = (props) => {
             )}
           </GlobalContextConsumer>
         </TableCell>
-        <TableCell component="th" scope="row">
-          {row.image_url}
+        <TableCell align="center" component="th" scope="row">
+          <img style={{ height: "200px", borderRadius:"20px" }} src={row.image_url} alt="plant" />
         </TableCell>
         <TableCell align="right">{row.common_name}</TableCell>
         <TableCell align="right">{row.links.plant}</TableCell>
