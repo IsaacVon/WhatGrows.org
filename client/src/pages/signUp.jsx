@@ -10,7 +10,7 @@ import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import config from "../config.json"
+import config from "../config.json";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,7 +68,7 @@ export default function SignUp() {
   };
 
   const signIn = async (event) => {
-    event.preventDefault();
+    // event.preventDefault();
 
     try {
       const loginData = {
@@ -88,7 +88,7 @@ export default function SignUp() {
       return (window.location = "/");
     } catch (ex) {
       console.log("errors", errors);
-      updateErrors(ex.response.data);
+      updateErrors({ errors: ex.response.data });
     }
   };
 
@@ -119,6 +119,8 @@ export default function SignUp() {
       }
     }
   };
+
+  const displayError = errors.errors ? true : false;
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -157,6 +159,7 @@ export default function SignUp() {
                   label="Email"
                   name="email"
                   autoComplete="email"
+                  error={displayError}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -170,6 +173,8 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="current-password"
+                  error={displayError}
+                  helperText={errors.errors ? "Account already created using this email" : ""}
                 />
               </Grid>
             </Grid>

@@ -4,7 +4,7 @@ class Favorites extends Component {
   state = {  }
   render() { 
     return ( 
-      <h1>Create account to save favorites</h1>
+      <h1>Display them here!!!!!</h1>
      );
   }
 }
