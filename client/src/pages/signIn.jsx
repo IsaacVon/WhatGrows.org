@@ -4,7 +4,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import config from "../config.json"
+import config from "../config.json";
 
 // import Link from "@material-ui/core/Link";
 import { Link } from "react-router-dom";
@@ -71,7 +71,6 @@ export default function SignIn() {
 
   const signIn = async (event) => {
     event.preventDefault();
-
     try {
       const loginData = {
         email: form.email,
@@ -87,10 +86,11 @@ export default function SignIn() {
 
       return (window.location = "/");
     } catch (ex) {
-      console.log("errors", errors);
-      updateErrors(ex.response.data);
+      updateErrors({ errors: ex.response.data });
     }
   };
+
+  const displayError = errors.errors ? true : false;
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -116,6 +116,7 @@ export default function SignIn() {
                   label="Email"
                   name="email"
                   autoComplete="email"
+                  error={displayError}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -129,6 +130,9 @@ export default function SignIn() {
                   type="password"
                   id="password"
                   autoComplete="current-password"
+                  error={displayError}
+                  helperText={errors.errors}
+
                 />
               </Grid>
             </Grid>
