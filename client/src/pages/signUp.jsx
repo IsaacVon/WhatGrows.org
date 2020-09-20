@@ -60,6 +60,10 @@ export default function SignUp() {
     errors: "",
   });
 
+  const [nameError, updateNameError] = useState({
+    nameError: "",
+  });
+
   const updateField = (event) => {
     updateForm({
       ...form,
@@ -115,11 +119,21 @@ export default function SignUp() {
         await signIn();
       } // Since user already exists, try to sign in
       if (ex.response && ex.response.status !== 409) {
-        console.log(ex.response);
+        let displayNameError = ex.response.data.replace(
+          /"([^"]+(?="))"/g,
+          "$1"
+        );
+        displayNameError =
+          displayNameError.charAt(0).toUpperCase() + displayNameError.slice(1);
+
+        console.log("string test", displayNameError);
+
+        updateNameError({ nameError: displayNameError });
       }
     }
   };
 
+  const displayNameError = nameError.nameError ? true : false;
   const displayError = errors.errors ? true : false;
 
   return (
@@ -146,6 +160,8 @@ export default function SignUp() {
                   fullWidth
                   id="name"
                   label="Name"
+                  error={displayNameError}
+                  helperText={nameError.nameError}
                   autoFocus
                 />
               </Grid>
@@ -174,7 +190,11 @@ export default function SignUp() {
                   id="password"
                   autoComplete="current-password"
                   error={displayError}
-                  helperText={errors.errors ? "Account already created using this email" : ""}
+                  helperText={
+                    errors.errors
+                      ? "Account already created using this email"
+                      : ""
+                  }
                 />
               </Grid>
             </Grid>
