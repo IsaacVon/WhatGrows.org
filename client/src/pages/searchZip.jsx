@@ -1,15 +1,20 @@
 import React, { Component } from "react";
 import { zipCodeToPlants, requestPlantList } from "../utils/zipCodeToPlants";
-import SearchBox from "../components/searchBox";
 import PlantTable from "../components/plantTable";
 import PageButtons from "../components/pageButtons";
 import Button from "@material-ui/core/Button";
 import FlowerColor from "../components/filters/flowerColor";
 import LeafColor from "../components/filters/leafColor";
 import { GlobalContextConsumer } from "../globalContext";
+import TextField from "@material-ui/core/TextField";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 class SearchZip extends Component {
   state = {
+    displayFilters: false,
+    displayZipSearch: true,
+    displayLoading: false,
+    displayTable: false,
     zipCodeValid: true,
     zipCode: 0,
     usdaHardinessZone: "",
@@ -47,14 +52,6 @@ class SearchZip extends Component {
     const minHeightCentimeters = Math.ceil(minHeightInches * 2.54);
     this.setState({
       minHeight: minHeightCentimeters,
-    });
-  };
-
-  handleMaxHeightInput = (event) => {
-    const maxHeightInches = event.target.value;
-    const maxHeightCentimeters = Math.ceil(maxHeightInches * 2.54);
-    this.setState({
-      maxHeight: maxHeightCentimeters,
     });
   };
 
@@ -158,6 +155,11 @@ class SearchZip extends Component {
 
   // Final Search button
   handleSearch = async () => {
+    this.setState({
+      displayLoading: true,
+      displayTable: false,
+
+    });
     const filterString = this.buildFilterString();
     const data = await zipCodeToPlants(
       this.state.zipCode,
@@ -165,6 +167,10 @@ class SearchZip extends Component {
     );
 
     this.setState({
+      displayFilters: true,
+      displayZipSearch: true,
+      displayLoading: false,
+      displayTable: true,
       zipCodeValid: true,
       usdaHardinessZone: data.usdaHardinessZone,
       tempMin: data.tempMin,
@@ -176,67 +182,117 @@ class SearchZip extends Component {
   };
 
   render() {
+    this.handleMaxHeightInput = (event) => {
+      const maxHeightInches = event.target.value;
+      const maxHeightCentimeters = Math.ceil(maxHeightInches * 2.54);
+      this.setState({
+        maxHeight: maxHeightCentimeters,
+      });
+      this.buildFilterString();
+    };
+    
+    const renderLoading = () => {
+      if (this.state.displayLoading) return <CircularProgress />;
+    };
+
+    const renderSearchZip = () => {
+      if (this.state.displayZipSearch)
+        return (
+          <>
+            <TextField
+              label="Enter Zip Code new"
+              onChange={this.handleZipInput}
+              autoFocus
+              fullWidth
+            />
+
+            <PageButtons
+              handleSearch={this.handleSearch}
+              handlePageChange={this.handlePageChange}
+              currentPage={this.state.currentPage}
+              totalPages={this.state.totalPages}
+              zipCode={this.state.zipCode}
+            />
+          </>
+        );
+    };
+
+    const renderFilters = () => {
+      if (this.state.displayFilters)
+        return (
+          <>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              onClick={() => this.handleFilterChange("fruitOnly")}
+            >
+              Click for fruit
+            </Button>
+
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              onClick={() => this.handleFilterChange("vegetableOnly")}
+            >
+              Click for vegetable
+            </Button>
+            <TextField
+              label="Search for a plant"
+              onChange={this.handlePlantSearchInput}
+              autoFocus
+              fullWidth
+            />
+            <TextField
+              label="Min Height (Inches)"
+              onChange={this.handleMinHeightInput}
+              autoFocus
+              fullWidth
+            />
+            <TextField
+              label="Max Height (Inches)"
+              onChange={this.handleMaxHeightInput}
+              autoFocus
+              fullWidth
+            />
+            <FlowerColor handleFlowerColorInput={this.handleFlowerColorInput} />
+            <LeafColor handleLeafColorInput={this.handleLeafColorInput} />
+
+            <p>Zip Code: {this.state.zipCode}</p>
+            <p>USDA Hardiness Zone: {this.state.usdaHardinessZone}</p>
+            <p>Plant Results: {this.state.totalPlants}</p>
+            <p>Current Page: {this.state.currentPage}</p>
+            <p>Filters </p>
+          </>
+        );
+    };
+
+    const renderTable = () => {
+      if (this.state.displayTable)
+        return (
+          <>
+            <GlobalContextConsumer>
+              {(context) => (
+                <PlantTable
+                  plantsOnPage={this.state.plantsOnPage}
+                  favorites={context.favorites}
+                  addFavorite={context.addFavorite}
+                />
+              )}
+            </GlobalContextConsumer>
+          </>
+        );
+    };
+
     return (
       <>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          fullWidth
-          onClick={() => this.handleFilterChange("fruitOnly")}
-        >
-          Click for fruit
-        </Button>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          fullWidth
-          onClick={() => this.handleFilterChange("vegetableOnly")}
-        >
-          Click for vegetable
-        </Button>
-        <SearchBox
-          displayText="Search for a plant"
-          handleZipInput={this.handlePlantSearchInput}
-        />
-        <SearchBox
-          displayText="Min Height (Inches)"
-          handleZipInput={this.handleMinHeightInput}
-        />
-        <SearchBox
-          displayText="Max Height (Inches)"
-          handleZipInput={this.handleMaxHeightInput}
-        />
-        <FlowerColor handleFlowerColorInput={this.handleFlowerColorInput} />
-        <LeafColor handleLeafColorInput={this.handleLeafColorInput} />
-
-        <p>Zip Code: {this.state.zipCode}</p>
-        <p>USDA Hardiness Zone: {this.state.usdaHardinessZone}</p>
-        <p>Plant Results: {this.state.totalPlants}</p>
-        <p>Current Page: {this.state.currentPage}</p>
-        <p>Filters </p>
-
-        <SearchBox
-          displayText="Enter Zip Code"
-          handleZipInput={this.handleZipInput}
-        />
-        <PageButtons
-          handleSearch={this.handleSearch}
-          handlePageChange={this.handlePageChange}
-          currentPage={this.state.currentPage}
-          totalPages={this.state.totalPages}
-          zipCode={this.state.zipCode}
-        />
-        <GlobalContextConsumer>
-          {(context) => (
-            <PlantTable 
-              plantsOnPage={this.state.plantsOnPage} 
-              favorites={context.favorites} 
-              addFavorite={context.addFavorite}
-            />
-          )}
-        </GlobalContextConsumer>
+        {renderFilters()}
+        {renderSearchZip()}
+        {renderLoading()}
+        {renderTable()}
       </>
     );
   }
