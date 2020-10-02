@@ -8,10 +8,13 @@ import LeafColor from "../components/filters/leafColor";
 import { GlobalContextConsumer } from "../globalContext";
 import TextField from "@material-ui/core/TextField";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 
 class SearchZip extends Component {
   state = {
-    displayFilters: false,
+    displayFilters: true,
     displayZipSearch: true,
     displayLoading: false,
     displayTable: false,
@@ -55,6 +58,15 @@ class SearchZip extends Component {
     });
   };
 
+  handleMaxHeightInput = (event) => {
+    const maxHeightInches = event.target.value;
+    const maxHeightCentimeters = Math.ceil(maxHeightInches * 2.54);
+    this.setState({
+      maxHeight: maxHeightCentimeters,
+    });
+    this.buildFilterString();
+  };
+
   handleFlowerColorInput = (color) => {
     console.log("color", color);
     const colorString = color.toString();
@@ -72,8 +84,6 @@ class SearchZip extends Component {
       leafColor: lowerCaseColorString,
     });
   };
-
-  // Buttons to set state
 
   handlePageChange = async (requestedPage) => {
     // send plant list request from page number and temp min
@@ -136,20 +146,33 @@ class SearchZip extends Component {
       );
       filterString = filterString.concat(flowerColorApiString);
     }
-
+    console.log("final Filter string: ", filterString);
     this.setState({
       filterString,
     });
   };
 
-  handleFilterChange = (event) => {
+  handleFilterChange = (filterType) => {
     // Need to make it able to toggle off
-    if (event === "vegetableOnly" || event === "fruitOnly") {
-      console.log("event", event);
+    if (filterType === "vegetableOnly") {
+      const toggle = this.state.vegetableOnly ? false : true;
       this.setState({
-        [event]: true,
+        vegetableOnly: toggle,
       });
     }
+
+    if (filterType === "fruitOnly") {
+      const toggle = this.state.fruitOnly ? false : true;
+      this.setState({
+        fruitOnly: toggle,
+      });
+    }
+
+    // || filterType === "fruitOnly") {
+    //   this.setState({
+    //     [filterType]: true,
+    //   });
+    // }
     // compile filter string and send it to RequestPlantList
   };
 
@@ -158,9 +181,8 @@ class SearchZip extends Component {
     this.setState({
       displayLoading: true,
       displayTable: false,
-
     });
-    const filterString = this.buildFilterString();
+    const filterString = await this.buildFilterString();
     const data = await zipCodeToPlants(
       this.state.zipCode,
       this.state.filterString
@@ -182,15 +204,6 @@ class SearchZip extends Component {
   };
 
   render() {
-    this.handleMaxHeightInput = (event) => {
-      const maxHeightInches = event.target.value;
-      const maxHeightCentimeters = Math.ceil(maxHeightInches * 2.54);
-      this.setState({
-        maxHeight: maxHeightCentimeters,
-      });
-      this.buildFilterString();
-    };
-    
     const renderLoading = () => {
       if (this.state.displayLoading) return <CircularProgress />;
     };
@@ -201,6 +214,7 @@ class SearchZip extends Component {
           <>
             <TextField
               label="Enter Zip Code new"
+              id="zip"
               onChange={this.handleZipInput}
               autoFocus
               fullWidth
@@ -221,25 +235,32 @@ class SearchZip extends Component {
       if (this.state.displayFilters)
         return (
           <>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              fullWidth
-              onClick={() => this.handleFilterChange("fruitOnly")}
-            >
-              Click for fruit
-            </Button>
+            <FormControlLabel
+              disabled={this.state.vegetableOnly}
+              control={
+                <Checkbox
+                  checked={this.state.fruitOnly}
+                  onChange={() => this.handleFilterChange("fruitOnly")}
+                  name="checkedB"
+                  color="primary"
+                />
+              }
+              label="Show Fruit Only"
+            />
 
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              fullWidth
-              onClick={() => this.handleFilterChange("vegetableOnly")}
-            >
-              Click for vegetable
-            </Button>
+            <FormControlLabel
+              disabled={this.state.fruitOnly}
+              control={
+                <Checkbox
+                  checked={this.state.vegetableOnly}
+                  onChange={() => this.handleFilterChange("vegetableOnly")}
+                  name="checkedB"
+                  color="primary"
+                />
+              }
+              label="Show Vegetables Only"
+            />
+
             <TextField
               label="Search for a plant"
               onChange={this.handlePlantSearchInput}
