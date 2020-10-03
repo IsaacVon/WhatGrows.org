@@ -10,6 +10,7 @@ import Logout from "./pages/logOut";
 import history from "./components/history";
 import Favorites from "./pages/favorites";
 import NotFound from "./pages/notFound";
+import Home from "./pages/home";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/signup" component={SignUp} />
           <Route path="/signin" component={SignIn} />
           <Route path="/logout" component={Logout} />
+          <Route path="/" component={Home} />
           <Route path="/*" component={NotFound} />
         </Switch>
       </div>

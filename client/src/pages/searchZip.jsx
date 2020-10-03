@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { postcodeValidator, postcodeValidatorExists } from "postcode-validator";
 import { zipCodeToPlants, requestPlantList } from "../utils/zipCodeToPlants";
 import PlantTable from "../components/plantTable";
 import PageButtons from "../components/pageButtons";
@@ -41,6 +42,7 @@ class SearchZip extends Component {
   handleZipInput = (event) => {
     this.setState({
       zipCode: event.target.value,
+      zipCodeValid: postcodeValidator(event.target.value, "US"),
     });
   };
 
@@ -184,6 +186,12 @@ class SearchZip extends Component {
     // compile filter string and send it to RequestPlantList
   };
 
+  zipHelperText = () => {
+    if (!this.state.zipCodeValid && this.state.zipCode !== "") {
+      return "Please enter valid zip";
+    }
+  };
+
   // Final Search button
   handleSearch = async () => {
     this.setState({
@@ -221,8 +229,9 @@ class SearchZip extends Component {
         return (
           <>
             <TextField
-              label="Enter Zip Code new"
+              label="Enter Zip Code"
               id="zip"
+              helperText={this.zipHelperText()}
               onChange={this.handleZipInput}
               autoFocus
             />
@@ -230,7 +239,7 @@ class SearchZip extends Component {
               variant="contained"
               color="primary"
               onClick={this.handleSearch}
-              disabled={!this.state.zipCode}
+              disabled={!this.state.zipCodeValid}
             >
               Search
             </Button>

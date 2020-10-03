@@ -76,7 +76,7 @@ const Row = (props) => {
           />
         </TableCell>
         <TableCell align="right">{row.common_name}</TableCell>
-        <TableCell align="right">{row.links.plant}</TableCell>
+        {/* <TableCell align="right">{row.links.plant}</TableCell> */}
         <TableCell align="right">
           <GlobalContextConsumer>
             {(context) => (
@@ -106,7 +106,7 @@ export default function PlantTable(props) {
             <TableCell />
             <TableCell>Image</TableCell>
             <TableCell align="right">Plant Name</TableCell>
-            <TableCell align="right">Learn More</TableCell>
+            {/* <TableCell align="right">Learn More</TableCell> */}
             <TableCell align="right"></TableCell>
           </TableRow>
         </TableHead>
