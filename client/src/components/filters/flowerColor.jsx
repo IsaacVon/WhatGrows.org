@@ -74,10 +74,8 @@ export default function FlowerColor(props) {
   return (
     <div>
       <FormControl className={classes.formControl}>
-        <InputLabel id="demo-mutiple-chip-label">Flower Color</InputLabel>
+        <InputLabel>Flower Color</InputLabel>
         <Select
-          labelId="demo-mutiple-chip-label"
-          id="demo-mutiple-chip"
           multiple
           value={colorName}
           onChange={handleChange}

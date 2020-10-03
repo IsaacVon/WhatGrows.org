@@ -2,7 +2,7 @@ import apiKeys from "../apiKeys";
 
 const trefleApiKey = apiKeys.trefleAPI;
 
-if(!trefleApiKey) (console.log("trefleApiKey Not importing to zipCodeToPlants"))
+if (!trefleApiKey) console.log("trefleApiKey Not importing to zipCodeToPlants");
 
 // Takes in validated zip code number
 // gets temp min, sends it to "Request plant List"
@@ -19,7 +19,7 @@ const zipCodeToPlants = async (zipCode, filterString) => {
     const dataForPlantRequest = {
       tempMin,
       currentPage,
-      filterString
+      filterString,
     };
     const plantList = await requestPlantList(dataForPlantRequest);
     const plantsOnPage = plantList.data;
@@ -57,7 +57,6 @@ const requestZipCodeData = async (zipCode) => {
 async function requestPlantList(dataForPlantRequest) {
   try {
     let { tempMin, currentPage, filterString } = dataForPlantRequest;
-
     const plantListUrl =
       "https://cors-anywhere.herokuapp.com/https://trefle.io/api/v1/plants?" +
       filterString +
@@ -72,8 +71,7 @@ async function requestPlantList(dataForPlantRequest) {
     const response = await fetch(plantListUrl);
     const data = response.json();
     return data;
-  } catch (error) {
-  }
+  } catch (error) {}
 }
 
 export { zipCodeToPlants, requestPlantList };

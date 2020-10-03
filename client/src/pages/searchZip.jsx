@@ -14,7 +14,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 
 class SearchZip extends Component {
   state = {
-    displayFilters: true,
+    displayFilters: false,
     displayZipSearch: true,
     displayLoading: false,
     displayTable: false,
@@ -68,7 +68,6 @@ class SearchZip extends Component {
   };
 
   handleFlowerColorInput = (color) => {
-    console.log("color", color);
     const colorString = color.toString();
     const lowerCaseColorString = colorString.toLowerCase();
     this.setState({
@@ -77,7 +76,6 @@ class SearchZip extends Component {
   };
 
   handleLeafColorInput = (color) => {
-    console.log("color", color);
     const colorString = color.toString();
     const lowerCaseColorString = colorString.toLowerCase();
     this.setState({
@@ -88,10 +86,15 @@ class SearchZip extends Component {
   handlePageChange = async (requestedPage) => {
     // send plant list request from page number and temp min
 
+    this.setState({
+      displayLoading: true,
+      displayTable: false,
+    });
+
     const dataForPlantRequest = {
       currentPage: requestedPage,
       tempMin: this.state.tempMin,
-      filters: this.state.filterString,
+      filterString: this.state.filterString,
     };
 
     const data = await requestPlantList(dataForPlantRequest);
@@ -101,6 +104,11 @@ class SearchZip extends Component {
       plantsOnPage: data.data,
       totalPlants: data.meta.total,
       totalPages: Math.ceil(data.meta.total / 20),
+    });
+
+    this.setState({
+      displayLoading: false,
+      displayTable: true,
     });
   };
 
@@ -217,16 +225,71 @@ class SearchZip extends Component {
               id="zip"
               onChange={this.handleZipInput}
               autoFocus
-              fullWidth
             />
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.handleSearch}
+              disabled={!this.state.zipCode}
+            >
+              Search
+            </Button>
+          </>
+        );
+    };
 
-            <PageButtons
-              handleSearch={this.handleSearch}
-              handlePageChange={this.handlePageChange}
-              currentPage={this.state.currentPage}
-              totalPages={this.state.totalPages}
-              zipCode={this.state.zipCode}
-            />
+    const renderPageNavigationButtons = () => {
+      if (this.state.displayTable)
+        return (
+          <>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                this.handlePageChange(1);
+              }}
+              disabled={this.state.currentPage === 1 ? true : false}
+            >
+              First
+            </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                this.handlePageChange(this.state.currentPage - 1);
+              }}
+              disabled={this.state.currentPage === 1 ? true : false}
+            >
+              Back
+            </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                this.handlePageChange(this.state.currentPage + 1);
+              }}
+              disabled={
+                this.state.currentPage === this.state.totalPages ? true : false
+              }
+            >
+              Next
+            </Button>{" "}
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                this.handlePageChange(this.state.totalPages);
+              }}
+              disabled={
+                this.state.currentPage === this.state.totalPages ? true : false
+              }
+            >
+              Last
+            </Button>
           </>
         );
     };
@@ -265,28 +328,27 @@ class SearchZip extends Component {
               label="Search for a plant"
               onChange={this.handlePlantSearchInput}
               autoFocus
-              fullWidth
             />
             <TextField
               label="Min Height (Inches)"
               onChange={this.handleMinHeightInput}
               autoFocus
-              fullWidth
             />
             <TextField
               label="Max Height (Inches)"
               onChange={this.handleMaxHeightInput}
               autoFocus
-              fullWidth
             />
             <FlowerColor handleFlowerColorInput={this.handleFlowerColorInput} />
             <LeafColor handleLeafColorInput={this.handleLeafColorInput} />
-
-            <p>Zip Code: {this.state.zipCode}</p>
-            <p>USDA Hardiness Zone: {this.state.usdaHardinessZone}</p>
-            <p>Plant Results: {this.state.totalPlants}</p>
-            <p>Current Page: {this.state.currentPage}</p>
-            <p>Filters </p>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.handleSearch}
+              disabled={!this.state.zipCode}
+            >
+              Apply Filters
+            </Button>
           </>
         );
     };
@@ -312,6 +374,7 @@ class SearchZip extends Component {
       <>
         {renderFilters()}
         {renderSearchZip()}
+        {renderPageNavigationButtons()}
         {renderLoading()}
         {renderTable()}
       </>
