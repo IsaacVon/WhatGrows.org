@@ -74,4 +74,24 @@ async function requestPlantList(dataForPlantRequest) {
   } catch (error) {}
 }
 
-export { zipCodeToPlants, requestPlantList };
+// Input: part of api call URL /api/v1/plants/penstemon-albertinus
+// Goal: Do API call, Set state learnMore with plant info, Load thing with that
+
+async function requestMorePlantInfo(plantLink) {
+  console.log("requestMorePlantInfo")
+  try {
+    const plantListUrl =
+      "https://cors-anywhere.herokuapp.com/https://trefle.io/" +
+      plantLink +
+      "?token=" +
+      trefleApiKey;
+
+    console.log("plantListUrl", plantListUrl)
+
+    const response = await fetch(plantListUrl);
+    const data = response.json();
+    return data;
+  } catch (error) {}
+}
+
+export { zipCodeToPlants, requestPlantList, requestMorePlantInfo };

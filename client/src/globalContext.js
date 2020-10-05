@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import config from "./config.json";
+import { requestMorePlantInfo } from "./utils/zipCodeToPlants";
 
 const _ = require("lodash");
 const { Provider, Consumer } = React.createContext();
@@ -12,7 +13,14 @@ class GlobalContextProvider extends Component {
     jwt: "",
     name: "",
     favorites: [],
+    learnMore: []
   };
+
+
+  learnMore = async (plantLink) => {
+    const learnMore = await requestMorePlantInfo(plantLink)
+    console.log("learnMore", learnMore)
+  }
 
   componentDidMount = async () => {
     const jwt = localStorage.getItem("token");
@@ -150,6 +158,7 @@ class GlobalContextProvider extends Component {
     });
   };
 
+
   render() {
     return (
       <Provider
@@ -161,6 +170,7 @@ class GlobalContextProvider extends Component {
           handleNoteInput: this.handleNoteInput,
           handleNoteSubmit: this.handleNoteSubmit,
           getFavorites: this.getFavorites,
+          learnMore : this.learnMore
         }}
       >
         {this.props.children}
