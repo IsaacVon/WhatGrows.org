@@ -13,7 +13,7 @@ import Save from "./saveButton";
 import NotesBox from "./notesBox";
 import { GlobalContextConsumer } from "../globalContext";
 import Button from "@material-ui/core/Button";
-import { requestMorePlantInfo } from "../utils/zipCodeToPlants";
+import MoreInfo from "../components/moreInfo";
 
 const useRowStyles = makeStyles({
   root: {
@@ -80,7 +80,9 @@ const Row = (props) => {
         <TableCell align="right">
           <GlobalContextConsumer>
             {(context) => (
-              <Button onClick={() => context.learnMore(row.links.plant)}>
+              <Button
+                onClick={() => context.handleLearnMoreSearch(row.links.plant)}
+              >
                 {" "}
                 {row.common_name}
               </Button>
@@ -105,26 +107,41 @@ const Row = (props) => {
 };
 
 export default function PlantTable(props) {
-  const importedRow = props.plantsOnPage;
-  console.log("importedRow", importedRow);
+  const {
+    learnMore,
+    displayLearnMoreSearch,
+    plantsOnPage,
+    favorites,
+    handleExitLearnMore,
+  } = props;
 
-  return (
-    <TableContainer component={Paper}>
-      <Table aria-label="collapsible table">
-        <TableHead>
-          <TableRow>
-            <TableCell />
-            <TableCell>Image</TableCell>
-            <TableCell align="right">Plant Name</TableCell>
-            <TableCell align="right"></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {importedRow.map((row) => (
-            <Row key={row.id} row={row} favorites={props.favorites} />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
+  if (displayLearnMoreSearch) {
+    return (
+      <MoreInfo
+        learnMore={learnMore}
+        handleExitLearnMore={handleExitLearnMore}
+      />
+    );
+  }
+  if (!displayLearnMoreSearch) {
+    return (
+      <TableContainer component={Paper}>
+        <Table aria-label="collapsible table">
+          <TableHead>
+            <TableRow>
+              <TableCell />
+              <TableCell>Image</TableCell>
+              <TableCell align="right">Plant Name</TableCell>
+              <TableCell align="right"></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {plantsOnPage.map((row) => (
+              <Row key={row.id} row={row} favorites={favorites} />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    );
+  }
 }

@@ -13,14 +13,86 @@ class GlobalContextProvider extends Component {
     jwt: "",
     name: "",
     favorites: [],
-    learnMore: []
+    displayLearnMoreSearch: false,
+    displayLearnMoreFavorites: false,
+    learnMore: {},
+  };
+
+  handleExitLearnMore = async () => {
+    this.setState({
+      displayLearnMoreFavorites: false,
+      displayLearnMoreSearch: false,
+    });
   };
 
 
-  learnMore = async (plantLink) => {
-    const learnMore = await requestMorePlantInfo(plantLink)
-    console.log("learnMore", learnMore)
-  }
+
+  handleLearnMoreFavorites = async (plantLink) => {
+    const { data } = await requestMorePlantInfo(plantLink);
+    const learnMore = {
+      common_name: data.common_name,
+      image_url: data.image_url,
+      scientific_name: data.scientific_name,
+      family_common_name: data.main_species.family_common_name,
+      duration: data.main_species.duration,
+      images: data.main_species.images,
+      growth_rate: data.main_species.specifications.growth_rate,
+      growth_habit: data.main_species.specifications.growth_habit,
+      average_height_inches: Math.round(
+        data.main_species.specifications.average_height.cm * 0.393701
+      ),
+      growth_months: data.main_species.growth.growth_months,
+      bloom_months: data.main_species.growth.bloom_months,
+      fruit_months: data.main_species.growth.fruit_months,
+      minimum_precipitation_annualInches: Math.round(
+        data.main_species.growth.minimum_precipitation.mm * 0.0393701
+      ),
+      maximum_precipitation_annualInches: Math.round(
+        data.main_species.growth.maximum_precipitation.mm * 0.0393701
+      ),
+      minimum_root_depth_inches: Math.round(
+        data.main_species.growth.minimum_root_depth.cm * 0.393701
+      ),
+    };
+    this.setState({
+      learnMore,
+      displayLearnMoreFavorites: true,
+    });
+  };
+
+  handleLearnMoreSearch = async (plantLink) => {
+    const { data } = await requestMorePlantInfo(plantLink);
+    const learnMore = {
+      common_name: data.common_name,
+      image_url: data.image_url,
+      scientific_name: data.scientific_name,
+      family_common_name: data.main_species.family_common_name,
+      duration: data.main_species.duration,
+      images: data.main_species.images,
+      growth_rate: data.main_species.specifications.growth_rate,
+      growth_habit: data.main_species.specifications.growth_habit,
+      average_height_inches: Math.round(
+        data.main_species.specifications.average_height.cm * 0.393701
+      ),
+      growth_months: data.main_species.growth.growth_months,
+      bloom_months: data.main_species.growth.bloom_months,
+      fruit_months: data.main_species.growth.fruit_months,
+      minimum_precipitation_annualInches: Math.round(
+        data.main_species.growth.minimum_precipitation.mm * 0.0393701
+      ),
+      maximum_precipitation_annualInches: Math.round(
+        data.main_species.growth.maximum_precipitation.mm * 0.0393701
+      ),
+      minimum_root_depth_inches: Math.round(
+        data.main_species.growth.minimum_root_depth.cm * 0.393701
+      ),
+    };
+    this.setState({
+      learnMore,
+      displayLearnMoreSearch: true,
+    });
+    console.log("learnMore", learnMore);
+  };
 
   componentDidMount = async () => {
     const jwt = localStorage.getItem("token");
@@ -38,7 +110,7 @@ class GlobalContextProvider extends Component {
   };
 
   getFavorites = async () => {
-    console.log("this.state.jwt inside getFavorties:", this.state.jwt); // JWT is not updated here
+    // console.log("this.state.jwt inside getFavorties:", this.state.jwt); // JWT is not updated here
 
     const userData = await axios({
       method: "get",
@@ -158,7 +230,6 @@ class GlobalContextProvider extends Component {
     });
   };
 
-
   render() {
     return (
       <Provider
@@ -166,11 +237,16 @@ class GlobalContextProvider extends Component {
           loggedIn: this.state.loggedIn,
           name: this.state.name,
           favorites: this.state.favorites,
+          learnMore: this.state.learnMore,
+          displayLearnMoreFavorites: this.state.displayLearnMoreFavorites,
+          displayLearnMoreSearch: this.state.displayLearnMoreSearch,
           handleFavoriteClick: this.handleFavoriteClick,
           handleNoteInput: this.handleNoteInput,
           handleNoteSubmit: this.handleNoteSubmit,
           getFavorites: this.getFavorites,
-          learnMore : this.learnMore
+          handleLearnMoreFavorites: this.handleLearnMoreFavorites,
+          handleLearnMoreSearch: this.handleLearnMoreSearch,
+          handleExitLearnMore: this.handleExitLearnMore,
         }}
       >
         {this.props.children}

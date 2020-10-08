@@ -78,7 +78,7 @@ async function requestPlantList(dataForPlantRequest) {
 // Goal: Do API call, Set state learnMore with plant info, Load thing with that
 
 async function requestMorePlantInfo(plantLink) {
-  console.log("requestMorePlantInfo")
+  // console.log("requestMorePlantInfo")
   try {
     const plantListUrl =
       "https://cors-anywhere.herokuapp.com/https://trefle.io/" +
@@ -86,7 +86,7 @@ async function requestMorePlantInfo(plantLink) {
       "?token=" +
       trefleApiKey;
 
-    console.log("plantListUrl", plantListUrl)
+    // console.log("plantListUrl", plantListUrl)
 
     const response = await fetch(plantListUrl);
     const data = response.json();

@@ -13,6 +13,7 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
+
 class SearchZip extends Component {
   state = {
     displayFilters: false,
@@ -156,7 +157,6 @@ class SearchZip extends Component {
       );
       filterString = filterString.concat(flowerColorApiString);
     }
-    console.log("final Filter string: ", filterString);
     this.setState({
       filterString,
     });
@@ -372,6 +372,9 @@ class SearchZip extends Component {
                   plantsOnPage={this.state.plantsOnPage}
                   favorites={context.favorites}
                   addFavorite={context.addFavorite}
+                  displayLearnMoreSearch={context.displayLearnMoreSearch}
+                  handleExitLearnMore={context.handleExitLearnMore}
+                  learnMore={context.learnMore}
                 />
               )}
             </GlobalContextConsumer>

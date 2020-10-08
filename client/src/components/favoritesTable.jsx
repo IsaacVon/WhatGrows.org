@@ -13,8 +13,7 @@ import Save from "./saveButton";
 import NotesBox from "./notesBox";
 import { GlobalContextConsumer } from "../globalContext";
 import Button from "@material-ui/core/Button";
-
-import { requestMorePlantInfo } from "../utils/zipCodeToPlants";
+import MoreInfo from "../components/moreInfo";
 
 const useRowStyles = makeStyles({
   root: {
@@ -25,7 +24,7 @@ const useRowStyles = makeStyles({
 });
 
 const Row = (props) => {
-  const { row, favorites, addFavorite } = props;
+  const { row, favorites, addFavorite, handleLearnMoreFavorites } = props;
   const classes = useRowStyles();
 
   const isFavorite = (id) => {
@@ -84,7 +83,9 @@ const Row = (props) => {
         <TableCell align="right">
           <GlobalContextConsumer>
             {(context) => (
-              <Button onClick={() => context.learnMore(row.plantUrl)}>
+              <Button
+                onClick={() => context.handleLearnMoreFavorites(row.plantUrl)}
+              >
                 {" "}
                 {row.common_name}
               </Button>
@@ -108,27 +109,40 @@ const Row = (props) => {
   );
 };
 
-export default function favoritesTable(props) {
-  // put context here
-  const importedRow = props.plantsOnPage;
+export default function favoritesTable({
+  learnMore,
+  displayLearnMoreFavorites,
+  plantsOnPage,
+  handleExitLearnMore,
+}) {
+  if (displayLearnMoreFavorites) {
+    return (
+      <MoreInfo
+        learnMore={learnMore}
+        handleExitLearnMore={handleExitLearnMore}
+      />
+    );
+  }
 
-  return (
-    <TableContainer component={Paper}>
-      <Table aria-label="collapsible table">
-        <TableHead>
-          <TableRow>
-            <TableCell />
-            <TableCell>Image</TableCell>
-            <TableCell align="right">Plant Name</TableCell>
-            <TableCell align="right"></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {importedRow.map((row) => (
-            <Row key={row.plantId} row={row} favorites={importedRow} />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
+  if (!displayLearnMoreFavorites) {
+    return (
+      <TableContainer component={Paper}>
+        <Table aria-label="collapsible table">
+          <TableHead>
+            <TableRow>
+              <TableCell />
+              <TableCell>Image</TableCell>
+              <TableCell align="right">Plant Name</TableCell>
+              <TableCell align="right"></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {plantsOnPage.map((row) => (
+              <Row key={row.plantId} row={row} favorites={plantsOnPage} />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    );
+  }
 }
