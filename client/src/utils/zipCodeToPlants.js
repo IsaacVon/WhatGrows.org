@@ -11,6 +11,7 @@ if (!trefleApiKey) console.log("trefleApiKey Not importing to zipCodeToPlants");
 const zipCodeToPlants = async (zipCode, filterString) => {
   try {
     const zipCodeData = await requestZipCodeData(zipCode);
+    console.log("zipCodeData", zipCodeData)
     const usdaHardinessZone = zipCodeData.zone;
     const currentPage = 1;
 
