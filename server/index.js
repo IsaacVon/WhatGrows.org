@@ -8,8 +8,8 @@ const cors = require('cors')
 const uri = "mongodb+srv://admin:Ivh@1994@whatgrows.ketnq.gcp.mongodb.net/WhatGrowsTest?retryWrites=true&w=majority";
 
 
-function App(req,res){
 
+// function App(){
 
 
 if (!config.get('jwtPrivateKey')) {
@@ -35,5 +35,12 @@ app.use("/api/auth", auth);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
+// }
 
-}
+
+// App()
+// const whatGrowsServer = App
+
+// module.exports = {
+//   whatGrowsServer
+// }
