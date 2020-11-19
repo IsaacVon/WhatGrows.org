@@ -1,6 +1,7 @@
 import React from "react";
 import { Router, Switch, Route } from "react-router-dom";
 import { GlobalContextConsumer } from "./globalContext";
+import styled from "styled-components";
 
 import Nav from "./components/navBar";
 import SearchZip from "./pages/searchZip";
@@ -12,10 +13,14 @@ import Favorites from "./pages/favorites";
 import NotFound from "./pages/notFound";
 import Home from "./pages/home";
 
+const Wrapper = styled.section`
+  background: #1deff4;
+`;
+
 function App() {
   return (
     <Router history={history}>
-      <div className="App">
+      <Wrapper>
         <GlobalContextConsumer>
           {(context) => <Nav loggedIn={context.loggedIn} name={context.name} />}
         </GlobalContextConsumer>
@@ -28,7 +33,7 @@ function App() {
           <Route path="/" component={Home} />
           <Route path="/*" component={NotFound} />
         </Switch>
-      </div>
+      </Wrapper>
     </Router>
   );
 }

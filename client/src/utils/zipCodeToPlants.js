@@ -8,10 +8,13 @@ if (!trefleApiKey) console.log("trefleApiKey Not importing to zipCodeToPlants");
 // gets temp min, sends it to "Request plant List"
 // Returns an object with 20 plants
 
+const cors = "https://cors-anywhere.herokuapp.com/";
+// const cors = "";
+
 const zipCodeToPlants = async (zipCode, filterString) => {
   try {
     const zipCodeData = await requestZipCodeData(zipCode);
-    console.log("zipCodeData", zipCodeData)
+    console.log("zipCodeData", zipCodeData);
     const usdaHardinessZone = zipCodeData.zone;
     const currentPage = 1;
 
@@ -59,7 +62,8 @@ async function requestPlantList(dataForPlantRequest) {
   try {
     let { tempMin, currentPage, filterString } = dataForPlantRequest;
     const plantListUrl =
-      "https://cors-anywhere.herokuapp.com/https://trefle.io/api/v1/plants?" +
+      cors +
+      "https://trefle.io/api/v1/plants?" +
       filterString +
       "&page=" +
       currentPage +
@@ -82,10 +86,7 @@ async function requestMorePlantInfo(plantLink) {
   // console.log("requestMorePlantInfo")
   try {
     const plantListUrl =
-      "https://cors-anywhere.herokuapp.com/https://trefle.io/" +
-      plantLink +
-      "?token=" +
-      trefleApiKey;
+      cors + "https://trefle.io/" + plantLink + "?token=" + trefleApiKey;
 
     // console.log("plantListUrl", plantListUrl)
 
