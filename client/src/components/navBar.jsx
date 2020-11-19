@@ -9,15 +9,17 @@ const Wrapper = styled.section`
 `;
 
 const Logo = styled.section`
-  color: white;
+  padding-top: 25px;
+  display: grid;
+  place-items: center;
 `;
-
-
 
 export default function NavBar({ name, loggedIn }) {
   return (
     <>
-      <img src={logo} alt="WhatGrows" />
+      <Logo>
+        <img src={logo} alt="WhatGrows" />
+      </Logo>
 
       <Wrapper>
         <Button component={Link} to="/">
