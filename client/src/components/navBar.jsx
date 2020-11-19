@@ -45,6 +45,10 @@ const TextContainer = styled.section`
   // height: 50px;
 `;
 
+const NavButtons = styled.h3`
+  color: white;
+`;
+
 export default function NavBar({ name, loggedIn }) {
   console.log("device", device.laptop);
   return (
@@ -56,29 +60,29 @@ export default function NavBar({ name, loggedIn }) {
         <TextContainer>
           <div>
             <Button component={Link} to="/">
-              Home
+              <NavButtons>Home</NavButtons>
             </Button>
             <Button component={Link} to="/searchzip">
-              Search
+              <NavButtons>Search</NavButtons>
             </Button>
             {loggedIn && (
               <Button component={Link} to="/favorites">
-                Favorites
+                <NavButtons>Favorites</NavButtons>
               </Button>
             )}
             {loggedIn && (
               <Button component={Link} to="/logout">
-                Sign Out
+                <NavButtons>Sign Out</NavButtons>
               </Button>
             )}
             {!loggedIn && (
               <Button component={Link} to="/signin">
-                Sign In
+                <NavButtons>Sign In</NavButtons>
               </Button>
             )}
             {!loggedIn && (
               <Button component={Link} to="/signup">
-                Sign Up
+                <NavButtons>Sign Up</NavButtons>
               </Button>
             )}
           </div>
