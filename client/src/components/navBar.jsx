@@ -5,33 +5,35 @@ import logo from "../assets/logo.png";
 import styled from "styled-components";
 import { device } from "../utils/device";
 
+import "../index.css";
+
 const Parent = styled.section`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   height: 250px;
 
-  @media ${device.mobileL} {
-    flex-direction: column;
+  @media ${device.mobileS} {
+    /* background-color: orange; */
   }
   @media ${device.tablet} {
-    flex-direction: row;
+    /* background-color: blue; */
   }
 `;
 
 const LogoContainer = styled.section`
-  margin: 5px;
   // background-color: yellowgreen;
 `;
 
 const Logo = styled.img`
   left: 20px;
-  height: 111px;
-  width: 195px;
+  width: 160px;
   margin: 20px;
 
-  @media ${device.mobileL} {
-    position: relative;
+  @media ${device.mobileS} {
+    /* position: relative; */
+    margin-top: 50px;
+    margin-bottom: 0px;
   }
   @media ${device.tablet} {
     position: absolute;
@@ -39,7 +41,6 @@ const Logo = styled.img`
 `;
 
 const TextContainer = styled.section`
-  margin: 5px;
   // display: grid;
   // place-items: center;
   // height: 50px;
@@ -47,6 +48,9 @@ const TextContainer = styled.section`
 
 const NavButtons = styled.h3`
   color: white;
+  font-family: "Indie Flower";
+  font-size: 17px;
+  text-transform: capitalize;
 `;
 
 export default function NavBar({ name, loggedIn }) {
