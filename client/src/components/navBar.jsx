@@ -5,7 +5,6 @@ import logo from "../assets/logo.png";
 import styled from "styled-components";
 import { device } from "../utils/device";
 
-import "../index.css";
 
 const Parent = styled.section`
   display: flex;

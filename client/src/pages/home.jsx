@@ -13,7 +13,7 @@ const TextContainer = styled.section`
   background: #5cd700;
   color: white;
   max-width: 450px;
-  height: 55vh;
+  height: 100%;
 `;
 
 const Title = styled.h1`
@@ -32,14 +32,18 @@ const Body = styled.p`
 //    height: calc(var(--vh, 1vh) * 98);
 export default function Home() {
   return (
-    <Background>
+    <>
       <HomeSunrise />
-      <TextContainer>
-        <Title>What does your garden grow?</Title>
-        <Body>
-          I don't know what to type here so I'm just talking randomly so it doesn't have words without meaning or structure. I don't know what to say and this is awkward because I'm talking to the computer.
-        </Body>
-      </TextContainer>
-    </Background>
+      <Background>
+        <TextContainer>
+          <Title>What does your garden grow?</Title>
+          <Body>
+            I don't know what to type here so I'm just talking randomly so it
+            doesn't have words without meaning or structure. I don't know what
+            to say and this is awkward because I'm talking to the computer.
+          </Body>
+        </TextContainer>
+      </Background>
+    </>
   );
 }

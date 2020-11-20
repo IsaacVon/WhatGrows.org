@@ -12,7 +12,13 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import SearchButton from "../components/searchButton";
+import styled from "styled-components";
 
+const SearchZipPositioner = styled.section`
+  display: grid;
+  place-items: center;
+`;
 
 class SearchZip extends Component {
   state = {
@@ -236,12 +242,11 @@ class SearchZip extends Component {
               autoFocus
             />
             <Button
-              variant="contained"
               color="primary"
               onClick={this.handleSearch}
               disabled={!this.state.zipCodeValid}
             >
-              Search
+              <SearchButton />
             </Button>
           </>
         );
@@ -385,7 +390,7 @@ class SearchZip extends Component {
     return (
       <>
         {renderFilters()}
-        {renderSearchZip()}
+        <SearchZipPositioner>{renderSearchZip()}</SearchZipPositioner>
         {renderPageNavigationButtons()}
         {renderLoading()}
         {renderTable()}
