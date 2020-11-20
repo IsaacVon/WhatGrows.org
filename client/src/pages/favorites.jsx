@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import FavoritesTable from "../components/favoritesTable";
 import { GlobalContextConsumer } from "../globalContext";
-import MoreInfo from "../components/moreInfo";
 
 class Favorites extends Component {
   render() {

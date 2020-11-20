@@ -3,12 +3,12 @@ import styled from "styled-components";
 import searchCircle from "../assets/searchCircleButton.png";
 
 const Background = styled.section`
-  /* background: green; */
   width: 100%;
   height: 95px;
   position: relative;
   text-align: center;
   color: #1deff4;
+  margin-top: 23px;
 `;
 
 const Logo = styled.img`

@@ -13,7 +13,84 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import SearchButton from "../components/searchButton";
-import styled from "styled-components";
+import styled, { withTheme } from "styled-components";
+import { withStyles } from "@material-ui/core/styles";
+import { Grid } from "@material-ui/core";
+
+const useStyles = (theme) => ({
+  root: {
+    ":-webkit-autofill": {
+      WebkitBoxShadow: "0 0 0 1000px green inset",
+      backgroundColor: "green",
+    },
+    fontWeight: 400,
+    flexGrow: 1,
+    paddingBottom: 60,
+
+
+
+
+
+
+
+
+
+
+    "& .MuiFormLabel-root": {
+      color: "white",
+      padding: 0,
+      fontSize: "1.1rem",
+      fontFamily: "Indie Flower",
+      fontWeight: 400,
+      letterSpacing: "0.04em",
+    },
+
+    "& .MuiButton-root": {
+      color: "white",
+      padding: 0,
+      fontSize: "3rem",
+      fontFamily: "Indie Flower",
+      fontWeight: 400,
+      letterSpacing: "0.04em",
+      textTransform: "capitalize",
+    },
+
+    "& .MuiFormControl-root": {
+      width: "140px",
+    },
+
+
+    "& .MuiInput-underline:before": {
+      borderBottomColor: "#FFE116", // Semi-transparent underline
+    },
+    "& .MuiInput-underline:hover:before": {
+      borderBottomColor: "#FFE116", // Solid underline on hover
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: "#FFE116", // Solid underline on focus
+    },
+
+    "& .MuiSlider-root": {
+      color: "#FFE116", // Solid underline on focus
+    },
+
+    "& .MuiFormLabel-root.Mui-focused": {
+      color: "white", // Solid underline on focus
+    },
+
+    "& .MuiButton-containedPrimary": {
+      borderRadius: "20px",
+      height: "60px",
+      color: "white", // Solid underline on focus
+      fontWeight: "400",
+      boxShadow: "none",
+      backgroundColor: "#F89143",
+      "&:hover": {
+        backgroundColor: "#E27725",
+      },
+    },
+  },
+});
 
 const SearchZipPositioner = styled.section`
   display: grid;
@@ -226,6 +303,8 @@ class SearchZip extends Component {
   };
 
   render() {
+    const { classes } = this.props;
+
     const renderLoading = () => {
       if (this.state.displayLoading) return <CircularProgress />;
     };
@@ -233,22 +312,24 @@ class SearchZip extends Component {
     const renderSearchZip = () => {
       if (this.state.displayZipSearch)
         return (
-          <>
-            <TextField
-              label="Enter Zip Code"
-              id="zip"
-              helperText={this.zipHelperText()}
-              onChange={this.handleZipInput}
-              autoFocus
-            />
-            <Button
-              color="primary"
-              onClick={this.handleSearch}
-              disabled={!this.state.zipCodeValid}
-            >
-              <SearchButton />
-            </Button>
-          </>
+          <div className={classes.root}>
+            <SearchZipPositioner>
+              <TextField
+                label="Enter Zip Code"
+                id="zip"
+                helperText={this.zipHelperText()}
+                onChange={this.handleZipInput}
+                autoFocus
+              />
+              <Button
+                color="primary"
+                onClick={this.handleSearch}
+                disabled={!this.state.zipCodeValid}
+              >
+                <SearchButton />
+              </Button>
+            </SearchZipPositioner>
+          </div>
         );
     };
 
@@ -390,7 +471,7 @@ class SearchZip extends Component {
     return (
       <>
         {renderFilters()}
-        <SearchZipPositioner>{renderSearchZip()}</SearchZipPositioner>
+        {renderSearchZip()}
         {renderPageNavigationButtons()}
         {renderLoading()}
         {renderTable()}
@@ -399,4 +480,4 @@ class SearchZip extends Component {
   }
 }
 
-export default SearchZip;
+export default withStyles(useStyles)(SearchZip);
