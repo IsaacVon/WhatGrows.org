@@ -10,12 +10,12 @@ import { GlobalContextConsumer } from "../globalContext";
 import TextField from "@material-ui/core/TextField";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import SearchButton from "../components/searchButton";
 import styled, { withTheme } from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
+import Filter from "../components/filters/filter.jsx";
+import filterBox from "../assets/filterBox.png";
 
 const useStyles = (theme) => ({
   root: {
@@ -26,15 +26,6 @@ const useStyles = (theme) => ({
     fontWeight: 400,
     flexGrow: 1,
     paddingBottom: 60,
-
-
-
-
-
-
-
-
-
 
     "& .MuiFormLabel-root": {
       color: "white",
@@ -58,7 +49,6 @@ const useStyles = (theme) => ({
     "& .MuiFormControl-root": {
       width: "140px",
     },
-
 
     "& .MuiInput-underline:before": {
       borderBottomColor: "#FFE116", // Semi-transparent underline
@@ -99,7 +89,7 @@ const SearchZipPositioner = styled.section`
 
 class SearchZip extends Component {
   state = {
-    displayFilters: false,
+    displayFilters: true,
     displayZipSearch: true,
     displayLoading: false,
     displayTable: false,
@@ -392,59 +382,18 @@ class SearchZip extends Component {
     const renderFilters = () => {
       if (this.state.displayFilters)
         return (
-          <>
-            <FormControlLabel
-              disabled={this.state.vegetableOnly}
-              control={
-                <Checkbox
-                  checked={this.state.fruitOnly}
-                  onChange={() => this.handleFilterChange("fruitOnly")}
-                  name="checkedB"
-                  color="primary"
-                />
-              }
-              label="Show Fruit Only"
-            />
-
-            <FormControlLabel
-              disabled={this.state.fruitOnly}
-              control={
-                <Checkbox
-                  checked={this.state.vegetableOnly}
-                  onChange={() => this.handleFilterChange("vegetableOnly")}
-                  name="checkedB"
-                  color="primary"
-                />
-              }
-              label="Show Vegetables Only"
-            />
-
-            <TextField
-              label="Search for a plant"
-              onChange={this.handlePlantSearchInput}
-              autoFocus
-            />
-            <TextField
-              label="Min Height (Inches)"
-              onChange={this.handleMinHeightInput}
-              autoFocus
-            />
-            <TextField
-              label="Max Height (Inches)"
-              onChange={this.handleMaxHeightInput}
-              autoFocus
-            />
-            <FlowerColor handleFlowerColorInput={this.handleFlowerColorInput} />
-            <LeafColor handleLeafColorInput={this.handleLeafColorInput} />
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={this.handleSearch}
-              disabled={!this.state.zipCode}
-            >
-              Apply Filters
-            </Button>
-          </>
+          <Filter
+            vegetableOnly={this.state.vegetableOnly}
+            fruitOnly={this.state.fruitOnly}
+            zipCode={!this.state.zipCode}
+            handleFilterChange={this.handleFilterChange}
+            handlePlantSearchInput={this.handlePlantSearchInput}
+            handleMinHeightInput={this.handleMinHeightInput}
+            handleMaxHeightInput={this.handleMaxHeightInput}
+            handleFlowerColorInput={this.handleFlowerColorInput}
+            handleLeafColorInput={this.handleLeafColorInput}
+            handleSearch={this.handleSearch}
+          />
         );
     };
 
