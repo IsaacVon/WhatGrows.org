@@ -11,7 +11,7 @@ const Background = styled.section`
   margin-top: 23px;
 `;
 
-const Logo = styled.img`
+const Circle = styled.img`
   height: 95px;
   overflow: hidden;
 `;
@@ -28,7 +28,7 @@ const Text = styled.h3`
 export default function searchButton() {
   return (
     <Background>
-      <Logo src={searchCircle} />
+      <Circle src={searchCircle} />
       <Text>Search</Text>
     </Background>
   );
