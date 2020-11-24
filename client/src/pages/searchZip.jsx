@@ -82,24 +82,39 @@ const useStyles = (theme) => ({
   },
 });
 
-const FilterSearchPositioner = styled.section`
-  /* display: grid; */
-  /* place-items: center; */
+const FilterSearchContainer = styled.section`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 `;
 
-const SearchZipPositioner = styled.section`
+const SearchZipWrapper = styled.section`
   display: grid;
   place-items: center;
 `;
 
-const CircularProgressPositioner = styled.section`
+const SearchZipContainer = styled.section`
+  display: grid;
+  place-items: center;
+  flex: 0 1 500px;
+  margin: 20px;
+  height: 200px;
+`;
+
+const FilterContainer = styled.section`
+  flex: 0 1 500px;
+  margin: 20px;
+
+`;
+
+const CircularProgressContainer = styled.section`
   display: grid;
   place-items: center;
 `;
 
 class SearchZip extends Component {
   state = {
-    displayFilters: true,
+    displayFilters: false,
     displayZipSearch: true,
     displayLoading: false,
     displayTable: false,
@@ -309,31 +324,33 @@ class SearchZip extends Component {
     const renderLoading = () => {
       if (this.state.displayLoading)
         return (
-          <CircularProgressPositioner>
+          <CircularProgressContainer>
             <CircularProgress style={{ color: "#FFE116" }} />
-          </CircularProgressPositioner>
+          </CircularProgressContainer>
         );
     };
 
     const renderSearchZip = () => {
       if (this.state.displayZipSearch)
         return (
-          <div className={classes.root}>
-            <SearchZipPositioner>
-              <TextField
-                label="Enter Zip Code"
-                id="zip"
-                // helperText={this.zipHelperText()}
-                onChange={this.handleZipInput}
-                autoFocus
-              />
+          <SearchZipWrapper>
+            <div className={classes.root}>
+              <SearchZipContainer>
+                <TextField
+                  label="Enter Zip Code"
+                  id="zip"
+                  // helperText={this.zipHelperText()}
+                  onChange={this.handleZipInput}
+                  autoFocus
+                />
 
-              <SearchButton
-                handleSearch={this.handleSearch}
-                zipCodeValid={this.state.zipCodeValid}
-              />
-            </SearchZipPositioner>
-          </div>
+                <SearchButton
+                  handleSearch={this.handleSearch}
+                  zipCodeValid={this.state.zipCodeValid}
+                />
+              </SearchZipContainer>
+            </div>
+          </SearchZipWrapper>
         );
     };
 
@@ -396,18 +413,21 @@ class SearchZip extends Component {
     const renderFilters = () => {
       if (this.state.displayFilters)
         return (
-          <Filter
-            vegetableOnly={this.state.vegetableOnly}
-            fruitOnly={this.state.fruitOnly}
-            zipCode={!this.state.zipCode}
-            handleFilterChange={this.handleFilterChange}
-            handlePlantSearchInput={this.handlePlantSearchInput}
-            handleMinHeightInput={this.handleMinHeightInput}
-            handleMaxHeightInput={this.handleMaxHeightInput}
-            handleFlowerColorInput={this.handleFlowerColorInput}
-            handleLeafColorInput={this.handleLeafColorInput}
-            handleSearch={this.handleSearch}
-          />
+          <FilterContainer>
+            <Filter
+              vegetableOnly={this.state.vegetableOnly}
+              fruitOnly={this.state.fruitOnly}
+              zipCode={!this.state.zipCode}
+              handleFilterChange={this.handleFilterChange}
+              handlePlantSearchInput={this.handlePlantSearchInput}
+              handleMinHeightInput={this.handleMinHeightInput}
+              handleMaxHeightInput={this.handleMaxHeightInput}
+              handleFlowerColorInput={this.handleFlowerColorInput}
+              handleLeafColorInput={this.handleLeafColorInput}
+              ha
+              ndleSearch={this.handleSearch}
+            />
+          </FilterContainer>
         );
     };
 
@@ -433,10 +453,10 @@ class SearchZip extends Component {
 
     return (
       <>
-        <FilterSearchPositioner>
+        <FilterSearchContainer>
           {renderFilters()}
           {renderSearchZip()}
-        </FilterSearchPositioner>
+        </FilterSearchContainer>
         {renderPageNavigationButtons()}
         {renderLoading()}
         {renderTable()}
