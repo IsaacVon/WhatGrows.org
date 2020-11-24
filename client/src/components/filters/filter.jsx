@@ -11,6 +11,7 @@ import Button from "@material-ui/core/Button";
 import LeafColor from "../../components/filters/leafColor";
 import FlowerColor from "../../components/filters/flowerColor";
 import applyCircle from "../../assets/greenCircle.png";
+import searchCircle from "../../assets/searchCircleButton.png";
 
 const useStyles = makeStyles({
   root: {
@@ -21,6 +22,7 @@ const useStyles = makeStyles({
     fontWeight: 400,
     flexGrow: 1,
     paddingBottom: 60,
+
 
     "& .MuiFormLabel-root": {
       color: "white",
@@ -42,7 +44,7 @@ const useStyles = makeStyles({
     },
 
     "& .MuiFormControl-root": {
-      width: "140px",
+      width: "170px",
     },
 
     "& .MuiInput-underline:before": {
@@ -54,7 +56,6 @@ const useStyles = makeStyles({
     "& .MuiInput-underline:after": {
       borderBottomColor: "#FFE116", // Solid underline on focus
     },
-
 
     "& .MuiButton-containedPrimary": {
       borderRadius: "20px",
@@ -94,15 +95,69 @@ const Text = styled.h3`
 `;
 
 const FilterContainer = styled.section`
+  display: grid;
+  place-items: center;
+
   position: relative;
   text-align: center;
   background-image: url(${filterBox});
   background-repeat: no-repeat;
-  background-size: 330px;
+  background-size: 371px;
   background-position-x: center;
-  height: 400px;
+  height: 401px;
   color: white;
   margin-top: 23px;
+`;
+
+const ApplyButtonWrapper = styled.section`
+  position: relative;
+  left: 127px;
+  bottom: 52px;
+`;
+
+const CheckBoxWrapper = styled.section`
+  display: grid;
+  position: relative;
+  right: 35px;
+  bottom: -10px;
+`;
+
+const ApplyButton = styled.button`
+  color: white;
+  font-family: "Indie Flower";
+  font-size: 20px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+
+  cursor: pointer;
+
+  border: none;
+  background-color: transparent;
+  background-image: url(${applyCircle});
+  background-size: 74px;
+
+  height: 74px;
+  width: 74px;
+
+  &:hover {
+    /* background-color: palevioletred; */
+    /* color: #1deff4; */
+  }
+
+  &:active {
+    background-image: url(${searchCircle});
+    transition: 0.1s all;
+
+    color: #50ff00;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
 `;
 
 const Circle = styled.img`
@@ -126,32 +181,6 @@ export default function Filter({
   return (
     <div className={classes.root}>
       <FilterContainer>
-        <FormControlLabel
-          disabled={vegetableOnly}
-          control={
-            <Checkbox
-              checked={fruitOnly}
-              onChange={() => handleFilterChange("fruitOnly")}
-              name="checkedB"
-              color="primary"
-            />
-          }
-          label="Show Fruit Only"
-        />
-
-        <FormControlLabel
-          disabled={fruitOnly}
-          control={
-            <Checkbox
-              checked={vegetableOnly}
-              onChange={() => handleFilterChange("vegetableOnly")}
-              name="checkedB"
-              color="primary"
-            />
-          }
-          label="Show Vegetables Only"
-        />
-
         <TextField
           label="Search for a plant"
           onChange={handlePlantSearchInput}
@@ -169,18 +198,41 @@ export default function Filter({
         />
         <FlowerColor handleFlowerColorInput={handleFlowerColorInput} />
         <LeafColor handleLeafColorInput={handleLeafColorInput} />
-       
+        <CheckBoxWrapper>
+          <FormControlLabel
+            disabled={vegetableOnly}
+            control={
+              <Checkbox
+                checked={fruitOnly}
+                onChange={() => handleFilterChange("fruitOnly")}
+                name="checkedB"
+                color="primary"
+              />
+            }
+            label="Fruit Only"
+          />
 
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleSearch}
-          disabled={zipCode}
-        >
-                  <Circle src={applyCircle}></Circle>
-
-          Apply Filters
-        </Button>
+          <FormControlLabel
+            disabled={fruitOnly}
+            control={
+              <Checkbox
+                checked={vegetableOnly}
+                onChange={() => handleFilterChange("vegetableOnly")}
+                name="checkedB"
+                color="primary"
+              />
+            }
+            label="Vegetables Only"
+          />
+        </CheckBoxWrapper>
+        <ApplyButtonWrapper>
+          <ApplyButton
+            onClick={handleSearch}
+            // disabled={zipCode}
+          >
+            Apply
+          </ApplyButton>
+        </ApplyButtonWrapper>
       </FilterContainer>
     </div>
   );

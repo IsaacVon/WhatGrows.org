@@ -82,7 +82,17 @@ const useStyles = (theme) => ({
   },
 });
 
+const FilterSearchPositioner = styled.section`
+  /* display: grid; */
+  /* place-items: center; */
+`;
+
 const SearchZipPositioner = styled.section`
+  display: grid;
+  place-items: center;
+`;
+
+const CircularProgressPositioner = styled.section`
   display: grid;
   place-items: center;
 `;
@@ -93,7 +103,7 @@ class SearchZip extends Component {
     displayZipSearch: true,
     displayLoading: false,
     displayTable: false,
-    zipCodeValid: true,
+    zipCodeValid: false,
     zipCode: 0,
     usdaHardinessZone: "",
     tempMin: 0,
@@ -267,6 +277,7 @@ class SearchZip extends Component {
 
   // Final Search button
   handleSearch = async () => {
+    console.log("search button pressed");
     this.setState({
       displayLoading: true,
       displayTable: false,
@@ -296,7 +307,12 @@ class SearchZip extends Component {
     const { classes } = this.props;
 
     const renderLoading = () => {
-      if (this.state.displayLoading) return <CircularProgress />;
+      if (this.state.displayLoading)
+        return (
+          <CircularProgressPositioner>
+            <CircularProgress style={{ color: "#FFE116" }} />
+          </CircularProgressPositioner>
+        );
     };
 
     const renderSearchZip = () => {
@@ -307,17 +323,15 @@ class SearchZip extends Component {
               <TextField
                 label="Enter Zip Code"
                 id="zip"
-                helperText={this.zipHelperText()}
+                // helperText={this.zipHelperText()}
                 onChange={this.handleZipInput}
                 autoFocus
               />
-              <Button
-                color="primary"
-                onClick={this.handleSearch}
-                disabled={!this.state.zipCodeValid}
-              >
-                <SearchButton />
-              </Button>
+
+              <SearchButton
+                handleSearch={this.handleSearch}
+                zipCodeValid={this.state.zipCodeValid}
+              />
             </SearchZipPositioner>
           </div>
         );
@@ -419,8 +433,10 @@ class SearchZip extends Component {
 
     return (
       <>
-        {renderFilters()}
-        {renderSearchZip()}
+        <FilterSearchPositioner>
+          {renderFilters()}
+          {renderSearchZip()}
+        </FilterSearchPositioner>
         {renderPageNavigationButtons()}
         {renderLoading()}
         {renderTable()}

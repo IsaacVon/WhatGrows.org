@@ -1,35 +1,55 @@
 import React from "react";
 import styled from "styled-components";
 import searchCircle from "../assets/searchCircleButton.png";
+import searchCircleClicked from "../assets/page2.png";
 
-const Background = styled.section`
-  width: 100%;
-  height: 95px;
-  position: relative;
-  text-align: center;
+const SearchButton = styled.button`
+  margin-top: 20px;
+
   color: #1deff4;
-  margin-top: 23px;
-`;
-
-const Circle = styled.img`
-  height: 95px;
-  overflow: hidden;
-`;
-
-const Text = styled.h3`
+  font-family: "Indie Flower";
   font-size: 20px;
-  margin: 0px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  letter-spacing: 2px;
+
+  cursor: pointer;
+
+  border: none;
+  background-color: transparent;
+  background-image: url(${searchCircle});
+  background-size: 95px;
+
+  height: 95px;
+  width: 95px;
+
+  &:hover {
+    /* background-color: palevioletred; */
+    /* color: #1deff4; */
+  }
+
+  &:active {
+    background-image: url(${searchCircleClicked});
+    transition: 0.1s all;
+
+  }
+
+  &:focus {
+    outline: none;
+  };
+
+  &:disabled{
+    cursor: default;
+  }
 `;
 
-export default function searchButton() {
+export default function searchButton({ handleSearch, zipCodeValid }) {
   return (
-    <Background>
-      <Circle src={searchCircle} />
-      <Text>Search</Text>
-    </Background>
+    <>
+      <SearchButton
+        onClick={handleSearch}
+        disabled={!zipCodeValid}
+      >
+        Search
+      </SearchButton>
+    </>
   );
 }
