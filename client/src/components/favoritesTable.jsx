@@ -88,11 +88,19 @@ const Row = (props) => {
           </GlobalContextConsumer>
         </TableCell>
         <TableCell align="center" component="th" scope="row">
-          <img
-            style={{ height: "200px", borderRadius: "20px" }}
-            src={row.image}
-            alt="plant"
-          />
+          <GlobalContextConsumer>
+            {(context) => (
+              <Button
+                onClick={() => context.handleLearnMoreSearch(row.links.plant)}
+              >
+                <img
+                  style={{ height: "200px", borderRadius: "20px" }}
+                  src={row.image_url}
+                  alt="plant"
+                />
+              </Button>
+            )}
+          </GlobalContextConsumer>
         </TableCell>
         <TableCell align="right">
           <GlobalContextConsumer>
@@ -128,11 +136,7 @@ export default function favoritesTable({
   displayLearnMoreFavorites,
   plantsOnPage,
   handleExitLearnMore,
-}) 
-
-
-{
-
+}) {
   if (displayLearnMoreFavorites) {
     return (
       <MoreInfo
@@ -143,9 +147,8 @@ export default function favoritesTable({
   }
 
   if (!displayLearnMoreFavorites) {
-
     return (
-      <TableContainer style={{ backgroundColor: '#1DEFF4' }}>
+      <TableContainer style={{ backgroundColor: "#1DEFF4" }}>
         <Table aria-label="collapsible table">
           <TableBody>
             {plantsOnPage.map((row) => (
@@ -156,6 +159,4 @@ export default function favoritesTable({
       </TableContainer>
     );
   }
-
-
 }

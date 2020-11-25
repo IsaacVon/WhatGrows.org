@@ -15,20 +15,16 @@ import MoreInfo from "../components/moreInfo";
 
 const useRowStyles = makeStyles({
   root: {
-
     "& .MuiButton-root ": {
       color: "white",
-      fontSize: '20px',
+      fontSize: "20px",
       fontFamily: "Indie Flower",
       letterSpacing: "2px",
     },
 
-
     "& .MuiIconButton-root": {
       color: "white",
     },
-
-
 
     "& > *": {
       borderBottom: "unset",
@@ -84,11 +80,19 @@ const Row = (props) => {
           </GlobalContextConsumer>
         </TableCell>
         <TableCell align="center" component="th" scope="row">
-          <img
-            style={{ height: "200px", borderRadius: "20px" }}
-            src={row.image_url}
-            alt="plant"
-          />
+          <GlobalContextConsumer>
+            {(context) => (
+              <Button
+                onClick={() => context.handleLearnMoreSearch(row.links.plant)}
+              >
+                <img
+                  style={{ height: "200px", borderRadius: "20px" }}
+                  src={row.image_url}
+                  alt="plant"
+                />
+              </Button>
+            )}
+          </GlobalContextConsumer>
         </TableCell>
         <TableCell align="right">
           <GlobalContextConsumer>
@@ -96,7 +100,6 @@ const Row = (props) => {
               <Button
                 onClick={() => context.handleLearnMoreSearch(row.links.plant)}
               >
-                {" "}
                 {row.common_name}
               </Button>
             )}
@@ -138,7 +141,7 @@ export default function PlantTable(props) {
   }
   if (!displayLearnMoreSearch) {
     return (
-      <TableContainer style={{ backgroundColor: '#1DEFF4' }}>
+      <TableContainer style={{ backgroundColor: "#1DEFF4" }}>
         <Table aria-label="collapsible table">
           <TableBody>
             {plantsOnPage.map((row) => (
