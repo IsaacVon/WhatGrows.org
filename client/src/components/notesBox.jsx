@@ -56,21 +56,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NotesBox(props) {
+export default function NotesBox({favorite, id, notes, loggedIn}) {
   const classes = useStyles();
 
+  console.log("favorite", favorite)
+  console.log("id", id)
+  console.log("notes", notes)
+
+  
   // If not favorited return enter notes
-  const label = props.favorite ? "Enter notes" : "";
-  const notes = props.notes ? props.notes : "";
+  const label = favorite ? "Enter notes" : "";
+  const displayNotes = notes ? notes : "";
 
   const renderPlaceholder = () => {
-    if (props.loggedIn && props.favorite) {
+    if (loggedIn && favorite) {
       return "";
     }
-    if (props.loggedIn && !props.favorite) {
+    if (loggedIn && !favorite) {
       return "Save as favorite to add notes";
     }
-    if (!props.loggedIn) {
+    if (!loggedIn) {
       return "Log in to enter notes";
     }
   };
@@ -85,11 +90,11 @@ export default function NotesBox(props) {
             rows={4}
             label={label}
             placeholder={renderPlaceholder()}
-            value={notes}
+            value={displayNotes}
             variant="outlined"
-            disabled={!props.favorite}
+            disabled={!favorite}
             onChange={(event) =>
-              context.handleNoteInput(props.id, event.target.value)
+              context.handleNoteInput(id, event.target.value)
             } // need some type of force update
             onBlur={() => context.handleNoteSubmit()}
           ></TextField>
