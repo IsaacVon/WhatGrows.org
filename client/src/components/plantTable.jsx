@@ -5,9 +5,7 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 import Like from "./likeButton";
 import Save from "./saveButton";
 import NotesBox from "./notesBox";
@@ -17,6 +15,21 @@ import MoreInfo from "../components/moreInfo";
 
 const useRowStyles = makeStyles({
   root: {
+
+    "& .MuiButton-root ": {
+      color: "white",
+      fontSize: '20px',
+      fontFamily: "Indie Flower",
+      letterSpacing: "2px",
+    },
+
+
+    "& .MuiIconButton-root": {
+      color: "white",
+    },
+
+
+
     "& > *": {
       borderBottom: "unset",
     },
@@ -125,16 +138,8 @@ export default function PlantTable(props) {
   }
   if (!displayLearnMoreSearch) {
     return (
-      <TableContainer component={Paper}>
+      <TableContainer style={{ backgroundColor: '#1DEFF4' }}>
         <Table aria-label="collapsible table">
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell>Image</TableCell>
-              <TableCell align="right">Plant Name</TableCell>
-              <TableCell align="right"></TableCell>
-            </TableRow>
-          </TableHead>
           <TableBody>
             {plantsOnPage.map((row) => (
               <Row key={row.id} row={row} favorites={favorites} />

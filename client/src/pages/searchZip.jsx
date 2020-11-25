@@ -117,7 +117,7 @@ class SearchZip extends Component {
     displayFilters: false,
     displayZipSearch: true,
     displayLoading: false,
-    displayTable: false,
+    displayTable: true,
     zipCodeValid: false,
     zipCode: 0,
     usdaHardinessZone: "",

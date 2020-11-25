@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { device } from "../utils/device";
 
 import first from "../assets/searchCircleButton.png";
 import back from "../assets/page2.png";
@@ -11,11 +12,13 @@ const PageButtonContainer = styled.section`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  padding: 30px 0px;
 `;
 
 const PageCounterContainer = styled.section`
   display: grid;
   place-items: center;
+  margin: 0px 10px;
 `;
 
 const PageCounter = styled.h2`
@@ -25,7 +28,6 @@ const PageCounter = styled.h2`
 `;
 
 const PageButton = styled.button`
-  margin: 14px;
   color: #1deff4;
   font-family: "Indie Flower";
   font-size: 20px;
@@ -33,10 +35,25 @@ const PageButton = styled.button`
   cursor: pointer;
   border: none;
   background-color: transparent;
-  background-size: 80px;
+  background-repeat: no-repeat;
+  background-size: 70px;
+  height: 72px;
+  width: 72px;
 
-  height: 80px;
-  width: 80px;
+  @media ${device.mobileS} {
+    margin: 2px;
+    background-size: 65px;
+    height: 67px;
+    width: 67px;
+  }
+
+  @media ${device.tablet} {
+    margin: 14px;
+
+    background-size: 70px;
+    height: 72px;
+    width: 72px;
+  }
 
   &:hover {
     /* background-color: palevioletred; */
