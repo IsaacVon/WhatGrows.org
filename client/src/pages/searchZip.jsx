@@ -114,10 +114,10 @@ const CircularProgressContainer = styled.section`
 
 class SearchZip extends Component {
   state = {
-    displayFilters: false,
+    displayFilters: true,
     displayZipSearch: true,
     displayLoading: false,
-    displayTable: false,
+    displayTable: true,
     zipCodeValid: false,
     zipCode: 0,
     usdaHardinessZone: "",
@@ -358,54 +358,12 @@ class SearchZip extends Component {
       if (this.state.displayTable)
         return (
           <>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                this.handlePageChange(1);
-              }}
-              disabled={this.state.currentPage === 1 ? true : false}
-            >
-              First
-            </Button>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                this.handlePageChange(this.state.currentPage - 1);
-              }}
-              disabled={this.state.currentPage === 1 ? true : false}
-            >
-              Back
-            </Button>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                this.handlePageChange(this.state.currentPage + 1);
-              }}
-              disabled={
-                this.state.currentPage === this.state.totalPages ? true : false
-              }
-            >
-              Next
-            </Button>{" "}
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                this.handlePageChange(this.state.totalPages);
-              }}
-              disabled={
-                this.state.currentPage === this.state.totalPages ? true : false
-              }
-            >
-              Last
-            </Button>
+          <PageButtons 
+          handlePageChange={this.handlePageChange}
+          currentPage={this.state.currentPage}
+          totalPages={this.state.totalPages}
+          />
+          
           </>
         );
     };

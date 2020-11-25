@@ -1,97 +1,130 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
-import { makeStyles } from "@material-ui/core/styles";
+import styled from "styled-components";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    paddingBottom: 60,
-  },
-}));
+import first from "../assets/searchCircleButton.png";
+import back from "../assets/page2.png";
+import next from "../assets/page3.png";
+import last from "../assets/page4.png";
 
-export default function PageButtons(props) {
-  const classes = useStyles();
+const PageButtonContainer = styled.section`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+
+const PageCounterContainer = styled.section`
+  display: grid;
+  place-items: center;
+`;
 
 
+const PageCounter = styled.h2`
+  color: #664B31;
+  font-size: 20px;
+  letter-spacing: 2px;
+`;
+
+const PageButton = styled.button`
+  margin: 14px;
+  color: #1deff4;
+  font-family: "Indie Flower";
+  font-size: 20px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  background-size: 80px;
+
+  height: 80px;
+  width: 80px;
+
+  &:hover {
+    /* background-color: palevioletred; */
+    /* color: #1deff4; */
+  }
+
+  &:active {
+    background-image: url(${first});
+    transition: 0.1s all;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &.first {
+    background-image: url(${first});
+  }
+
+  &.back {
+    background-image: url(${back});
+  }
+
+  &.next {
+    background-image: url(${next});
+  }
+
+  &.last {
+    background-image: url(${last});
+  }
+`;
+
+export default function PageButtons({
+  handlePageChange,
+  currentPage,
+  totalPages,
+}) {
   return (
-    <div className={classes.root}>
-      <Container maxWidth="sm">
-        <Grid container justify="center" spacing={1}>
-          <Grid item xs={12}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              fullWidth
-              onClick={props.handleSearch}
-              disabled={!props.zipCode}
-            >
-              Search
-            </Button>
-          </Grid>
-       
-        <Grid item xs={3}>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            onClick={() => {
-              props.handlePageChange(1);
-            }}
-            disabled={props.currentPage === 1 ? true : false}
-          >
-            First
-          </Button>
-        </Grid>
-        <Grid item xs={3}>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            onClick={() => {
-              props.handlePageChange(props.currentPage - 1);
-            }}
-            disabled={props.currentPage === 1 ? true : false}
-          >
-            Back
-          </Button>
-        </Grid>
+    <PageButtonContainer>
+      <PageButton
+        className="first"
+        onClick={() => {
+          handlePageChange(1);
+        }}
+        disabled={currentPage === 1 ? true : false}
+      >
+        First
+      </PageButton>
+      <PageButton
+        className="back"
+        onClick={() => {
+          handlePageChange(currentPage - 1);
+        }}
+        disabled={currentPage === 1 ? true : false}
+      >
+        Back
+      </PageButton>
 
-        <Grid item xs={3}>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            onClick={() => {
-              props.handlePageChange(props.currentPage + 1);
-            }}
-            disabled={props.currentPage === props.totalPages ? true : false}
-          >
-            Next
-          </Button>{" "}
-        </Grid>
+      <PageCounterContainer>
+        <PageCounter>
+          {currentPage}/25
+          {/* {currentPage}/{totalPages} */}
+        </PageCounter>
+      </PageCounterContainer>
 
-        <Grid item xs={3}>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            onClick={() => {
-              props.handlePageChange(props.totalPages);
-            }}
-            disabled={props.currentPage === props.totalPages ? true : false}
-          >
-            Last
-          </Button>
-        </Grid>
-        </Grid>
-      </Container>
-    </div>
+      <PageButton
+        className="next"
+        onClick={() => {
+          handlePageChange(currentPage + 1);
+        }}
+        disabled={currentPage === totalPages ? true : false}
+      >
+        Next
+      </PageButton>
+      <PageButton
+        className="last"
+        onClick={() => {
+          handlePageChange(totalPages);
+        }}
+        disabled={currentPage === totalPages ? true : false}
+      >
+        Last
+      </PageButton>
+    </PageButtonContainer>
   );
 }
