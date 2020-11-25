@@ -53,7 +53,6 @@ const NavButtons = styled.h3`
 `;
 
 export default function NavBar({ name, loggedIn }) {
-  console.log("device", device.laptop);
   return (
     <>
       <Parent>

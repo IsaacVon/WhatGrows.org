@@ -33,7 +33,6 @@ export default function NotesBox(props) {
     }
   }
   
-  console.log(props)
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
