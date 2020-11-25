@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
 import styled from "styled-components";
 
 import first from "../assets/searchCircleButton.png";
@@ -8,6 +7,7 @@ import next from "../assets/page3.png";
 import last from "../assets/page4.png";
 
 const PageButtonContainer = styled.section`
+  background-color: #1deff4;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -18,9 +18,8 @@ const PageCounterContainer = styled.section`
   place-items: center;
 `;
 
-
 const PageCounter = styled.h2`
-  color: #664B31;
+  color: white;
   font-size: 20px;
   letter-spacing: 2px;
 `;

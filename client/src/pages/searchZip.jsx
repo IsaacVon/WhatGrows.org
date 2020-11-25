@@ -114,10 +114,10 @@ const CircularProgressContainer = styled.section`
 
 class SearchZip extends Component {
   state = {
-    displayFilters: true,
+    displayFilters: false,
     displayZipSearch: true,
     displayLoading: false,
-    displayTable: true,
+    displayTable: false,
     zipCodeValid: false,
     zipCode: 0,
     usdaHardinessZone: "",
@@ -415,9 +415,9 @@ class SearchZip extends Component {
           {renderFilters()}
           {renderSearchZip()}
         </FilterSearchContainer>
-        {renderPageNavigationButtons()}
         {renderLoading()}
         {renderTable()}
+        {renderPageNavigationButtons()}
       </>
     );
   }
