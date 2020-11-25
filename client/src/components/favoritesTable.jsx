@@ -111,7 +111,7 @@ const Row = (props) => {
                   <Like liked={favorite.favorite} />
                 </IconButton>
                 <Button
-                  onClick={() => context.handleLearnMoreFavorites(row.plantUrl)}
+                  onClick={() => context.handleLearnMoreFavorites(row.plantUrl, row.plantId, favorite.favorite)}
                 >
                   {row.common_name}
                 </Button>

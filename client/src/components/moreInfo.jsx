@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
+
 import Gallery from "react-photo-gallery";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import styled from "styled-components";
+import { GlobalContextConsumer } from "../globalContext";
+import NotesBox from "./notesBox";
 
 const useStyles = makeStyles({
   root: {
@@ -14,6 +15,80 @@ const useStyles = makeStyles({
     height: 140,
   },
 });
+
+const PlantName = styled.h1`
+  font-size: 30px;
+  text-align: center;
+  letter-spacing: 2px;
+`;
+
+const TextContainer = styled.section`
+  color: white;
+  flex: 1 1 350px;
+  margin-left: 20px;
+  /* background-color: yellowgreen; */
+`;
+
+const GalleryContainer = styled.section`
+  flex: 1 1 350px;
+  display: grid;
+  place-items: center;
+  /* background-color: yellowgreen; */
+`;
+
+const BackButton = styled.button`
+  padding: 10px;
+  width: 100%;
+
+  color: white;
+  font-family: "Indie Flower";
+  font-size: 20px;
+  letter-spacing: 2px;
+
+  cursor: pointer;
+
+  border: none;
+  background-color: transparent;
+
+  &:hover {
+    transition: background-color 0.2s ease-in-out;
+    background-color: #ff7500;
+    /* color: #1deff4; */
+  }
+
+  &:active {
+    transition: 0.1s all;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+`;
+
+const CircularProgressContainer = styled.section`
+  display: grid;
+  place-items: center;
+`;
+
+const ButtonContainer = styled.section`
+  background-color: #ffb400;
+  width: 100%;
+  text-align: center;
+`;
+
+const InfoWrapper = styled.section`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: #5cd700;
+  overflow: hidden;
+  margin: 45px;
+  border-radius: 20px;
+`;
 
 const maxImageDisplay = 7;
 
@@ -96,17 +171,24 @@ export default function MoreInfo({ learnMore, handleExitLearnMore }) {
 
   const renderContent = () => {
     if (!imagesLoaded) {
-      return <CircularProgress />;
+      return (
+        <CircularProgressContainer>
+          <CircularProgress style={{ color: "#FFE116" }} />
+        </CircularProgressContainer>
+      );
     }
 
     if (imagesLoaded) {
       return (
-        <Card className={classes.root}>
-          <Button onClick={() => handleExitLearnMore()}>Exit</Button>
-          <Gallery margin={2} photos={imageArray} />
-          <CardContent>
-            {learnMore.common_name}
-
+        <InfoWrapper>
+          <ButtonContainer>
+            <BackButton onClick={() => handleExitLearnMore()}>Exit</BackButton>
+          </ButtonContainer>
+          <GalleryContainer>
+            <Gallery margin={0} photos={imageArray} />
+          </GalleryContainer>
+          <TextContainer>
+            <PlantName>{learnMore.common_name}</PlantName>
             <p>Scientific Name: {learnMore.scientific_name}</p>
             <p>Family Common Name: {learnMore.family_common_name}</p>
             <p>Average Height: {learnMore.average_height_inches} Inches</p>
@@ -127,9 +209,20 @@ export default function MoreInfo({ learnMore, handleExitLearnMore }) {
             <p>Growth Habit: {learnMore.growth_habit}</p>
             <p>Growth Months: {learnMore.growth_months}</p>
 
-            {/* {learnMore.images} */}
-          </CardContent>
-        </Card>
+            {/* <GlobalContextConsumer>
+            {(context) => (
+                       
+                <NotesBox
+                  loggedIn={context.loggedIn}
+                  id={row.plantId}
+                  favorite={favorite.favorite}
+                  notes={favorite.notes}
+                />
+     
+            )}
+          </GlobalContextConsumer> */}
+          </TextContainer>
+        </InfoWrapper>
       );
     }
   };

@@ -27,7 +27,13 @@ class GlobalContextProvider extends Component {
 
 
 
-  handleLearnMoreFavorites = async (plantLink) => {
+  handleLearnMoreFavorites = async (plantLink, plantId, favorite) => {
+
+
+
+    console.log("plant id ", plantId, favorite)
+
+
     const { data } = await requestMorePlantInfo(plantLink);
     const learnMore = {
       common_name: data.common_name,
