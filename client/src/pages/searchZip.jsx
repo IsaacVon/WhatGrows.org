@@ -11,18 +11,23 @@ import TextField from "@material-ui/core/TextField";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import FormGroup from "@material-ui/core/FormGroup";
 import SearchButton from "../components/searchButton";
-import styled, { withTheme } from "styled-components";
+import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import Filter from "../components/filters/filter.jsx";
 import filterBox from "../assets/filterBox.png";
 
 const useStyles = (theme) => ({
-  root: {
-    ":-webkit-autofill": {
-      WebkitBoxShadow: "0 0 0 1000px green inset",
-      backgroundColor: "green",
+  input: {
+    "&:-webkit-autofill": {
+      WebkitBoxShadow: "0 0 0 1000px #36D8F0 inset",
+      WebkitTextFillColor: "white",    
+      // fontFamily: "Indie Flower",
+      // fontSpacing: "2px",
     },
+  },
+
+  root: {
     fontWeight: 400,
     flexGrow: 1,
     paddingBottom: 60,
@@ -104,7 +109,6 @@ const SearchZipContainer = styled.section`
 const FilterContainer = styled.section`
   flex: 0 1 500px;
   margin: 20px;
-
 `;
 
 const CircularProgressContainer = styled.section`
@@ -337,6 +341,7 @@ class SearchZip extends Component {
             <div className={classes.root}>
               <SearchZipContainer>
                 <TextField
+                  inputProps={{ className: classes.input }}
                   label="Enter Zip Code"
                   id="zip"
                   // helperText={this.zipHelperText()}
@@ -358,12 +363,11 @@ class SearchZip extends Component {
       if (this.state.displayTable)
         return (
           <>
-          <PageButtons 
-          handlePageChange={this.handlePageChange}
-          currentPage={this.state.currentPage}
-          totalPages={this.state.totalPages}
-          />
-          
+            <PageButtons
+              handlePageChange={this.handlePageChange}
+              currentPage={this.state.currentPage}
+              totalPages={this.state.totalPages}
+            />
           </>
         );
     };

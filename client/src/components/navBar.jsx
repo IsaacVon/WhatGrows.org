@@ -5,12 +5,11 @@ import logo from "../assets/logo.png";
 import styled from "styled-components";
 import { device } from "../utils/device";
 
-
 const Parent = styled.section`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  height: 250px;
+  height: 180px;
 
   @media ${device.mobileS} {
     /* background-color: orange; */

@@ -7,11 +7,11 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableRow from "@material-ui/core/TableRow";
 import Like from "./likeButton";
-import Save from "./saveButton";
 import NotesBox from "./notesBox";
 import { GlobalContextConsumer } from "../globalContext";
 import Button from "@material-ui/core/Button";
 import MoreInfo from "../components/moreInfo";
+import styled from "styled-components";
 
 const useRowStyles = makeStyles({
   root: {
@@ -35,6 +35,18 @@ const useRowStyles = makeStyles({
     },
   },
 });
+
+const ImageContainer = styled.section`
+  width: 200px;
+  height: 200px;
+  border-radius: 20px;
+  overflow: hidden;
+`;
+
+const PlantImage = styled.img`
+  height: 100%;
+  border-radius: 20px;
+`;
 
 const Row = (props) => {
   const { row, favorites, addFavorite, handleLearnMoreFavorites } = props;
@@ -67,62 +79,49 @@ const Row = (props) => {
 
   return (
     <React.Fragment>
-      <TableRow hover="true" className={classes.root}>
-        <TableCell>
-          <GlobalContextConsumer>
-            {(context) => (
-              <IconButton
-                disabled={!context.loggedIn}
-                onClick={() => {
-                  let newRow = row;
-                  newRow.id = row.plantId;
-                  // console.log("row",newRow,"favorite.favorite",favorite.favorite)
-
-                  context.handleFavoriteClick(newRow, favorite.favorite);
-                }}
-                size="small"
-              >
-                <Like liked={favorite.favorite} />
-              </IconButton>
-            )}
-          </GlobalContextConsumer>
-        </TableCell>
-        <TableCell align="center" component="th" scope="row">
-          <GlobalContextConsumer>
-            {(context) => (
-              <Button
-                onClick={() => context.handleLearnMoreSearch(row.links.plant)}
-              >
-                <img
-                  style={{ height: "200px", borderRadius: "20px" }}
-                  src={row.image_url}
-                  alt="plant"
-                />
-              </Button>
-            )}
-          </GlobalContextConsumer>
-        </TableCell>
-        <TableCell align="right">
+      <TableRow className={classes.root}>
+        <TableCell align="right" component="th" scope="row">
           <GlobalContextConsumer>
             {(context) => (
               <Button
                 onClick={() => context.handleLearnMoreFavorites(row.plantUrl)}
               >
-                {" "}
-                {row.common_name}
+                <ImageContainer>
+                  <PlantImage src={row.image} alt="plant" />
+                </ImageContainer>
               </Button>
             )}
           </GlobalContextConsumer>
         </TableCell>
-        <TableCell align="right">
+        <TableCell align="left">
           <GlobalContextConsumer>
             {(context) => (
-              <NotesBox
-                loggedIn={context.loggedIn}
-                id={row.plantId}
-                favorite={favorite.favorite}
-                notes={favorite.notes}
-              />
+              <>
+                <IconButton
+                  disabled={!context.loggedIn}
+                  onClick={() => {
+                    let newRow = row;
+                    newRow.id = row.plantId;
+                    // console.log("row",newRow,"favorite.favorite",favorite.favorite)
+
+                    context.handleFavoriteClick(newRow, favorite.favorite);
+                  }}
+                  size="small"
+                >
+                  <Like liked={favorite.favorite} />
+                </IconButton>
+                <Button
+                  onClick={() => context.handleLearnMoreFavorites(row.plantUrl)}
+                >
+                  {row.common_name}
+                </Button>
+                <NotesBox
+                  loggedIn={context.loggedIn}
+                  id={row.plantId}
+                  favorite={favorite.favorite}
+                  notes={favorite.notes}
+                />
+              </>
             )}
           </GlobalContextConsumer>
         </TableCell>

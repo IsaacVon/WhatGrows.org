@@ -12,6 +12,7 @@ import NotesBox from "./notesBox";
 import { GlobalContextConsumer } from "../globalContext";
 import Button from "@material-ui/core/Button";
 import MoreInfo from "../components/moreInfo";
+import styled from "styled-components";
 
 const useRowStyles = makeStyles({
   root: {
@@ -31,6 +32,18 @@ const useRowStyles = makeStyles({
     },
   },
 });
+
+const ImageContainer = styled.section`
+  width: 200px;
+  height: 200px;
+  border-radius: 20px;
+  overflow: hidden;
+`;
+
+const PlantImage = styled.img`
+  height: 100%;
+  border-radius: 20px;
+`;
 
 const Row = (props) => {
   const { row, favorites, addFavorite } = props;
@@ -63,57 +76,46 @@ const Row = (props) => {
   return (
     <React.Fragment>
       <TableRow className={classes.root}>
-        <TableCell>
-          <GlobalContextConsumer>
-            {(context) => (
-              <IconButton
-                disabled={!context.loggedIn}
-                onClick={() =>
-                  // console.log("row",row, "favorite.favorite",favorite.favorite)
-                  context.handleFavoriteClick(row, favorite.favorite)
-                }
-                size="small"
-              >
-                <Like liked={favorite.favorite} />
-              </IconButton>
-            )}
-          </GlobalContextConsumer>
-        </TableCell>
-        <TableCell align="center" component="th" scope="row">
+        <TableCell align="right" component="th" scope="row">
           <GlobalContextConsumer>
             {(context) => (
               <Button
                 onClick={() => context.handleLearnMoreSearch(row.links.plant)}
               >
-                <img
-                  style={{ height: "200px", borderRadius: "20px" }}
-                  src={row.image_url}
-                  alt="plant"
+                <ImageContainer>
+                  <PlantImage src={row.image_url} alt="plant" />
+                </ImageContainer>
+              </Button>
+            )}
+          </GlobalContextConsumer>
+        </TableCell>
+
+        <TableCell align="left">
+          <GlobalContextConsumer>
+            {(context) => (
+              <>
+                <IconButton
+                  disabled={!context.loggedIn}
+                  onClick={() =>
+                    // console.log("row",row, "favorite.favorite",favorite.favorite)
+                    context.handleFavoriteClick(row, favorite.favorite)
+                  }
+                  size="small"
+                >
+                  <Like liked={favorite.favorite} />
+                </IconButton>
+                <Button
+                  onClick={() => context.handleLearnMoreSearch(row.links.plant)}
+                >
+                  {row.common_name}
+                </Button>
+                <NotesBox
+                  loggedIn={context.loggedIn}
+                  id={row.id}
+                  favorite={favorite.favorite}
+                  notes={favorite.notes}
                 />
-              </Button>
-            )}
-          </GlobalContextConsumer>
-        </TableCell>
-        <TableCell align="right">
-          <GlobalContextConsumer>
-            {(context) => (
-              <Button
-                onClick={() => context.handleLearnMoreSearch(row.links.plant)}
-              >
-                {row.common_name}
-              </Button>
-            )}
-          </GlobalContextConsumer>
-        </TableCell>
-        <TableCell align="right">
-          <GlobalContextConsumer>
-            {(context) => (
-              <NotesBox
-                loggedIn={context.loggedIn}
-                id={row.id}
-                favorite={favorite.favorite}
-                notes={favorite.notes}
-              />
+              </>
             )}
           </GlobalContextConsumer>
         </TableCell>

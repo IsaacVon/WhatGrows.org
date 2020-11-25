@@ -21,8 +21,9 @@ const useStyles = makeStyles((theme) => ({
     },
 
     "& .MuiTextField-root": {
-      margin: theme.spacing(1),
-      width: "25ch",
+      // margin: theme.spacing(1),
+      width: "100%",
+      maxWidth: "500px",
     },
 
 
@@ -33,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
       borderLottomColor: "rgb(0, 251, 255)",
       borderLeftColor: "rgb(0, 251, 255)",
       borderWidth: "3px",
+      borderRadius: "20px"
     },
     
     "& .MuiOutlinedInput-root.Mui-disabled .MuiOutlinedInput-notchedOutline": {
