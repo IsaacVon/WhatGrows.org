@@ -204,12 +204,16 @@ class GlobalContextProvider extends Component {
   // Input: favorite and note
   // Goal: set state
   handleNoteInput = (id, note) => {
+
+    console.log("handleNoteInput", id, note)
+
     const indexOfNote = this.state.favorites.findIndex(function (
       current,
       index
     ) {
       return current.plantId === id;
     });
+
     let currentFavorites = [...this.state.favorites];
     currentFavorites[indexOfNote].notes = note;
     this.setState({

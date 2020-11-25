@@ -97,7 +97,7 @@ const Row = (props) => {
             {(context) => (
               <NotesBox
                 loggedIn={context.loggedIn}
-                id={row.id}
+                id={row.plantId}
                 favorite={favorite.favorite}
                 notes={favorite.notes}
               />
