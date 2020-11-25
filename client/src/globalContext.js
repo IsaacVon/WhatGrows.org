@@ -25,17 +25,17 @@ class GlobalContextProvider extends Component {
     });
   };
 
-
-
-  handleLearnMoreFavorites = async (plantLink, plantId, favorite) => {
-
-
-
-    console.log("plant id ", plantId, favorite)
-
+  handleLearnMoreFavorites = async (plantLink, plantId, favorite, notes) => {
+    console.log("plant id ", plantId);
+    console.log("favorite ", favorite);
+    console.log("notes ", notes);
 
     const { data } = await requestMorePlantInfo(plantLink);
     const learnMore = {
+      plantId,
+      favorite,
+      notes,
+
       common_name: data.common_name,
       image_url: data.image_url,
       scientific_name: data.scientific_name,
@@ -66,9 +66,13 @@ class GlobalContextProvider extends Component {
     });
   };
 
-  handleLearnMoreSearch = async (plantLink) => {
+  handleLearnMoreSearch = async (plantLink, plantId, favorite, notes) => {
     const { data } = await requestMorePlantInfo(plantLink);
     const learnMore = {
+      plantId,
+      favorite,
+      notes,
+
       common_name: data.common_name,
       image_url: data.image_url,
       scientific_name: data.scientific_name,
@@ -211,7 +215,6 @@ class GlobalContextProvider extends Component {
   // Goal: set state
   handleNoteInput = (id, note) => {
 
-    console.log("handleNoteInput", id, note)
 
     const indexOfNote = this.state.favorites.findIndex(function (
       current,

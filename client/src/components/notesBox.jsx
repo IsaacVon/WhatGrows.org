@@ -8,16 +8,27 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiInputLabel-outlined.MuiInputLabel-shrink": {
       color: "white",
       fontFamily: "Indie Flower",
+
     },
 
     "& .MuiOutlinedInput-inputMultiline": {
       color: "white",
-      fontFamily: "Indie Flower",
+      fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif",
+      letterSpacing: "1px",
+      fontWeight: "300",
+      fontSize: "15px",
     },
+  
+
+
 
     "& .MuiFormLabel-root": {
       color: "white",
-      fontFamily: "Indie Flower",
+      fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif",
+      letterSpacing: "1px",
+      fontWeight: "300",
+      fontSize: "15px",
+
     },
 
     "& .MuiTextField-root": {
@@ -59,11 +70,7 @@ const useStyles = makeStyles((theme) => ({
 export default function NotesBox({favorite, id, notes, loggedIn}) {
   const classes = useStyles();
 
-  console.log("favorite", favorite)
-  console.log("id", id)
-  console.log("notes", notes)
 
-  
   // If not favorited return enter notes
   const label = favorite ? "Enter notes" : "";
   const displayNotes = notes ? notes : "";
@@ -79,6 +86,8 @@ export default function NotesBox({favorite, id, notes, loggedIn}) {
       return "Log in to enter notes";
     }
   };
+
+  console.log("notes box rendering")
 
   return (
     <form className={classes.root} noValidate autoComplete="off">

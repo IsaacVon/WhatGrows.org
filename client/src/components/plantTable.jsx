@@ -72,7 +72,6 @@ const Row = (props) => {
   };
 
   const favorite = isFavorite(row.id);
-
   return (
     <React.Fragment>
       <TableRow className={classes.root}>
@@ -80,7 +79,7 @@ const Row = (props) => {
           <GlobalContextConsumer>
             {(context) => (
               <Button
-                onClick={() => context.handleLearnMoreSearch(row.links.plant)}
+                onClick={() => context.handleLearnMoreSearch(row.links.plant, row.id, favorite.favorite, favorite.notes)}
               >
                 <ImageContainer>
                   <PlantImage src={row.image_url} alt="plant" />
@@ -105,7 +104,7 @@ const Row = (props) => {
                   <Like liked={favorite.favorite} />
                 </IconButton>
                 <Button
-                  onClick={() => context.handleLearnMoreSearch(row.links.plant)}
+                  onClick={() => context.handleLearnMoreSearch(row.links.plant, row.id, favorite.favorite, favorite.notes)}
                 >
                   {row.common_name}
                 </Button>

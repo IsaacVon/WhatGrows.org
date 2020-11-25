@@ -6,6 +6,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import styled from "styled-components";
 import { GlobalContextConsumer } from "../globalContext";
 import NotesBox from "./notesBox";
+import Like from "./likeButton";
 
 const useStyles = makeStyles({
   root: {
@@ -22,9 +23,28 @@ const PlantName = styled.h1`
   letter-spacing: 2px;
 `;
 
+const PlantDetails = styled.p`
+  font-size: 15px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  letter-spacing: 1px;
+`;
+
+const NoteBoxContainer = styled.section`
+  /* background-color: green; */
+  display: grid;
+  place-items: center;
+  height: 150px;
+  margin: 30px 30px 30px 0px;
+`;
+
+const Test = styled.section`
+  width: 100%;
+`;
+
 const TextContainer = styled.section`
   color: white;
-  flex: 1 1 350px;
+  flex: 1 1 100px;
   margin-left: 20px;
   /* background-color: yellowgreen; */
 `;
@@ -147,6 +167,10 @@ export default function MoreInfo({ learnMore, handleExitLearnMore }) {
     img.src = imageUrl;
   };
 
+  const checkForNullData = (data) => {
+    return data ? data : "-";
+  };
+
   // pull urls from the api data and put them into one array of URLS
   const extractUrls = async () => {
     for (let key in imageUrlArrayUnextracted) {
@@ -189,38 +213,68 @@ export default function MoreInfo({ learnMore, handleExitLearnMore }) {
           </GalleryContainer>
           <TextContainer>
             <PlantName>{learnMore.common_name}</PlantName>
-            <p>Scientific Name: {learnMore.scientific_name}</p>
-            <p>Family Common Name: {learnMore.family_common_name}</p>
-            <p>Average Height: {learnMore.average_height_inches} Inches</p>
-            <p>
-              Maximum Precipitation:{" "}
-              {learnMore.maximum_precipitation_annualInches} Inches
-            </p>
-            <p>
-              Minimum Precipitation:
-              {learnMore.minimum_precipitation_annualInches} Inches
-            </p>
-            <p>
-              Minimum Root Depth: {learnMore.minimum_root_depth_inches} Inches
-            </p>
-            <p>Growth Rate: {learnMore.growth_rate}</p>
-            <p>Bloom Months: {learnMore.bloom_months}</p>
-            <p>Fruit Months: {learnMore.fruit_months}</p>
-            <p>Growth Habit: {learnMore.growth_habit}</p>
-            <p>Growth Months: {learnMore.growth_months}</p>
+            <PlantDetails>
+              <p>
+                <b>Scientific Name:</b>{" "}
+                {checkForNullData(learnMore.scientific_name)}
+              </p>
+              <p>
+                <b>Family Common Name:</b>{" "}
+                {checkForNullData(learnMore.family_common_name)}
+              </p>
+              <p>
+                <b>Average Height:</b>{" "}
+                {checkForNullData(learnMore.average_height_inches)} Inches
+              </p>
+              <p>
+                <b>Maximum Precipitation: </b>
+                {checkForNullData(learnMore.maximum_precipitation_annualInches)}
+                Inches
+              </p>
+              <p>
+                <b>Minimum Precipitation: </b>
+                {checkForNullData(
+                  learnMore.minimum_precipitation_annualInches
+                )}{" "}
+                Inches
+              </p>
+              <p>
+                <b>Minimum Root Depth: </b>
+                {checkForNullData(learnMore.minimum_root_depth_inches)}
+                Inches
+              </p>
+              <p>
+                <b>Growth Rate: </b> {checkForNullData(learnMore.growth_rate)}
+              </p>
+              <p>
+                <b>Bloom Months: </b> {checkForNullData(learnMore.bloom_months)}
+              </p>
+              <p>
+                <b>Fruit Months:</b> {checkForNullData(learnMore.fruit_months)}
+              </p>
+              <p>
+                <b>Growth Habit:</b> {checkForNullData(learnMore.growth_habit)}
+              </p>
+              <p>
+                <b>Growth Months:</b>{" "}
+                {checkForNullData(learnMore.growth_months)}
+              </p>
+            </PlantDetails>
 
-            {/* <GlobalContextConsumer>
-            {(context) => (
-                       
-                <NotesBox
-                  loggedIn={context.loggedIn}
-                  id={row.plantId}
-                  favorite={favorite.favorite}
-                  notes={favorite.notes}
-                />
-     
-            )}
-          </GlobalContextConsumer> */}
+            <NoteBoxContainer>
+              <Test>
+                <GlobalContextConsumer>
+                  {(context) => (
+                    <NotesBox
+                      loggedIn={context.loggedIn}
+                      id={context.learnMore.plantId}
+                      favorite={context.learnMore.favorite}
+                      notes={context.learnMore.notes}
+                    />
+                  )}
+                </GlobalContextConsumer>
+              </Test>
+            </NoteBoxContainer>
           </TextContainer>
         </InfoWrapper>
       );
