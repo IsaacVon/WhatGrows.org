@@ -16,6 +16,8 @@ import { withStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import Filter from "../components/filters/filter.jsx";
 import filterBox from "../assets/filterBox.png";
+import { device } from "../utils/device";
+
 
 const useStyles = (theme) => ({
   input: {
@@ -109,6 +111,14 @@ const SearchZipContainer = styled.section`
 const FilterContainer = styled.section`
   flex: 0 1 500px;
   margin: 20px;
+
+
+  @media ${device.mobileS} {
+    margin: 0px;
+  }
+  @media ${device.tablet} {
+    margin: 20px;
+  }
 `;
 
 const CircularProgressContainer = styled.section`
@@ -118,7 +128,7 @@ const CircularProgressContainer = styled.section`
 
 class SearchZip extends Component {
   state = {
-    displayFilters: false,
+    displayFilters: true,
     displayZipSearch: true,
     displayLoading: false,
     displayTable: false,

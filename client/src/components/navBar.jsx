@@ -9,12 +9,13 @@ const Parent = styled.section`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  height: 180px;
 
   @media ${device.mobileS} {
     /* background-color: orange; */
   }
   @media ${device.tablet} {
+    height: 180px;
+
     /* background-color: blue; */
   }
 `;

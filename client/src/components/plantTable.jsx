@@ -13,6 +13,7 @@ import { GlobalContextConsumer } from "../globalContext";
 import Button from "@material-ui/core/Button";
 import MoreInfo from "../components/moreInfo";
 import styled from "styled-components";
+import { device } from "../utils/device";
 
 const useRowStyles = makeStyles({
   root: {
@@ -21,6 +22,14 @@ const useRowStyles = makeStyles({
       fontSize: "20px",
       fontFamily: "Indie Flower",
       letterSpacing: "2px",
+    },
+
+    "& .MuiTable-root": {
+      backgroundColor: "green",
+    },
+
+    "& .MuiTableCell-root": {
+      padding: "0px",
     },
 
     "& .MuiIconButton-root": {
@@ -34,15 +43,43 @@ const useRowStyles = makeStyles({
 });
 
 const ImageContainer = styled.section`
-  width: 200px;
-  height: 200px;
   border-radius: 20px;
   overflow: hidden;
+
+  @media ${device.mobileS} {
+    width: 150px;
+    height: 150px;
+  }
+  @media ${device.tablet} {
+    width: 200px;
+    height: 200px;
+    margin: 15px;
+  }
 `;
 
 const PlantImage = styled.img`
   height: 100%;
   border-radius: 20px;
+`;
+
+const TextContainer = styled.section`
+  /* background-color: green; */
+
+  @media ${device.mobileS} {
+    margin-right: 20px;
+  }
+  @media ${device.tablet} {
+    margin-right: 100px;
+  }
+`;
+
+const TableWrapper = styled.section`
+  background-color: green;
+
+  @media ${device.mobileS} {
+  }
+  @media ${device.tablet} {
+  }
 `;
 
 const Row = (props) => {
@@ -79,7 +116,14 @@ const Row = (props) => {
           <GlobalContextConsumer>
             {(context) => (
               <Button
-                onClick={() => context.handleLearnMoreSearch(row.links.plant, row.id, favorite.favorite, favorite.notes)}
+                onClick={() =>
+                  context.handleLearnMoreSearch(
+                    row.links.plant,
+                    row.id,
+                    favorite.favorite,
+                    favorite.notes
+                  )
+                }
               >
                 <ImageContainer>
                   <PlantImage src={row.image_url} alt="plant" />
@@ -90,33 +134,42 @@ const Row = (props) => {
         </TableCell>
 
         <TableCell align="left">
-          <GlobalContextConsumer>
-            {(context) => (
-              <>
-                <IconButton
-                  disabled={!context.loggedIn}
-                  onClick={() =>
-                    // console.log("row",row, "favorite.favorite",favorite.favorite)
-                    context.handleFavoriteClick(row, favorite.favorite)
-                  }
-                  size="small"
-                >
-                  <Like liked={favorite.favorite} />
-                </IconButton>
-                <Button
-                  onClick={() => context.handleLearnMoreSearch(row.links.plant, row.id, favorite.favorite, favorite.notes)}
-                >
-                  {row.common_name}
-                </Button>
-                <NotesBox
-                  loggedIn={context.loggedIn}
-                  id={row.id}
-                  favorite={favorite.favorite}
-                  notes={favorite.notes}
-                />
-              </>
-            )}
-          </GlobalContextConsumer>
+          <TextContainer>
+            <GlobalContextConsumer>
+              {(context) => (
+                <>
+                  <IconButton
+                    disabled={!context.loggedIn}
+                    onClick={() =>
+                      // console.log("row",row, "favorite.favorite",favorite.favorite)
+                      context.handleFavoriteClick(row, favorite.favorite)
+                    }
+                    size="small"
+                  >
+                    <Like liked={favorite.favorite} />
+                  </IconButton>
+                  <Button
+                    onClick={() =>
+                      context.handleLearnMoreSearch(
+                        row.links.plant,
+                        row.id,
+                        favorite.favorite,
+                        favorite.notes
+                      )
+                    }
+                  >
+                    {row.common_name}
+                  </Button>
+                  <NotesBox
+                    loggedIn={context.loggedIn}
+                    id={row.id}
+                    favorite={favorite.favorite}
+                    notes={favorite.notes}
+                  />
+                </>
+              )}
+            </GlobalContextConsumer>
+          </TextContainer>
         </TableCell>
       </TableRow>
     </React.Fragment>

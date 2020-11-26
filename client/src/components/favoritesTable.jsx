@@ -12,6 +12,7 @@ import { GlobalContextConsumer } from "../globalContext";
 import Button from "@material-ui/core/Button";
 import MoreInfo from "../components/moreInfo";
 import styled from "styled-components";
+import { device } from "../utils/device";
 
 const useRowStyles = makeStyles({
   root: {
@@ -26,6 +27,10 @@ const useRowStyles = makeStyles({
       backgroundColor: "green",
     },
 
+    "& .MuiTableCell-root": {
+      padding: "0px",
+    },
+
     "& .MuiIconButton-root": {
       color: "white",
     },
@@ -37,16 +42,46 @@ const useRowStyles = makeStyles({
 });
 
 const ImageContainer = styled.section`
-  width: 200px;
-  height: 200px;
   border-radius: 20px;
   overflow: hidden;
+
+  @media ${device.mobileS} {
+    width: 150px;
+    height: 150px;
+  }
+  @media ${device.tablet} {
+    width: 200px;
+    height: 200px;
+    margin: 15px;
+  }
 `;
 
 const PlantImage = styled.img`
   height: 100%;
   border-radius: 20px;
 `;
+
+const TextContainer = styled.section`
+  /* background-color: green; */
+
+  @media ${device.mobileS} {
+    margin-right: 20px;
+  }
+  @media ${device.tablet} {
+    margin-right: 100px;
+  }
+`;
+
+const TableWrapper = styled.section`
+  background-color: green;
+
+  @media ${device.mobileS} {
+  }
+  @media ${device.tablet} {
+  }
+`;
+
+
 
 const Row = (props) => {
   const { row, favorites, addFavorite, handleLearnMoreFavorites } = props;
@@ -93,37 +128,47 @@ const Row = (props) => {
             )}
           </GlobalContextConsumer>
         </TableCell>
+        
         <TableCell align="left">
-          <GlobalContextConsumer>
-            {(context) => (
-              <>
-                <IconButton
-                  disabled={!context.loggedIn}
-                  onClick={() => {
-                    let newRow = row;
-                    newRow.id = row.plantId;
-                    // console.log("row",newRow,"favorite.favorite",favorite.favorite)
+          <TextContainer>
+            <GlobalContextConsumer>
+              {(context) => (
+                <>
+                  <IconButton
+                    disabled={!context.loggedIn}
+                    onClick={() => {
+                      let newRow = row;
+                      newRow.id = row.plantId;
+                      // console.log("row",newRow,"favorite.favorite",favorite.favorite)
 
-                    context.handleFavoriteClick(newRow, favorite.favorite);
-                  }}
-                  size="small"
-                >
-                  <Like liked={favorite.favorite} />
-                </IconButton>
-                <Button
-                  onClick={() => context.handleLearnMoreFavorites(row.plantUrl, row.plantId, favorite.favorite, favorite.notes)}
-                >
-                  {row.common_name}
-                </Button>
-                <NotesBox
-                  loggedIn={context.loggedIn}
-                  id={row.plantId}
-                  favorite={favorite.favorite}
-                  notes={favorite.notes}
-                />
-              </>
-            )}
-          </GlobalContextConsumer>
+                      context.handleFavoriteClick(newRow, favorite.favorite);
+                    }}
+                    size="small"
+                  >
+                    <Like liked={favorite.favorite} />
+                  </IconButton>
+                  <Button
+                    onClick={() =>
+                      context.handleLearnMoreFavorites(
+                        row.plantUrl,
+                        row.plantId,
+                        favorite.favorite,
+                        favorite.notes
+                      )
+                    }
+                  >
+                    {row.common_name}
+                  </Button>
+                  <NotesBox
+                    loggedIn={context.loggedIn}
+                    id={row.plantId}
+                    favorite={favorite.favorite}
+                    notes={favorite.notes}
+                  />
+                </>
+              )}
+            </GlobalContextConsumer>
+          </TextContainer>
         </TableCell>
       </TableRow>
     </React.Fragment>
