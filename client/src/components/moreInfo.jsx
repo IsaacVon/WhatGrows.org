@@ -261,7 +261,7 @@ export default function MoreInfo({ learnMore, handleExitLearnMore }) {
               </p>
             </PlantDetails>
 
-            <NoteBoxContainer>
+            {/* <NoteBoxContainer>
               <Test>
                 <GlobalContextConsumer>
                   {(context) => (
@@ -274,7 +274,7 @@ export default function MoreInfo({ learnMore, handleExitLearnMore }) {
                   )}
                 </GlobalContextConsumer>
               </Test>
-            </NoteBoxContainer>
+            </NoteBoxContainer> */}
           </TextContainer>
         </InfoWrapper>
       );
