@@ -129,11 +129,25 @@ const Row = (props) => {
           </GlobalContextConsumer>
         </TableCell>
         
-        <TableCell align="left">
+        <TableCell align="center">
           <TextContainer>
             <GlobalContextConsumer>
               {(context) => (
                 <>
+                
+                  
+                  <Button
+                    onClick={() =>
+                      context.handleLearnMoreFavorites(
+                        row.plantUrl,
+                        row.plantId,
+                        favorite.favorite,
+                        favorite.notes
+                      )
+                    }
+                  >
+                    {row.common_name}
+                  </Button>
                   <IconButton
                     disabled={!context.loggedIn}
                     onClick={() => {
@@ -147,18 +161,6 @@ const Row = (props) => {
                   >
                     <Like liked={favorite.favorite} />
                   </IconButton>
-                  <Button
-                    onClick={() =>
-                      context.handleLearnMoreFavorites(
-                        row.plantUrl,
-                        row.plantId,
-                        favorite.favorite,
-                        favorite.notes
-                      )
-                    }
-                  >
-                    {row.common_name}
-                  </Button>
                   <NotesBox
                     loggedIn={context.loggedIn}
                     id={row.plantId}

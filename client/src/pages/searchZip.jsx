@@ -18,12 +18,11 @@ import Filter from "../components/filters/filter.jsx";
 import filterBox from "../assets/filterBox.png";
 import { device } from "../utils/device";
 
-
 const useStyles = (theme) => ({
   input: {
     "&:-webkit-autofill": {
       WebkitBoxShadow: "0 0 0 1000px #36D8F0 inset",
-      WebkitTextFillColor: "white",    
+      WebkitTextFillColor: "white",
       // fontFamily: "Indie Flower",
       // fontSpacing: "2px",
     },
@@ -108,10 +107,17 @@ const SearchZipContainer = styled.section`
   height: 200px;
 `;
 
+const TotalPlantsFount = styled.section`
+  text-align: center;
+  color: white;
+  font-size: 26px;
+  margin: 20px;
+  letter-spacing: 2px;
+`;
+
 const FilterContainer = styled.section`
   flex: 0 1 500px;
   margin: 20px;
-
 
   @media ${device.mobileS} {
     margin: 0px;
@@ -128,7 +134,7 @@ const CircularProgressContainer = styled.section`
 
 class SearchZip extends Component {
   state = {
-    displayFilters: true,
+    displayFilters: false,
     displayZipSearch: true,
     displayLoading: false,
     displayTable: false,
@@ -407,6 +413,9 @@ class SearchZip extends Component {
       if (this.state.displayTable)
         return (
           <>
+            <TotalPlantsFount>
+              {this.state.totalPlants} Plants Found
+            </TotalPlantsFount>
             <GlobalContextConsumer>
               {(context) => (
                 <PlantTable

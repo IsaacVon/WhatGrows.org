@@ -118,8 +118,8 @@ export default function PageButtons({
 
       <PageCounterContainer>
         <PageCounter>
-          {currentPage}/25
-          {/* {currentPage}/{totalPages} */}
+          {/* {currentPage}/25 */}
+          {currentPage}/{totalPages}
         </PageCounter>
       </PageCounterContainer>
 
