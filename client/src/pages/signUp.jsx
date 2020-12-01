@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import config from "../config.json";
@@ -51,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
       fontFamily: "Indie Flower",
       fontWeight: 400,
       letterSpacing: "2px",
-
     },
 
     "& .MuiButton-root": {
@@ -99,10 +96,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(3),
@@ -212,6 +205,7 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign Up
           </Typography>
+
           <form className={classes.form} noValidate onSubmit={submitForm}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -269,17 +263,28 @@ export default function SignUp() {
             >
               Sign Up
             </Button>
-            <Grid container justify="flex-end">
+
+
+
+
+            <Grid container >
               <Grid item>
                 <Button
-                  className={classes.submit}
                   component={Link}
-                  to="/signin"
+                  to="/Signin"
                 >
                   Already have an account? Sign in
                 </Button>
               </Grid>
             </Grid>
+
+
+
+
+
+
+
+            
           </form>
         </SignupContainer>
       </SignupWrapper>

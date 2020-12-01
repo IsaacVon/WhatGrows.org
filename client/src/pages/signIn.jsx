@@ -5,40 +5,100 @@ import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import config from "../config.json";
+import styled from "styled-components";
 
 // import Link from "@material-ui/core/Link";
 import { Link } from "react-router-dom";
-
-import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
+const SigninWrapper = styled.section`
+  display: grid;
+  place-items: center;
+`;
+
+const SigninContainer = styled.section`
+  display: grid;
+  place-items: center;
+  max-width: 300px;
+`;
+
 const useStyles = makeStyles((theme) => ({
+  input: {
+    "&:-webkit-autofill": {
+      WebkitBoxShadow: "0 0 0 1000px #36D8F0 inset",
+      WebkitTextFillColor: "white",
+    },
+  },
+
   root: {
-    height: "100vh",
+    fontWeight: 400,
+    flexGrow: 1,
+    paddingBottom: 60,
+
+    "& .MuiFormLabel-root": {
+      color: "white",
+      padding: 0,
+      fontSize: "1.1rem",
+      fontFamily: "Indie Flower",
+      fontWeight: 400,
+      letterSpacing: "0.04em",
+    },
+
+    "& .MuiTypography-h5": {
+      color: "white",
+      fontSize: "2.5rem",
+      fontFamily: "Indie Flower",
+      fontWeight: 400,
+      letterSpacing: "2px",
+    },
+
+    "& .MuiButton-root": {
+      color: "white",
+      padding: 0,
+      fontSize: "1rem",
+      fontFamily: "Indie Flower",
+      fontWeight: 400,
+      letterSpacing: "0.04em",
+      textTransform: "capitalize",
+    },
+
+    "& .MuiFormControl-root": {},
+
+    "& .MuiInput-underline:before": {
+      borderBottomColor: "#FFE116", // Semi-transparent underline
+    },
+    "& .MuiInput-underline:hover:before": {
+      borderBottomColor: "#FFE116", // Solid underline on hover
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: "#FFE116", // Solid underline on focus
+    },
+
+    "& .MuiSlider-root": {
+      color: "#FFE116", // Solid underline on focus
+    },
+
+    "& .MuiFormLabel-root.Mui-focused": {
+      color: "white", // Solid underline on focus
+    },
+
+    "& .MuiButton-containedPrimary": {
+      fontSize: "2rem",
+
+      borderRadius: "20px",
+      height: "60px",
+      color: "white", // Solid underline on focus
+      fontWeight: "400",
+      boxShadow: "none",
+      backgroundColor: "#F89143",
+      "&:hover": {
+        backgroundColor: "#E27725",
+      },
+    },
   },
-  image: {
-    backgroundImage: "url(https://source.unsplash.com/random)",
-    backgroundRepeat: "no-repeat",
-    backgroundColor:
-      theme.palette.type === "light"
-        ? theme.palette.grey[50]
-        : theme.palette.grey[900],
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-  },
-  paper: {
-    margin: theme.spacing(8, 4),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
+
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(3),
@@ -93,23 +153,23 @@ export default function SignIn() {
   const displayError = errors.errors ? true : false;
 
   return (
-    <Grid container component="main" className={classes.root}>
-      <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} className={classes.image} />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
+    <div className={classes.root}>
+      <SigninWrapper>
+        <SigninContainer>
+          <CssBaseline />
+
+          <CssBaseline />
+
           <Typography component="h1" variant="h5">
             Sign In
           </Typography>
+
           <form className={classes.form} noValidate onSubmit={signIn}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
                   onChange={updateField}
-                  variant="outlined"
+                  
                   required
                   fullWidth
                   id="email"
@@ -122,7 +182,7 @@ export default function SignIn() {
               <Grid item xs={12}>
                 <TextField
                   onChange={updateField}
-                  variant="outlined"
+                  
                   required
                   fullWidth
                   name="password"
@@ -132,7 +192,6 @@ export default function SignIn() {
                   autoComplete="current-password"
                   error={displayError}
                   helperText={errors.errors}
-
                 />
               </Grid>
             </Grid>
@@ -146,21 +205,28 @@ export default function SignIn() {
             >
               Sign In
             </Button>
+
+
+
             <Grid container>
-              <Grid item xs>
-                <Button component={Link} to={"/"}>
-                  Forgot password?
-                </Button>
-              </Grid>
               <Grid item>
-                <Button component={Link} to="/signup">
+                <Button component={Link} to="/Signup">
                   Don't have an account? Sign Up
                 </Button>
               </Grid>
             </Grid>
+
+
+
+
+
+
+
+
+
           </form>
-        </div>
-      </Grid>
-    </Grid>
+        </SigninContainer>
+      </SigninWrapper>
+    </div>
   );
 }
