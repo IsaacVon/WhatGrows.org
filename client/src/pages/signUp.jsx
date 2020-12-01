@@ -5,33 +5,100 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import config from "../config.json";
+import styled from "styled-components";
+
+const SignupWrapper = styled.section`
+  display: grid;
+  place-items: center;
+`;
+
+const SignupContainer = styled.section`
+  display: grid;
+  place-items: center;
+  max-width: 300px;
+`;
 
 const useStyles = makeStyles((theme) => ({
+  input: {
+    "&:-webkit-autofill": {
+      WebkitBoxShadow: "0 0 0 1000px #36D8F0 inset",
+      WebkitTextFillColor: "white",
+    },
+  },
+
   root: {
-    height: "100vh",
+    fontWeight: 400,
+    flexGrow: 1,
+    paddingBottom: 60,
+
+    "& .MuiFormLabel-root": {
+      color: "white",
+      padding: 0,
+      fontSize: "1.1rem",
+      fontFamily: "Indie Flower",
+      fontWeight: 400,
+      letterSpacing: "0.04em",
+    },
+
+    "& .MuiTypography-h5": {
+      color: "white",
+      fontSize: "2.5rem",
+      fontFamily: "Indie Flower",
+      fontWeight: 400,
+      letterSpacing: "2px",
+
+    },
+
+    "& .MuiButton-root": {
+      color: "white",
+      padding: 0,
+      fontSize: "1rem",
+      fontFamily: "Indie Flower",
+      fontWeight: 400,
+      letterSpacing: "0.04em",
+      textTransform: "capitalize",
+    },
+
+    "& .MuiFormControl-root": {},
+
+    "& .MuiInput-underline:before": {
+      borderBottomColor: "#FFE116", // Semi-transparent underline
+    },
+    "& .MuiInput-underline:hover:before": {
+      borderBottomColor: "#FFE116", // Solid underline on hover
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: "#FFE116", // Solid underline on focus
+    },
+
+    "& .MuiSlider-root": {
+      color: "#FFE116", // Solid underline on focus
+    },
+
+    "& .MuiFormLabel-root.Mui-focused": {
+      color: "white", // Solid underline on focus
+    },
+
+    "& .MuiButton-containedPrimary": {
+      fontSize: "2rem",
+
+      borderRadius: "20px",
+      height: "60px",
+      color: "white", // Solid underline on focus
+      fontWeight: "400",
+      boxShadow: "none",
+      backgroundColor: "#F89143",
+      "&:hover": {
+        backgroundColor: "#E27725",
+      },
+    },
   },
-  image: {
-    backgroundImage: "url(https://source.unsplash.com/random)",
-    backgroundRepeat: "no-repeat",
-    backgroundColor:
-      theme.palette.type === "light"
-        ? theme.palette.grey[50]
-        : theme.palette.grey[900],
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-  },
-  paper: {
-    margin: theme.spacing(8, 4),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
+
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
@@ -137,14 +204,11 @@ export default function SignUp() {
   const displayError = errors.errors ? true : false;
 
   return (
-    <Grid container component="main" className={classes.root}>
-      <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} className={classes.image} />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
+    <div className={classes.root}>
+      <SignupWrapper>
+        <SignupContainer>
+          <CssBaseline />
+
           <Typography component="h1" variant="h5">
             Sign Up
           </Typography>
@@ -155,7 +219,6 @@ export default function SignUp() {
                   onChange={updateField}
                   autoComplete="name"
                   name="name"
-                  variant="outlined"
                   required
                   fullWidth
                   id="name"
@@ -168,7 +231,6 @@ export default function SignUp() {
               <Grid item xs={12}>
                 <TextField
                   onChange={updateField}
-                  variant="outlined"
                   required
                   fullWidth
                   id="email"
@@ -181,7 +243,6 @@ export default function SignUp() {
               <Grid item xs={12}>
                 <TextField
                   onChange={updateField}
-                  variant="outlined"
                   required
                   fullWidth
                   name="password"
@@ -210,14 +271,18 @@ export default function SignUp() {
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
-                <Button component={Link} to="/signin">
+                <Button
+                  className={classes.submit}
+                  component={Link}
+                  to="/signin"
+                >
                   Already have an account? Sign in
                 </Button>
               </Grid>
             </Grid>
           </form>
-        </div>
-      </Grid>
-    </Grid>
+        </SignupContainer>
+      </SignupWrapper>
+    </div>
   );
 }
