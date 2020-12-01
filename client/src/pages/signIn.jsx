@@ -47,6 +47,8 @@ const useStyles = makeStyles((theme) => ({
     },
 
     "& .MuiTypography-h5": {
+      marginTop: "25px",
+
       color: "white",
       fontSize: "2.5rem",
       fontFamily: "Indie Flower",

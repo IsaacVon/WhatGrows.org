@@ -9,6 +9,7 @@ const Parent = styled.section`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  background-color: #1deff4;
 
   @media ${device.mobileS} {
     /* background-color: orange; */

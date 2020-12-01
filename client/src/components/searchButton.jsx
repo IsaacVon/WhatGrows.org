@@ -9,7 +9,8 @@ const SearchButton = styled.button`
   color: #1deff4;
   font-family: "Indie Flower";
   font-size: 20px;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
+  font-weight: bold;
 
   cursor: pointer;
 

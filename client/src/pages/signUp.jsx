@@ -44,11 +44,22 @@ const useStyles = makeStyles((theme) => ({
     },
 
     "& .MuiTypography-h5": {
+      marginTop: "25px",
       color: "white",
       fontSize: "2.5rem",
       fontFamily: "Indie Flower",
-      fontWeight: 400,
+      fontWeight: "400",
       letterSpacing: "2px",
+    },
+
+    "& .MuiTypography-h4": {
+      marginTop: "25px",
+      color: "white",
+      fontSize: "1rem",
+      fontFamily: "Indie Flower",
+      fontWeight: "400",
+      letterSpacing: "2px",
+      textAlign: "justify",
     },
 
     "& .MuiButton-root": {
@@ -206,6 +217,10 @@ export default function SignUp() {
             Sign Up
           </Typography>
 
+          <Typography component="h4" variant="h4">
+            Creating an account will allow you to mark favorite plants and add notes of your own.
+          </Typography>
+
           <form className={classes.form} noValidate onSubmit={submitForm}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -264,27 +279,13 @@ export default function SignUp() {
               Sign Up
             </Button>
 
-
-
-
-            <Grid container >
+            <Grid container>
               <Grid item>
-                <Button
-                  component={Link}
-                  to="/Signin"
-                >
+                <Button component={Link} to="/Signin">
                   Already have an account? Sign in
                 </Button>
               </Grid>
             </Grid>
-
-
-
-
-
-
-
-            
           </form>
         </SignupContainer>
       </SignupWrapper>

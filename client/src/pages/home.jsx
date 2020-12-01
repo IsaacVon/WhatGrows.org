@@ -14,18 +14,23 @@ const TextContainer = styled.section`
   color: white;
   max-width: 450px;
   height: 100%;
+  margin-top: 38px;
 `;
 
 const Title = styled.h1`
   margin: 45px 50px 0px 50px;
   font-size: 23px;
+  letter-spacing: 2px;
 
   text-align: center;
 `;
 
 const Body = styled.p`
+  font-family: "Indie Flower";
+  letter-spacing: 2px;
   text-align: justify;
   font-size: 14px;
+  letter-spacing: 2px;
   margin: 15px 50px;
 `;
 
@@ -36,11 +41,11 @@ export default function Home() {
       <HomeSunrise />
       <Background>
         <TextContainer>
-          <Title>What does your garden grow?</Title>
+          <Title>What can your garden grow?</Title>
           <Body>
-            I don't know what to type here so I'm just talking randomly so it
-            doesn't have words without meaning or structure. I don't know what
-            to say and this is awkward because I'm talking to the computer.
+            Find out What Grows in your zip code. We the USDA hardiness zones
+            and a database of over 2 million plants to build a list of plants
+            that will naturally grow in your temperature zone.{" "}
           </Body>
         </TextContainer>
       </Background>
