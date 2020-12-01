@@ -376,7 +376,7 @@ class SearchZip extends Component {
     };
 
     const renderPageNavigationButtons = () => {
-      if (this.state.displayTable)
+      if (this.state.displayTable && this.state.totalPlants)
         return (
           <>
             <PageButtons
@@ -385,7 +385,10 @@ class SearchZip extends Component {
               totalPages={this.state.totalPages}
             />
           </>
-        );
+        ); 
+        
+        if (this.state.displayTable)
+        return 
     };
 
     const renderFilters = () => {
@@ -414,7 +417,8 @@ class SearchZip extends Component {
         return (
           <>
             <TotalPlantsFount>
-              {this.state.totalPlants} Plants Found
+              {this.state.totalPlants ? this.state.totalPlants : "No"} Plants
+              Found
             </TotalPlantsFount>
             <GlobalContextConsumer>
               {(context) => (
@@ -430,6 +434,8 @@ class SearchZip extends Component {
             </GlobalContextConsumer>
           </>
         );
+
+        
     };
 
     return (

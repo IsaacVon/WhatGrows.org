@@ -13,7 +13,7 @@ import Button from "@material-ui/core/Button";
 import MoreInfo from "../components/moreInfo";
 import styled from "styled-components";
 import { device } from "../utils/device";
-
+import logo from "../assets/logo.png";
 const useRowStyles = makeStyles({
   root: {
     "& .MuiButton-root ": {
@@ -81,8 +81,6 @@ const TableWrapper = styled.section`
   }
 `;
 
-
-
 const Row = (props) => {
   const { row, favorites, addFavorite, handleLearnMoreFavorites } = props;
   const classes = useRowStyles();
@@ -112,69 +110,131 @@ const Row = (props) => {
 
   const favorite = isFavorite(row.plantId);
 
-  return (
-    <React.Fragment>
-      <TableRow className={classes.root}>
-        <TableCell align="right" component="th" scope="row">
-          <GlobalContextConsumer>
-            {(context) => (
-              <Button
-                onClick={() => context.handleLearnMoreFavorites(row.plantUrl)}
-              >
-                <ImageContainer>
-                  <PlantImage src={row.image} alt="plant" />
-                </ImageContainer>
-              </Button>
-            )}
-          </GlobalContextConsumer>
-        </TableCell>
-        
-        <TableCell align="center">
-          <TextContainer>
+  if (row.image) {
+    return (
+      <React.Fragment>
+        <TableRow className={classes.root}>
+          <TableCell align="right" component="th" scope="row">
             <GlobalContextConsumer>
               {(context) => (
-                <>
-                
-                  
-                  <Button
-                    onClick={() =>
-                      context.handleLearnMoreFavorites(
-                        row.plantUrl,
-                        row.plantId,
-                        favorite.favorite,
-                        favorite.notes
-                      )
-                    }
-                  >
-                    {row.common_name}
-                  </Button>
-                  <IconButton
-                    disabled={!context.loggedIn}
-                    onClick={() => {
-                      let newRow = row;
-                      newRow.id = row.plantId;
-                      // console.log("row",newRow,"favorite.favorite",favorite.favorite)
-
-                      context.handleFavoriteClick(newRow, favorite.favorite);
-                    }}
-                    size="small"
-                  >
-                    <Like liked={favorite.favorite} />
-                  </IconButton>
-                  <NotesBox
-                    loggedIn={context.loggedIn}
-                    id={row.plantId}
-                    favorite={favorite.favorite}
-                    notes={favorite.notes}
-                  />
-                </>
+                <Button
+                  onClick={() => context.handleLearnMoreFavorites(row.plantUrl)}
+                >
+                  <ImageContainer>
+                    <PlantImage src={row.image} alt="plant" />
+                  </ImageContainer>
+                </Button>
               )}
             </GlobalContextConsumer>
-          </TextContainer>
-        </TableCell>
-      </TableRow>
-    </React.Fragment>
-  );
+          </TableCell>
+
+          <TableCell align="center">
+            <TextContainer>
+              <GlobalContextConsumer>
+                {(context) => (
+                  <>
+                    <Button
+                      onClick={() =>
+                        context.handleLearnMoreFavorites(
+                          row.plantUrl,
+                          row.plantId,
+                          favorite.favorite,
+                          favorite.notes
+                        )
+                      }
+                    >
+                      {row.common_name}
+                    </Button>
+                    <IconButton
+                      disabled={!context.loggedIn}
+                      onClick={() => {
+                        let newRow = row;
+                        newRow.id = row.plantId;
+                        // console.log("row",newRow,"favorite.favorite",favorite.favorite)
+
+                        context.handleFavoriteClick(newRow, favorite.favorite);
+                      }}
+                      size="small"
+                    >
+                      <Like liked={favorite.favorite} />
+                    </IconButton>
+                    <NotesBox
+                      loggedIn={context.loggedIn}
+                      id={row.plantId}
+                      favorite={favorite.favorite}
+                      notes={favorite.notes}
+                    />
+                  </>
+                )}
+              </GlobalContextConsumer>
+            </TextContainer>
+          </TableCell>
+        </TableRow>
+      </React.Fragment>
+    );
+  }
+
+  if (!row.image) {
+    return (
+      <React.Fragment>
+        <TableRow className={classes.root}>
+          <TableCell align="right" component="th" scope="row">
+            <GlobalContextConsumer>
+              {(context) => (
+                <Button
+                  onClick={() => context.handleLearnMoreFavorites(row.plantUrl)}
+                >
+                  <ImageContainer></ImageContainer>
+                </Button>
+              )}
+            </GlobalContextConsumer>
+          </TableCell>
+
+          <TableCell align="center">
+            <TextContainer>
+              <GlobalContextConsumer>
+                {(context) => (
+                  <>
+                    <Button
+                      onClick={() =>
+                        context.handleLearnMoreFavorites(
+                          row.plantUrl,
+                          row.plantId,
+                          favorite.favorite,
+                          favorite.notes
+                        )
+                      }
+                    >
+                      {row.common_name}
+                    </Button>
+                    <IconButton
+                      disabled={!context.loggedIn}
+                      onClick={() => {
+                        let newRow = row;
+                        newRow.id = row.plantId;
+                        // console.log("row",newRow,"favorite.favorite",favorite.favorite)
+
+                        context.handleFavoriteClick(newRow, favorite.favorite);
+                      }}
+                      size="small"
+                    >
+                      <Like liked={favorite.favorite} />
+                    </IconButton>
+                    <NotesBox
+                      loggedIn={context.loggedIn}
+                      id={row.plantId}
+                      favorite={favorite.favorite}
+                      notes={favorite.notes}
+                    />
+                  </>
+                )}
+              </GlobalContextConsumer>
+            </TextContainer>
+          </TableCell>
+        </TableRow>
+      </React.Fragment>
+    );
+  }
 };
 
 export default function favoritesTable({

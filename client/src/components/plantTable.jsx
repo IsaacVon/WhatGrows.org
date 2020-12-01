@@ -109,71 +109,121 @@ const Row = (props) => {
   };
 
   const favorite = isFavorite(row.id);
-  return (
-    <React.Fragment>
-      <TableRow className={classes.root}>
-        <TableCell align="right" component="th" scope="row">
-          <GlobalContextConsumer>
-            {(context) => (
-              <Button
-                onClick={() =>
-                  context.handleLearnMoreSearch(
-                    row.links.plant,
-                    row.id,
-                    favorite.favorite,
-                    favorite.notes
-                  )
-                }
-              >
-                <ImageContainer>
-                  <PlantImage src={row.image_url} alt="plant" />
-                </ImageContainer>
-              </Button>
-            )}
-          </GlobalContextConsumer>
-        </TableCell>
 
-        <TableCell align="left">
-          <TextContainer>
+  if (row.image_url) {
+    return (
+      <React.Fragment>
+        <TableRow className={classes.root}>
+          <TableCell align="right" component="th" scope="row">
             <GlobalContextConsumer>
               {(context) => (
-                <>
-                  <IconButton
-                    disabled={!context.loggedIn}
-                    onClick={() =>
-                      // console.log("row",row, "favorite.favorite",favorite.favorite)
-                      context.handleFavoriteClick(row, favorite.favorite)
-                    }
-                    size="small"
-                  >
-                    <Like liked={favorite.favorite} />
-                  </IconButton>
-                  <Button
-                    onClick={() =>
-                      context.handleLearnMoreSearch(
-                        row.links.plant,
-                        row.id,
-                        favorite.favorite,
-                        favorite.notes
-                      )
-                    }
-                  >
-                    {row.common_name}
-                  </Button>
-                  <NotesBox
-                    loggedIn={context.loggedIn}
-                    id={row.id}
-                    favorite={favorite.favorite}
-                    notes={favorite.notes}
-                  />
-                </>
+                <Button
+                  onClick={() =>
+                    context.handleLearnMoreSearch(
+                      row.links.plant,
+                      row.id,
+                      favorite.favorite,
+                      favorite.notes
+                    )
+                  }
+                >
+                  <ImageContainer>
+                    <PlantImage src={row.image_url} alt="plant" />
+                  </ImageContainer>
+                </Button>
               )}
             </GlobalContextConsumer>
-          </TextContainer>
-        </TableCell>
-      </TableRow>
-    </React.Fragment>
-  );
+          </TableCell>
+
+          <TableCell align="left">
+            <TextContainer>
+              <GlobalContextConsumer>
+                {(context) => (
+                  <>
+                    <IconButton
+                      disabled={!context.loggedIn}
+                      onClick={() =>
+                        // console.log("row",row, "favorite.favorite",favorite.favorite)
+                        context.handleFavoriteClick(row, favorite.favorite)
+                      }
+                      size="small"
+                    >
+                      <Like liked={favorite.favorite} />
+                    </IconButton>
+                    <Button
+                      onClick={() =>
+                        context.handleLearnMoreSearch(
+                          row.links.plant,
+                          row.id,
+                          favorite.favorite,
+                          favorite.notes
+                        )
+                      }
+                    >
+                      {row.common_name}
+                    </Button>
+                    <NotesBox
+                      loggedIn={context.loggedIn}
+                      id={row.id}
+                      favorite={favorite.favorite}
+                      notes={favorite.notes}
+                    />
+                  </>
+                )}
+              </GlobalContextConsumer>
+            </TextContainer>
+          </TableCell>
+        </TableRow>
+      </React.Fragment>
+    );
+  }
+
+  if (!row.image_url) {
+    return (
+      <React.Fragment>
+        <TableRow className={classes.root}>
+          <TableCell align="right" component="th" scope="row">
+            <GlobalContextConsumer>
+              {(context) => (
+                <Button
+                disabled                 
+                >
+                  <ImageContainer></ImageContainer>
+                </Button>
+              )}
+            </GlobalContextConsumer>
+          </TableCell>
+
+          <TableCell align="left">
+            <TextContainer>
+              <GlobalContextConsumer>
+                {(context) => (
+                  <>
+                    <IconButton
+                     disabled
+                    >
+                      <Like liked={favorite.favorite} />
+                    </IconButton>
+                    <Button
+                      disabled
+                    >
+                      {row.common_name}
+                    </Button>
+                    <NotesBox
+                      loggedIn={context.loggedIn}
+                      id={row.id}
+                      favorite={favorite.favorite}
+                      notes={favorite.notes}
+                    />
+                  </>
+                )}
+              </GlobalContextConsumer>
+            </TextContainer>
+          </TableCell>
+        </TableRow>
+      </React.Fragment>
+    );
+  }
 };
 
 export default function PlantTable(props) {

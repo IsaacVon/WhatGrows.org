@@ -87,7 +87,6 @@ export default function NotesBox({favorite, id, notes, loggedIn}) {
     }
   };
 
-  console.log("notes box rendering")
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
