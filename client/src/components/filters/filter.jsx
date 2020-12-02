@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import filterBox from "../../assets/filterBox.png";
-import { makeStyles, withTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import TextField from "@material-ui/core/TextField";
