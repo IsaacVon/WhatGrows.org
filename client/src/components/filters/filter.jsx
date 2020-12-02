@@ -1,13 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import filterBox from "../../assets/filterBox.png";
-
 import { makeStyles } from "@material-ui/core/styles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-
 import LeafColor from "../../components/filters/leafColor";
 import FlowerColor from "../../components/filters/flowerColor";
 import applyCircle from "../../assets/greenCircle.png";
@@ -22,7 +19,6 @@ const useStyles = makeStyles({
     fontWeight: 400,
     flexGrow: 1,
     paddingBottom: 60,
-
 
     "& .MuiFormLabel-root": {
       color: "white",
@@ -70,29 +66,6 @@ const useStyles = makeStyles({
     },
   },
 });
-
-const Background = styled.section`
-  width: 100%;
-  height: 95px;
-  position: relative;
-  text-align: center;
-  color: #1deff4;
-  margin-top: 23px;
-`;
-
-const Logo = styled.img`
-  height: 95px;
-  overflow: hidden;
-`;
-
-const Text = styled.h3`
-  font-size: 20px;
-  margin: 0px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
 
 const FilterContainer = styled.section`
   display: grid;
@@ -160,10 +133,6 @@ const ApplyButton = styled.button`
   }
 `;
 
-const Circle = styled.img`
-  height: 95px;
-  overflow: hidden;
-`;
 export default function Filter({
   vegetableOnly,
   fruitOnly,

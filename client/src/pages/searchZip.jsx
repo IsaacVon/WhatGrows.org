@@ -1,21 +1,15 @@
 import React, { Component } from "react";
-import { postcodeValidator, postcodeValidatorExists } from "postcode-validator";
+import { postcodeValidator } from "postcode-validator";
 import { zipCodeToPlants, requestPlantList } from "../utils/zipCodeToPlants";
 import PlantTable from "../components/plantTable";
 import PageButtons from "../components/pageButtons";
-import Button from "@material-ui/core/Button";
-import FlowerColor from "../components/filters/flowerColor";
-import LeafColor from "../components/filters/leafColor";
 import { GlobalContextConsumer } from "../globalContext";
 import TextField from "@material-ui/core/TextField";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import FormGroup from "@material-ui/core/FormGroup";
 import SearchButton from "../components/searchButton";
 import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
 import Filter from "../components/filters/filter.jsx";
-import filterBox from "../assets/filterBox.png";
 import { device } from "../utils/device";
 
 const useStyles = (theme) => ({
@@ -237,6 +231,7 @@ class SearchZip extends Component {
   };
 
   buildFilterString = () => {
+    console.log("filter sting built")
     let filterString = "";
     if (this.state.fruitOnly) {
       const fruitApiString = "&filter%5Bfruit_conspicuous%5D=true";
@@ -320,7 +315,7 @@ class SearchZip extends Component {
       displayLoading: true,
       displayTable: false,
     });
-    const filterString = await this.buildFilterString();
+    await this.buildFilterString();
     const data = await zipCodeToPlants(
       this.state.zipCode,
       this.state.filterString

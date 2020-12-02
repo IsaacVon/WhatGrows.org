@@ -7,7 +7,6 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableRow from "@material-ui/core/TableRow";
 import Like from "./likeButton";
-import Save from "./saveButton";
 import NotesBox from "./notesBox";
 import { GlobalContextConsumer } from "../globalContext";
 import Button from "@material-ui/core/Button";
@@ -73,17 +72,10 @@ const TextContainer = styled.section`
   }
 `;
 
-const TableWrapper = styled.section`
-  background-color: green;
 
-  @media ${device.mobileS} {
-  }
-  @media ${device.tablet} {
-  }
-`;
 
 const Row = (props) => {
-  const { row, favorites, addFavorite } = props;
+  const { row, favorites } = props;
   const classes = useRowStyles();
 
   const isFavorite = (id) => {

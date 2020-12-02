@@ -13,7 +13,7 @@ import Button from "@material-ui/core/Button";
 import MoreInfo from "../components/moreInfo";
 import styled from "styled-components";
 import { device } from "../utils/device";
-import logo from "../assets/logo.png";
+
 const useRowStyles = makeStyles({
   root: {
     "& .MuiButton-root ": {
@@ -72,17 +72,10 @@ const TextContainer = styled.section`
   }
 `;
 
-const TableWrapper = styled.section`
-  background-color: green;
 
-  @media ${device.mobileS} {
-  }
-  @media ${device.tablet} {
-  }
-`;
 
 const Row = (props) => {
-  const { row, favorites, addFavorite, handleLearnMoreFavorites } = props;
+  const { row, favorites } = props;
   const classes = useRowStyles();
 
   const isFavorite = (id) => {

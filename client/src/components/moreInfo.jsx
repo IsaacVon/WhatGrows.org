@@ -1,19 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-
+import React, { useState } from "react";
 import Gallery from "react-photo-gallery";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import styled from "styled-components";
 import { device } from "../utils/device";
-
-const useStyles = makeStyles({
-  root: {
-    maxWidth: 945,
-  },
-  media: {
-    height: 140,
-  },
-});
 
 const PlantName = styled.h1`
   font-size: 30px;
@@ -28,24 +17,11 @@ const PlantDetails = styled.p`
   letter-spacing: 1px;
 `;
 
-const NoteBoxContainer = styled.section`
-  /* background-color: green; */
-  display: grid;
-  place-items: center;
-  height: 150px;
-  margin: 30px 30px 30px 0px;
-`;
-
-const Test = styled.section`
-  width: 100%;
-`;
-
 const TextContainer = styled.section`
   color: white;
   flex: 1 1 100px;
   margin-left: 20px;
   margin-bottom: 20px;
-
 `;
 
 const GalleryContainer = styled.section`
@@ -110,20 +86,16 @@ const InfoWrapper = styled.section`
   @media ${device.mobileS} {
     background-color: #5cd700;
     margin: 10px 10px;
-
   }
   @media ${device.tablet} {
     background-color: purple;
     margin: 45px;
-
   }
 `;
 
 const maxImageDisplay = 7;
 
 export default function MoreInfo({ learnMore, handleExitLearnMore }) {
-  const classes = useStyles();
-
   const [imagesLoaded, setimagesLoaded] = useState(false);
   const [imageArray, setImageArray] = useState([]);
 
