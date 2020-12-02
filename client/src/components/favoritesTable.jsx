@@ -165,9 +165,6 @@ const Row = (props) => {
                         </IconButton>
                       </HeartContainer>
 
-
-
-
                       <Button
                         onClick={() =>
                           context.handleLearnMoreFavorites(
@@ -180,14 +177,7 @@ const Row = (props) => {
                       >
                         {row.common_name}
                       </Button>
-
-                      
                     </HeartTextContainer>
-
-
-
-
-
 
                     <NotesBox
                       loggedIn={context.loggedIn}

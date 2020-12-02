@@ -10,7 +10,7 @@ const PlantName = styled.h1`
   letter-spacing: 2px;
 `;
 
-const PlantDetails = styled.p`
+const PlantDetails = styled.section`
   font-size: 15px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -196,7 +196,7 @@ export default function MoreInfo({ learnMore, handleExitLearnMore }) {
             <PlantName>{learnMore.common_name}</PlantName>
             <PlantDetails>
               <p>
-                <b>Scientific Name:</b>{" "}
+                <b>Scientific Name:</b>
                 {checkForNullData(learnMore.scientific_name)}
               </p>
               <p>
