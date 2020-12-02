@@ -33,6 +33,9 @@ const useStyles = (theme) => ({
     flexGrow: 1,
     paddingBottom: 60,
 
+    "& .MuiInputBase-input": {
+      color: "white"},
+
     "& .MuiFormLabel-root": {
       color: "white",
       padding: 0,

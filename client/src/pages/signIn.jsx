@@ -29,6 +29,8 @@ const useStyles = makeStyles((theme) => ({
     "&:-webkit-autofill": {
       WebkitBoxShadow: "0 0 0 1000px #36D8F0 inset",
       WebkitTextFillColor: "white",
+      // fontFamily: "Indie Flower",
+      // fontSpacing: "2px",
     },
   },
 
@@ -104,7 +106,12 @@ const useStyles = makeStyles((theme) => ({
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(3),
+
+    "& .MuiInputBase-input": {
+      color: "white",
+    },
   },
+
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
@@ -170,8 +177,8 @@ export default function SignIn() {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
+                  inputProps={{ className: classes.input }}
                   onChange={updateField}
-                  
                   required
                   fullWidth
                   id="email"
@@ -183,8 +190,8 @@ export default function SignIn() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  inputProps={{ className: classes.input }}
                   onChange={updateField}
-                  
                   required
                   fullWidth
                   name="password"
@@ -208,8 +215,6 @@ export default function SignIn() {
               Sign In
             </Button>
 
-
-
             <Grid container>
               <Grid item>
                 <Button component={Link} to="/Signup">
@@ -217,15 +222,6 @@ export default function SignIn() {
                 </Button>
               </Grid>
             </Grid>
-
-
-
-
-
-
-
-
-
           </form>
         </SigninContainer>
       </SigninWrapper>

@@ -110,6 +110,10 @@ const useStyles = makeStyles((theme) => ({
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(3),
+
+    "& .MuiInputBase-input": {
+      color: "white",
+    },
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -218,13 +222,15 @@ export default function SignUp() {
           </Typography>
 
           <Typography component="h4" variant="h4">
-            Creating an account will allow you to mark favorite plants and add notes of your own.
+            Creating an account will allow you to mark favorite plants and add
+            notes of your own.
           </Typography>
 
           <form className={classes.form} noValidate onSubmit={submitForm}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
+                  inputProps={{ className: classes.input }}
                   onChange={updateField}
                   autoComplete="name"
                   name="name"
@@ -239,6 +245,7 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  inputProps={{ className: classes.input }}
                   onChange={updateField}
                   required
                   fullWidth
@@ -251,6 +258,7 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  inputProps={{ className: classes.input }}
                   onChange={updateField}
                   required
                   fullWidth
