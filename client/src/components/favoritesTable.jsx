@@ -42,17 +42,31 @@ const useRowStyles = makeStyles({
 });
 
 const ImageContainer = styled.section`
+  position: relative;
+
   border-radius: 20px;
   overflow: hidden;
+  margin: 40px 0px;
 
   @media ${device.mobileS} {
     width: 150px;
-    height: 150px;
+    height: 230px;
   }
   @media ${device.tablet} {
-    width: 200px;
-    height: 200px;
-    margin: 15px;
+    width: auto;
+  }
+`;
+
+const HeartContainer = styled.section`
+  position: absolute;
+
+  @media ${device.mobileS} {
+    right: 11px;
+    top: 9px;
+  }
+  @media ${device.tablet} {
+    right: 15px;
+    top: 11px;
   }
 `;
 
@@ -62,8 +76,6 @@ const PlantImage = styled.img`
 `;
 
 const TextContainer = styled.section`
-  /* background-color: green; */
-
   @media ${device.mobileS} {
     margin-right: 20px;
   }
@@ -71,8 +83,6 @@ const TextContainer = styled.section`
     margin-right: 100px;
   }
 `;
-
-
 
 const Row = (props) => {
   const { row, favorites } = props;
@@ -107,7 +117,7 @@ const Row = (props) => {
     return (
       <React.Fragment>
         <TableRow className={classes.root}>
-          <TableCell align="right" component="th" scope="row">
+          <TableCell align="center" component="th" scope="row">
             <GlobalContextConsumer>
               {(context) => (
                 <Button
@@ -115,6 +125,24 @@ const Row = (props) => {
                 >
                   <ImageContainer>
                     <PlantImage src={row.image} alt="plant" />
+                    <HeartContainer>
+                      <IconButton
+                        disabled={!context.loggedIn}
+                        onClick={() => {
+                          let newRow = row;
+                          newRow.id = row.plantId;
+                          // console.log("row",newRow,"favorite.favorite",favorite.favorite)
+
+                          context.handleFavoriteClick(
+                            newRow,
+                            favorite.favorite
+                          );
+                        }}
+                        size="small"
+                      >
+                        <Like liked={favorite.favorite} />
+                      </IconButton>
+                    </HeartContainer>
                   </ImageContainer>
                 </Button>
               )}
@@ -138,19 +166,7 @@ const Row = (props) => {
                     >
                       {row.common_name}
                     </Button>
-                    <IconButton
-                      disabled={!context.loggedIn}
-                      onClick={() => {
-                        let newRow = row;
-                        newRow.id = row.plantId;
-                        // console.log("row",newRow,"favorite.favorite",favorite.favorite)
 
-                        context.handleFavoriteClick(newRow, favorite.favorite);
-                      }}
-                      size="small"
-                    >
-                      <Like liked={favorite.favorite} />
-                    </IconButton>
                     <NotesBox
                       loggedIn={context.loggedIn}
                       id={row.plantId}

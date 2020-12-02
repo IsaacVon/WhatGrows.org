@@ -45,14 +45,15 @@ const ImageContainer = styled.section`
   border-radius: 20px;
   overflow: hidden;
 
+  margin: 40px 0px;
+
   @media ${device.mobileS} {
     width: 150px;
-    height: 150px;
+    height: 230px;
   }
   @media ${device.tablet} {
     width: 200px;
-    height: 200px;
-    margin: 15px;
+    height: 260px;
   }
 `;
 
@@ -71,8 +72,6 @@ const TextContainer = styled.section`
     margin-right: 100px;
   }
 `;
-
-
 
 const Row = (props) => {
   const { row, favorites } = props;
@@ -106,7 +105,7 @@ const Row = (props) => {
     return (
       <React.Fragment>
         <TableRow className={classes.root}>
-          <TableCell align="right" component="th" scope="row">
+          <TableCell align="center" component="th" scope="row">
             <GlobalContextConsumer>
               {(context) => (
                 <Button
@@ -127,7 +126,7 @@ const Row = (props) => {
             </GlobalContextConsumer>
           </TableCell>
 
-          <TableCell align="left">
+          <TableCell align="center">
             <TextContainer>
               <GlobalContextConsumer>
                 {(context) => (
@@ -177,9 +176,7 @@ const Row = (props) => {
           <TableCell align="right" component="th" scope="row">
             <GlobalContextConsumer>
               {(context) => (
-                <Button
-                disabled                 
-                >
+                <Button disabled>
                   <ImageContainer></ImageContainer>
                 </Button>
               )}
@@ -191,16 +188,10 @@ const Row = (props) => {
               <GlobalContextConsumer>
                 {(context) => (
                   <>
-                    <IconButton
-                     disabled
-                    >
+                    <IconButton disabled>
                       <Like liked={favorite.favorite} />
                     </IconButton>
-                    <Button
-                      disabled
-                    >
-                      {row.common_name}
-                    </Button>
+                    <Button disabled>{row.common_name}</Button>
                     <NotesBox
                       loggedIn={context.loggedIn}
                       id={row.id}
