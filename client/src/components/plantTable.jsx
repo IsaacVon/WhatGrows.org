@@ -32,7 +32,8 @@ const useRowStyles = makeStyles({
     },
 
     "& .MuiIconButton-root": {
-      color: "white",
+      // color: "white",
+      color: "#FFE116",
     },
 
     "& > *": {
@@ -41,10 +42,32 @@ const useRowStyles = makeStyles({
   },
 });
 
+const HeartTextContainer = styled.section`
+  @media ${device.mobileS} {
+    display: grid;
+    place-items: center;
+    margin-bottom: 10px;
+  }
+  @media ${device.tablet} {
+    display: flex;
+    margin-bottom: 10px;
+  }
+`;
+
+const HeartContainer = styled.section`
+  @media ${device.mobileS} {
+    margin-bottom: 0px;
+  }
+  @media ${device.tablet} {
+    margin-bottom: 5px;
+  }
+`;
+
 const ImageContainer = styled.section`
+  position: relative;
+
   border-radius: 20px;
   overflow: hidden;
-
   margin: 40px 0px;
 
   @media ${device.mobileS} {
@@ -52,8 +75,7 @@ const ImageContainer = styled.section`
     height: 230px;
   }
   @media ${device.tablet} {
-    width: 200px;
-    height: 260px;
+    width: auto;
   }
 `;
 
@@ -131,28 +153,49 @@ const Row = (props) => {
               <GlobalContextConsumer>
                 {(context) => (
                   <>
-                    <IconButton
-                      disabled={!context.loggedIn}
-                      onClick={() =>
-                        // console.log("row",row, "favorite.favorite",favorite.favorite)
-                        context.handleFavoriteClick(row, favorite.favorite)
-                      }
-                      size="small"
-                    >
-                      <Like liked={favorite.favorite} />
-                    </IconButton>
-                    <Button
-                      onClick={() =>
-                        context.handleLearnMoreSearch(
-                          row.links.plant,
-                          row.id,
-                          favorite.favorite,
-                          favorite.notes
-                        )
-                      }
-                    >
-                      {row.common_name}
-                    </Button>
+                    <HeartTextContainer>
+                      <HeartContainer>
+                        <IconButton
+                          disabled={!context.loggedIn}
+                          onClick={() =>
+                            // console.log("row",row, "favorite.favorite",favorite.favorite)
+                            context.handleFavoriteClick(row, favorite.favorite)
+                          }
+                          size="small"
+                        >
+                          <Like liked={favorite.favorite} />
+                        </IconButton>
+                      </HeartContainer>
+
+
+
+
+                      <Button
+                        onClick={() =>
+                          context.handleLearnMoreSearch(
+                            row.links.plant,
+                            row.id,
+                            favorite.favorite,
+                            favorite.notes
+                          )
+                        }
+                      >
+                        {row.common_name}
+                      </Button>
+
+
+
+             </HeartTextContainer>
+
+
+
+
+
+
+
+
+
+
                     <NotesBox
                       loggedIn={context.loggedIn}
                       id={row.id}
