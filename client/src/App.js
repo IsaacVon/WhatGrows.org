@@ -15,7 +15,7 @@ import Home from "./pages/home";
 
 const Wrapper = styled.section`
   background: #1DEFF4;
-  height: 100vh;
+  min-height: 100vh;
 `;
 
 function App() {

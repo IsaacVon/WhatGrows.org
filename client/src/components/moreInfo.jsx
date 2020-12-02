@@ -4,9 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Gallery from "react-photo-gallery";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import styled from "styled-components";
-import { GlobalContextConsumer } from "../globalContext";
-import NotesBox from "./notesBox";
-import Like from "./likeButton";
+import { device } from "../utils/device";
 
 const useStyles = makeStyles({
   root: {
@@ -46,7 +44,8 @@ const TextContainer = styled.section`
   color: white;
   flex: 1 1 100px;
   margin-left: 20px;
-  /* background-color: yellowgreen; */
+  margin-bottom: 20px;
+
 `;
 
 const GalleryContainer = styled.section`
@@ -102,12 +101,22 @@ const ButtonContainer = styled.section`
 
 const InfoWrapper = styled.section`
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: wrap-reverse;
   justify-content: center;
-  background-color: #5cd700;
   overflow: hidden;
-  margin: 45px;
   border-radius: 20px;
+  /* background-color: #5cd700; */
+
+  @media ${device.mobileS} {
+    background-color: #5cd700;
+    margin: 10px 10px;
+
+  }
+  @media ${device.tablet} {
+    background-color: purple;
+    margin: 45px;
+
+  }
 `;
 
 const maxImageDisplay = 7;
