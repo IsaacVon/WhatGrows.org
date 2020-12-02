@@ -28,7 +28,8 @@ const useStyles = (theme) => ({
     paddingBottom: 60,
 
     "& .MuiInputBase-input": {
-      color: "white"},
+      color: "white",
+    },
 
     "& .MuiFormLabel-root": {
       color: "white",
@@ -231,7 +232,7 @@ class SearchZip extends Component {
   };
 
   buildFilterString = () => {
-    console.log("filter sting built")
+    console.log("filter sting built");
     let filterString = "";
     if (this.state.fruitOnly) {
       const fruitApiString = "&filter%5Bfruit_conspicuous%5D=true";
@@ -383,10 +384,9 @@ class SearchZip extends Component {
               totalPages={this.state.totalPages}
             />
           </>
-        ); 
-        
-        if (this.state.displayTable)
-        return 
+        );
+
+      if (this.state.displayTable) return;
     };
 
     const renderFilters = () => {
@@ -403,8 +403,8 @@ class SearchZip extends Component {
               handleMaxHeightInput={this.handleMaxHeightInput}
               handleFlowerColorInput={this.handleFlowerColorInput}
               handleLeafColorInput={this.handleLeafColorInput}
-              ha
-              ndleSearch={this.handleSearch}
+              handleSearch={this.handleSearch}
+              
             />
           </FilterContainer>
         );
@@ -432,8 +432,6 @@ class SearchZip extends Component {
             </GlobalContextConsumer>
           </>
         );
-
-        
     };
 
     return (
