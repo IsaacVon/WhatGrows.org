@@ -1,27 +1,24 @@
 import React from "react";
 import styled from "styled-components";
 import HomeSunrise from "../components/homeSunrise";
+import { device } from "../utils/device";
 
 const Background = styled.section`
-  background: #5cd700;
   color: white;
-  display: grid;
-  place-items: center;
+  flex: 0 1 50vh;
 `;
 
 const TextContainer = styled.section`
-  background: #5cd700;
+  height: 40vh;
   color: white;
   max-width: 450px;
-  height: 100%;
-  margin-top: 38px;
 `;
 
 const Title = styled.h1`
+  font-family: "Indie Flower";
   margin: 45px 50px 0px 50px;
   font-size: 23px;
   letter-spacing: 2px;
-
   text-align: center;
 `;
 
@@ -34,21 +31,53 @@ const Body = styled.p`
   margin: 15px 50px;
 `;
 
-//    height: calc(var(--vh, 1vh) * 98);
+const navHeightDesktop = "180px";
+const navHeightMobile = "146px";
+
+const Box = styled.section`
+  display: flex;
+  flex-flow: column;
+  overflow: hidden;
+  height: calc(100vh - ${navHeightMobile});
+
+  @media ${device.mobileS} {
+  }
+  @media ${device.tablet} {
+    height: calc(100vh - ${navHeightDesktop});
+  }
+`;
+
+const SunriseWrapper = styled.section`
+  background-color: #1deff4;
+  flex: 1 1 auto;
+  position: relative;
+`;
+
+const TextWrapper = styled.section`
+  flex: 0 1 auto;
+  background: #5cd700;
+  display: grid;
+  place-items: center;
+`;
+
 export default function Home() {
   return (
-    <>
-      <HomeSunrise />
-      <Background>
-        <TextContainer>
-          <Title>What can your garden grow?</Title>
-          <Body>
-            Find out What Grows in your zip code. We the USDA hardiness zones
-            and a database of over 2 million plants to build a list of plants
-            that will naturally grow in your temperature zone.{" "}
-          </Body>
-        </TextContainer>
-      </Background>
-    </>
+    <Box>
+      <SunriseWrapper>
+        <HomeSunrise />
+      </SunriseWrapper>
+      <TextWrapper>
+        <Background>
+          <TextContainer>
+            <Title>What can your garden grow?</Title>
+            <Body>
+              Find out What Grows in your zip code. We the USDA hardiness zones
+              and a database of over 2 million plants to build a list of plants
+              that will naturally grow in your temperature zone.{" "}
+            </Body>
+          </TextContainer>
+        </Background>
+      </TextWrapper>
+    </Box>
   );
 }

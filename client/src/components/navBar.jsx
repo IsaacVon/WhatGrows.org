@@ -12,6 +12,8 @@ const Parent = styled.section`
   background-color: #1deff4;
 
   @media ${device.mobileS} {
+    /* height: 180px; */
+
     /* background-color: orange; */
   }
   @media ${device.tablet} {
@@ -37,6 +39,7 @@ const Logo = styled.img`
   }
   @media ${device.tablet} {
     position: absolute;
+    
   }
 `;
 
