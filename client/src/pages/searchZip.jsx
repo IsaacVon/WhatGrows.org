@@ -232,7 +232,7 @@ class SearchZip extends Component {
   };
 
   buildFilterString = () => {
-    console.log("filter sting built");
+    // console.log("filter sting built");
     let filterString = "";
     if (this.state.fruitOnly) {
       const fruitApiString = "&filter%5Bfruit_conspicuous%5D=true";
@@ -311,7 +311,7 @@ class SearchZip extends Component {
 
   // Final Search button
   handleSearch = async () => {
-    console.log("search button pressed");
+    // console.log("search button pressed");
     this.setState({
       displayLoading: true,
       displayTable: false,
@@ -404,7 +404,6 @@ class SearchZip extends Component {
               handleFlowerColorInput={this.handleFlowerColorInput}
               handleLeafColorInput={this.handleLeafColorInput}
               handleSearch={this.handleSearch}
-              
             />
           </FilterContainer>
         );

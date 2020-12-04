@@ -167,9 +167,6 @@ const Row = (props) => {
                         </IconButton>
                       </HeartContainer>
 
-
-
-
                       <Button
                         onClick={() =>
                           context.handleLearnMoreSearch(
@@ -182,19 +179,7 @@ const Row = (props) => {
                       >
                         {row.common_name}
                       </Button>
-
-
-
-             </HeartTextContainer>
-
-
-
-
-
-
-
-
-
+                    </HeartTextContainer>
 
                     <NotesBox
                       loggedIn={context.loggedIn}

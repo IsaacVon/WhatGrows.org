@@ -14,7 +14,7 @@ import NotFound from "./pages/notFound";
 import Home from "./pages/home";
 
 const Wrapper = styled.section`
-  background: #1DEFF4;
+  background: #1deff4;
   min-height: 100vh;
 `;
 

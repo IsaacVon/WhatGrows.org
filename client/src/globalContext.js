@@ -13,6 +13,7 @@ class GlobalContextProvider extends Component {
     jwt: "",
     name: "",
     favorites: [],
+    displayPageNavigationButtons: true,
     displayLearnMoreSearch: false,
     displayLearnMoreFavorites: false,
     learnMore: {},
@@ -26,9 +27,9 @@ class GlobalContextProvider extends Component {
   };
 
   handleLearnMoreFavorites = async (plantLink, plantId, favorite, notes) => {
-    console.log("plant id ", plantId);
-    console.log("favorite ", favorite);
-    console.log("notes ", notes);
+    // console.log("plant id ", plantId);
+    // console.log("favorite ", favorite);
+    // console.log("notes ", notes);
 
     const { data } = await requestMorePlantInfo(plantLink);
     const learnMore = {
@@ -101,7 +102,7 @@ class GlobalContextProvider extends Component {
       learnMore,
       displayLearnMoreSearch: true,
     });
-    console.log("learnMore", learnMore);
+    // console.log("learnMore", learnMore);
   };
 
   componentDidMount = async () => {
@@ -214,8 +215,6 @@ class GlobalContextProvider extends Component {
   // Input: favorite and note
   // Goal: set state
   handleNoteInput = (id, note) => {
-
-
     const indexOfNote = this.state.favorites.findIndex(function (
       current,
       index

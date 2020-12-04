@@ -160,9 +160,9 @@ export default function SignUp() {
         data: loginData,
       });
       localStorage.setItem("token", jwt.data);
-      console.log(
-        "Email already exists and your password was right... so we logged you in"
-      );
+      // console.log(
+      //   "Email already exists and your password was right... so we logged you in"
+      // );
 
       return (window.location = "/");
     } catch (ex) {
