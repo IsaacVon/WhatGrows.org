@@ -39,7 +39,6 @@ const Logo = styled.img`
   }
   @media ${device.tablet} {
     position: absolute;
-    
   }
 `;
 
@@ -61,7 +60,9 @@ export default function NavBar({ name, loggedIn }) {
     <>
       <Parent>
         <LogoContainer>
-          <Logo src={logo} />
+          <Link to="/">
+            <Logo src={logo} />
+          </Link>
         </LogoContainer>
         <TextContainer>
           <div>
