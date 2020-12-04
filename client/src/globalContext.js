@@ -68,6 +68,8 @@ class GlobalContextProvider extends Component {
   };
 
   handleLearnMoreSearch = async (plantLink, plantId, favorite, notes) => {
+   
+   
     const { data } = await requestMorePlantInfo(plantLink);
     const learnMore = {
       plantId,
@@ -102,7 +104,6 @@ class GlobalContextProvider extends Component {
       learnMore,
       displayLearnMoreSearch: true,
     });
-    // console.log("learnMore", learnMore);
   };
 
   componentDidMount = async () => {
