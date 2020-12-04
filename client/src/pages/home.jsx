@@ -71,9 +71,9 @@ export default function Home() {
           <TextContainer>
             <Title>What can your garden grow?</Title>
             <Body>
-              Find out What Grows in your zip code. We the USDA hardiness zones
+              Find out What Grows in your zip code. We use USDA hardiness zones
               and a database of over 2 million plants to build a list of plants
-              that will naturally grow in your temperature zone.{" "}
+              that will naturally thrive in your temperature zone.
             </Body>
           </TextContainer>
         </Background>
