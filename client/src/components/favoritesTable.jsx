@@ -140,7 +140,7 @@ const Row = (props) => {
             </GlobalContextConsumer>
           </TableCell>
 
-          <TableCell align="center">
+          <TableCell align="left">
             <TextContainer>
               <GlobalContextConsumer>
                 {(context) => (
@@ -211,7 +211,7 @@ const Row = (props) => {
             </GlobalContextConsumer>
           </TableCell>
 
-          <TableCell align="center">
+          <TableCell align="left">
             <TextContainer>
               <GlobalContextConsumer>
                 {(context) => (
