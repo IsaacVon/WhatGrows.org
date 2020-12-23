@@ -1,39 +1,39 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import styled from "styled-components";
+
 import IconButton from "@material-ui/core/IconButton";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableRow from "@material-ui/core/TableRow";
+import Button from "@material-ui/core/Button";
+
+import { GlobalContextConsumer } from "../globalContext";
+import colors from "../config/colors"
 import Like from "./likeButton";
 import NotesBox from "./notesBox";
-import { GlobalContextConsumer } from "../globalContext";
-import Button from "@material-ui/core/Button";
 import MoreInfo from "../components/moreInfo";
-import styled from "styled-components";
 import { device } from "../utils/device";
 
 const useRowStyles = makeStyles({
   root: {
     "& .MuiButton-root ": {
-      color: "white",
+      color: colors.white,
       fontSize: "20px",
       fontFamily: "Indie Flower",
       letterSpacing: "2px",
     },
 
-    "& .MuiTable-root": {
-      backgroundColor: "green",
-    },
+    
 
     "& .MuiTableCell-root": {
       padding: "0px",
     },
 
     "& .MuiIconButton-root": {
-      // color: "white",
-      color: "#FFE116",
+      color: colors.yellow,
     },
 
     "& > *": {
@@ -85,7 +85,7 @@ const PlantImage = styled.img`
 `;
 
 const TextContainer = styled.section`
-  /* background-color: green; */
+
 
   @media ${device.mobileS} {
     margin-right: 20px;
@@ -256,7 +256,7 @@ export default function PlantTable(props) {
   }
   if (!displayLearnMoreSearch) {
     return (
-      <TableContainer style={{ backgroundColor: "#1DEFF4" }}>
+      <TableContainer style={{ backgroundColor: colors.blue }}>
         <Table aria-label="collapsible table">
           <TableBody>
             {plantsOnPage.map((row) => (

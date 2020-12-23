@@ -1,4 +1,6 @@
 import React from "react";
+import styled from "styled-components";
+
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import Table from "@material-ui/core/Table";
@@ -6,34 +8,32 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableRow from "@material-ui/core/TableRow";
+import Button from "@material-ui/core/Button";
+
+import { device } from "../utils/device";
 import Like from "./likeButton";
 import NotesBox from "./notesBox";
 import { GlobalContextConsumer } from "../globalContext";
-import Button from "@material-ui/core/Button";
 import MoreInfo from "../components/moreInfo";
-import styled from "styled-components";
-import { device } from "../utils/device";
+import colors from "../config/colors"
 
 const useRowStyles = makeStyles({
   root: {
     "& .MuiButton-root ": {
-      color: "white",
+      color: colors.white,
       fontSize: "20px",
       fontFamily: "Indie Flower",
       letterSpacing: "2px",
     },
 
-    "& .MuiTable-root": {
-      backgroundColor: "green",
-    },
+
 
     "& .MuiTableCell-root": {
       padding: "0px",
     },
 
     "& .MuiIconButton-root": {
-      color: "#FFE116",
-      // color: "#00FBFF",
+      color: colors.yellow,
     },
 
     "& > *": {
@@ -275,7 +275,7 @@ export default function favoritesTable({
 
   if (!displayLearnMoreFavorites) {
     return (
-      <TableContainer style={{ backgroundColor: "#1DEFF4" }}>
+      <TableContainer style={{ backgroundColor: colors.blue  }}>
         <Table aria-label="collapsible table">
           <TableBody>
             {plantsOnPage.map((row) => (

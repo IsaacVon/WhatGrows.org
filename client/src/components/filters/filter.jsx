@@ -9,6 +9,7 @@ import LeafColor from "../../components/filters/leafColor";
 import FlowerColor from "../../components/filters/flowerColor";
 import applyCircle from "../../assets/greenCircle.png";
 import searchCircle from "../../assets/searchCircleButton.png";
+import colors from "../../config/colors"
 
 const useStyles = makeStyles({
   root: {
@@ -58,13 +59,13 @@ const useStyles = makeStyles({
     },
 
     "& .MuiInput-underline:before": {
-      borderBottomColor: "#FFE116", // Semi-transparent underline
+      borderBottomColor: colors.yellow, // Semi-transparent underline
     },
     "& .MuiInput-underline:hover:before": {
-      borderBottomColor: "#FFE116", // Solid underline on hover
+      borderBottomColor: colors.yellow, // Solid underline on hover
     },
     "& .MuiInput-underline:after": {
-      borderBottomColor: "#FFE116", // Solid underline on focus
+      borderBottomColor: colors.yellow, // Solid underline on focus
     },
 
     "& .MuiButton-containedPrimary": {
@@ -73,9 +74,9 @@ const useStyles = makeStyles({
       color: "white", // Solid underline on focus
       fontWeight: "400",
       boxShadow: "none",
-      backgroundColor: "#F89143",
+      backgroundColor: colors.orange,
       "&:hover": {
-        backgroundColor: "#E27725",
+        backgroundColor: colors.darkOrange,
       },
     },
   },
