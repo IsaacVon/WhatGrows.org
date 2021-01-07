@@ -27,7 +27,6 @@ const useRowStyles = makeStyles({
     },
 
     
-
     "& .MuiTableCell-root": {
       padding: "0px",
     },
