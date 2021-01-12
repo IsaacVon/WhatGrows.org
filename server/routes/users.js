@@ -13,7 +13,6 @@ const router = express.Router();
 
 // Register User - Input via req.body: name, email, password
 router.post("/register", async (req, res) => {
-  console.log("register ping");
 
   const schema = Joi.object({
     name: Joi.string().min(5).max(255).required(),
