@@ -28,6 +28,10 @@ app.use(express.json());
 app.use("/api/users", users);
 app.use("/api/auth", auth);
 
+app.get('/', (req, res) => {
+  res.send('Server Running...')
+})
 
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
