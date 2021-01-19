@@ -77,18 +77,24 @@ const ButtonContainer = styled.section`
 
 const InfoWrapper = styled.section`
   display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const InfoBox = styled.section`
+  display: flex;
   flex-wrap: wrap-reverse;
   justify-content: center;
   overflow: hidden;
   border-radius: 20px;
-  /* background-color: #5cd700; */
 
   @media ${device.mobileS} {
     background-color: #5cd700;
     margin: 10px 10px;
   }
   @media ${device.tablet} {
-    background-color: purple;
+    background-color: #5cd700;
+    max-width: 1000px;
     margin: 45px;
   }
 `;
@@ -186,63 +192,71 @@ export default function MoreInfo({ learnMore, handleExitLearnMore }) {
     if (imagesLoaded) {
       return (
         <InfoWrapper>
-          <ButtonContainer>
-            <BackButton onClick={() => handleExitLearnMore()}>Exit</BackButton>
-          </ButtonContainer>
-          <GalleryContainer>
-            <Gallery margin={0} photos={imageArray} />
-          </GalleryContainer>
-          <TextContainer>
-            <PlantName>{learnMore.common_name}</PlantName>
-            <PlantDetails>
-              <p>
-                <b>Scientific Name:</b>
-                {checkForNullData(learnMore.scientific_name)}
-              </p>
-              <p>
-                <b>Family Common Name:</b>{" "}
-                {checkForNullData(learnMore.family_common_name)}
-              </p>
-              <p>
-                <b>Average Height:</b>{" "}
-                {checkForNullData(learnMore.average_height_inches)} Inches
-              </p>
-              <p>
-                <b>Maximum Precipitation: </b>
-                {checkForNullData(learnMore.maximum_precipitation_annualInches)}
-                Inches
-              </p>
-              <p>
-                <b>Minimum Precipitation: </b>
-                {checkForNullData(
-                  learnMore.minimum_precipitation_annualInches
-                )}{" "}
-                Inches
-              </p>
-              <p>
-                <b>Minimum Root Depth: </b>
-                {checkForNullData(learnMore.minimum_root_depth_inches)}
-                Inches
-              </p>
-              <p>
-                <b>Growth Rate: </b> {checkForNullData(learnMore.growth_rate)}
-              </p>
-              <p>
-                <b>Bloom Months: </b> {checkForNullData(learnMore.bloom_months)}
-              </p>
-              <p>
-                <b>Fruit Months:</b> {checkForNullData(learnMore.fruit_months)}
-              </p>
-              <p>
-                <b>Growth Habit:</b> {checkForNullData(learnMore.growth_habit)}
-              </p>
-              <p>
-                <b>Growth Months:</b>{" "}
-                {checkForNullData(learnMore.growth_months)}
-              </p>
-            </PlantDetails>
+          <InfoBox>
+            <ButtonContainer>
+              <BackButton onClick={() => handleExitLearnMore()}>
+                Exit
+              </BackButton>
+            </ButtonContainer>
+            <GalleryContainer>
+              <Gallery margin={0} photos={imageArray} />
+            </GalleryContainer>
+            <TextContainer>
+              <PlantName>{learnMore.common_name}</PlantName>
+              <PlantDetails>
+                <p>
+                  <b>Scientific Name:</b>
+                  {checkForNullData(learnMore.scientific_name)}
+                </p>
+                <p>
+                  <b>Family Common Name:</b>{" "}
+                  {checkForNullData(learnMore.family_common_name)}
+                </p>
+                <p>
+                  <b>Average Height:</b>{" "}
+                  {checkForNullData(learnMore.average_height_inches)} Inches
+                </p>
+                <p>
+                  <b>Maximum Precipitation: </b>
+                  {checkForNullData(
+                    learnMore.maximum_precipitation_annualInches
+                  )}
+                  Inches
+                </p>
+                <p>
+                  <b>Minimum Precipitation: </b>
+                  {checkForNullData(
+                    learnMore.minimum_precipitation_annualInches
+                  )}{" "}
+                  Inches
+                </p>
+                <p>
+                  <b>Minimum Root Depth: </b>
+                  {checkForNullData(learnMore.minimum_root_depth_inches)}
+                  Inches
+                </p>
+                <p>
+                  <b>Growth Rate: </b> {checkForNullData(learnMore.growth_rate)}
+                </p>
+                <p>
+                  <b>Bloom Months: </b>{" "}
+                  {checkForNullData(learnMore.bloom_months)}
+                </p>
+                <p>
+                  <b>Fruit Months:</b>{" "}
+                  {checkForNullData(learnMore.fruit_months)}
+                </p>
+                <p>
+                  <b>Growth Habit:</b>{" "}
+                  {checkForNullData(learnMore.growth_habit)}
+                </p>
+                <p>
+                  <b>Growth Months:</b>{" "}
+                  {checkForNullData(learnMore.growth_months)}
+                </p>
+              </PlantDetails>
 
-            {/* <NoteBoxContainer>
+              {/* <NoteBoxContainer>
               <Test>
                 <GlobalContextConsumer>
                   {(context) => (
@@ -256,7 +270,8 @@ export default function MoreInfo({ learnMore, handleExitLearnMore }) {
                 </GlobalContextConsumer>
               </Test>
             </NoteBoxContainer> */}
-          </TextContainer>
+            </TextContainer>
+          </InfoBox>
         </InfoWrapper>
       );
     }

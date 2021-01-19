@@ -15,7 +15,7 @@ import Like from "./likeButton";
 import NotesBox from "./notesBox";
 import { GlobalContextConsumer } from "../globalContext";
 import MoreInfo from "../components/moreInfo";
-import colors from "../config/colors"
+import colors from "../config/colors";
 
 const useRowStyles = makeStyles({
   root: {
@@ -25,9 +25,6 @@ const useRowStyles = makeStyles({
       fontFamily: "Indie Flower",
       letterSpacing: "2px",
     },
-
-
-
     "& .MuiTableCell-root": {
       padding: "0px",
     },
@@ -44,7 +41,6 @@ const useRowStyles = makeStyles({
 
 const ImageContainer = styled.section`
   position: relative;
-
   border-radius: 20px;
   overflow: hidden;
   margin: 40px 0px;
@@ -56,6 +52,12 @@ const ImageContainer = styled.section`
   @media ${device.tablet} {
     width: auto;
   }
+`;
+
+const TableWrapper = styled.section`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const HeartTextContainer = styled.section`
@@ -275,15 +277,19 @@ export default function favoritesTable({
 
   if (!displayLearnMoreFavorites) {
     return (
-      <TableContainer style={{ backgroundColor: colors.blue  }}>
-        <Table aria-label="collapsible table">
-          <TableBody>
-            {plantsOnPage.map((row) => (
-              <Row key={row.plantId} row={row} favorites={plantsOnPage} />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <TableWrapper>
+        <TableContainer
+          style={{ backgroundColor: colors.blue, maxWidth: "1000px" }}
+        >
+          <Table aria-label="collapsible table">
+            <TableBody>
+              {plantsOnPage.map((row) => (
+                <Row key={row.plantId} row={row} favorites={plantsOnPage} />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </TableWrapper>
     );
   }
 }

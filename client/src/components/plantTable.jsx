@@ -11,7 +11,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Button from "@material-ui/core/Button";
 
 import { GlobalContextConsumer } from "../globalContext";
-import colors from "../config/colors"
+import colors from "../config/colors";
 import Like from "./likeButton";
 import NotesBox from "./notesBox";
 import MoreInfo from "../components/moreInfo";
@@ -26,7 +26,6 @@ const useRowStyles = makeStyles({
       letterSpacing: "2px",
     },
 
-    
     "& .MuiTableCell-root": {
       padding: "0px",
     },
@@ -40,6 +39,12 @@ const useRowStyles = makeStyles({
     },
   },
 });
+
+const TableWrapper = styled.section`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const HeartTextContainer = styled.section`
   @media ${device.mobileS} {
@@ -84,8 +89,6 @@ const PlantImage = styled.img`
 `;
 
 const TextContainer = styled.section`
-
-
   @media ${device.mobileS} {
     margin-right: 20px;
   }
@@ -255,15 +258,19 @@ export default function PlantTable(props) {
   }
   if (!displayLearnMoreSearch) {
     return (
-      <TableContainer style={{ backgroundColor: colors.blue }}>
-        <Table aria-label="collapsible table">
-          <TableBody>
-            {plantsOnPage.map((row) => (
-              <Row key={row.id} row={row} favorites={favorites} />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <TableWrapper>
+        <TableContainer
+          style={{ backgroundColor: colors.blue, maxWidth: "1000px" }}
+        >
+          <Table aria-label="collapsible table">
+            <TableBody>
+              {plantsOnPage.map((row) => (
+                <Row key={row.id} row={row} favorites={favorites} />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </TableWrapper>
     );
   }
 }
